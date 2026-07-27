@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>AI Cert Trainer · AB-730 &amp; AB-731</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="theme-color" content="#b11f4b">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="AI Cert">
+<link rel="apple-touch-icon" href="./icon-180.png">
+<link rel="icon" href="./icon-192.png">
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html, body {
+  margin: 0; padding: 0;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  overscroll-behavior-y: none;
+}
+body { min-height: 100vh; min-height: 100dvh; }
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 4px 16px calc(env(safe-area-inset-bottom) + 96px);
+}
+
+/* ---------- Header ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  margin: 0 0 14px;
+  padding: calc(env(safe-area-inset-top) + 10px) 16px 10px;
+  background: var(--cp-panel-strong);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--cp-border);
+}
+.topbar > * { max-width: 720px; margin-left: auto; margin-right: auto; }
+.topbar-row { display: flex; align-items: center; gap: 10px; }
+.brand { display: flex; align-items: center; gap: 9px; font-weight: 700; font-size: 0.95rem; letter-spacing: -0.01em; }
+.brand svg { width: 24px; height: 24px; flex: 0 0 auto; }
+.spacer { flex: 1; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.75rem; font-weight: 600;
+  background: var(--cp-surface-soft);
+  border: 1px solid var(--cp-border);
+  color: var(--cp-text-muted);
+  white-space: nowrap;
+}
+.chip.accent { background: var(--cp-accent-soft); border-color: transparent; color: var(--cp-accent); }
+.chip.flame { color: var(--cp-warning); }
+
+.xpbar { margin-top: 9px; height: 6px; border-radius: 999px; background: var(--cp-surface-soft); overflow: hidden; border: 1px solid var(--cp-border); }
+.xpbar > i { display: block; height: 100%; background: var(--cp-accent); border-radius: 999px; transition: width .5s cubic-bezier(.2,.8,.2,1); }
+.xpmeta { display: flex; justify-content: space-between; margin-top: 5px; font-size: 0.68rem; color: var(--cp-text-soft); }
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--cp-surface);
+  border: 1px solid var(--cp-border);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+  margin-bottom: 12px;
+}
+.card.flush { padding: 0; overflow: hidden; }
+h1 { font-size: 1.3rem; margin: 0 0 4px; letter-spacing: -0.02em; }
+h2 { font-size: 1.02rem; margin: 0 0 10px; letter-spacing: -0.01em; }
+h3 { font-size: 0.82rem; margin: 0 0 8px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cp-text-soft); font-weight: 700; }
+p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.9rem; }
+.muted { color: var(--cp-text-soft); font-size: 0.8rem; }
+
+/* ---------- Exam switcher ---------- */
+.segmented { display: flex; gap: 4px; padding: 4px; background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 0.625rem; margin-bottom: 14px; }
+.segmented button {
+  flex: 1; border: 0; background: transparent; color: var(--cp-text-muted);
+  font: inherit; font-size: 0.82rem; font-weight: 600; padding: 9px 6px;
+  border-radius: 0.5rem; cursor: pointer; transition: background .18s, color .18s;
+}
+.segmented button.on { background: var(--cp-surface); color: var(--cp-text); box-shadow: 0 1px 2px rgba(0,0,0,0.12); }
+
+/* ---------- Readiness ring ---------- */
+.ready { display: flex; align-items: center; gap: 16px; }
+.ring { position: relative; width: 108px; height: 108px; flex: 0 0 auto; }
+.ring svg { transform: rotate(-90deg); }
+.ring .val { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.ring .val b { font-size: 1.5rem; letter-spacing: -0.03em; line-height: 1; }
+.ring .val span { font-size: 0.62rem; color: var(--cp-text-soft); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 3px; }
+.verdict { font-size: 0.86rem; font-weight: 600; margin-bottom: 4px; }
+
+/* ---------- Mode grid ---------- */
+.modes { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.mode {
+  text-align: left; border: 1px solid var(--cp-border); background: var(--cp-surface);
+  border-radius: 16px; padding: 14px; cursor: pointer; font: inherit; color: inherit;
+  box-shadow: 0 0 2px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14);
+  transition: transform .12s ease, border-color .18s;
+  display: flex; flex-direction: column; gap: 4px; min-height: 108px;
+}
+.mode:active { transform: scale(0.975); }
+.mode .ic { font-size: 1.35rem; line-height: 1; margin-bottom: 4px; }
+.mode b { font-size: 0.92rem; letter-spacing: -0.01em; }
+.mode small { color: var(--cp-text-soft); font-size: 0.72rem; line-height: 1.35; }
+.mode[disabled] { opacity: .45; cursor: default; }
+.mode.wide { grid-column: span 2; min-height: 0; flex-direction: row; align-items: center; gap: 12px; }
+.mode.wide .ic { margin: 0; }
+
+/* ---------- Domain bars ---------- */
+.dbar { margin-bottom: 12px; }
+.dbar:last-child { margin-bottom: 0; }
+.dbar-top { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 5px; }
+.dbar-top b { font-size: 0.83rem; font-weight: 600; }
+.dbar-top span { font-size: 0.72rem; color: var(--cp-text-soft); white-space: nowrap; }
+.track { height: 8px; border-radius: 999px; background: var(--cp-surface-soft); border: 1px solid var(--cp-border); overflow: hidden; position: relative; }
+.track > i { display: block; height: 100%; border-radius: 999px; transition: width .6s cubic-bezier(.2,.8,.2,1); background: var(--cp-accent); }
+.track > i.good { background: var(--cp-success); }
+.track > i.warn { background: var(--cp-warning); }
+.track > i.bad  { background: var(--cp-danger); }
+
+/* ---------- Badges ---------- */
+.badges { display: flex; flex-wrap: wrap; gap: 8px; }
+.badge {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  width: calc(25% - 6px); aspect-ratio: 1/1; border-radius: 14px;
+  background: var(--cp-surface-soft); border: 1px solid var(--cp-border);
+  font-size: 1.25rem; position: relative; opacity: .3; filter: grayscale(1);
+  transition: opacity .3s, filter .3s;
+}
+.badge.on { opacity: 1; filter: none; background: var(--cp-accent-soft); border-color: transparent; }
+.badge em { font-style: normal; font-size: 0.55rem; color: var(--cp-text-soft); text-align: center; line-height: 1.15; padding: 0 3px; }
+.badge.on em { color: var(--cp-accent); font-weight: 600; }
+
+/* ---------- Quiz ---------- */
+.qhead { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.qprog { flex: 1; height: 6px; border-radius: 999px; background: var(--cp-surface-soft); border: 1px solid var(--cp-border); overflow: hidden; }
+.qprog > i { display: block; height: 100%; background: var(--cp-accent); transition: width .35s; }
+.timer { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 0.82rem; }
+.timer.low { color: var(--cp-danger); }
+
+.qtags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
+.qtext { font-size: 1.03rem; font-weight: 600; line-height: 1.42; letter-spacing: -0.01em; margin-bottom: 14px; }
+
+.opts { display: flex; flex-direction: column; gap: 8px; }
+.opt {
+  display: flex; align-items: flex-start; gap: 10px; width: 100%; text-align: left;
+  padding: 13px 14px; border-radius: 0.625rem;
+  border: 1px solid var(--cp-border); background: var(--cp-surface);
+  font: inherit; font-size: 0.9rem; line-height: 1.4; color: inherit; cursor: pointer;
+  transition: border-color .15s, background .15s, transform .1s;
+}
+.opt:active { transform: scale(0.99); }
+.opt .mk {
+  flex: 0 0 auto; width: 22px; height: 22px; border-radius: 6px;
+  border: 1.5px solid var(--cp-border-strong); display: flex; align-items: center; justify-content: center;
+  font-size: 0.7rem; font-weight: 700; margin-top: 1px; color: var(--cp-text-soft);
+}
+.opt.multi .mk { border-radius: 6px; }
+.opt.sel { border-color: var(--cp-accent); background: var(--cp-accent-soft); }
+.opt.sel .mk { border-color: var(--cp-accent); background: var(--cp-accent); color: var(--cp-accent-fg); }
+.opt.correct { border-color: var(--cp-success); background: color-mix(in srgb, var(--cp-success) 10%, transparent); }
+.opt.correct .mk { border-color: var(--cp-success); background: var(--cp-success); color: #fff; }
+.opt.wrong { border-color: var(--cp-danger); background: color-mix(in srgb, var(--cp-danger) 10%, transparent); }
+.opt.wrong .mk { border-color: var(--cp-danger); background: var(--cp-danger); color: #fff; }
+.opt[disabled] { cursor: default; }
+
+.feedback { margin-top: 14px; padding: 13px 14px; border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); }
+.feedback .fh { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
+.feedback .fh.ok { color: var(--cp-success); }
+.feedback .fh.no { color: var(--cp-danger); }
+.feedback p { margin: 0; font-size: 0.85rem; color: var(--cp-text-muted); line-height: 1.5; }
+
+/* ---------- Sticky action ---------- */
+.actions {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+  padding: 12px 16px calc(env(safe-area-inset-bottom) + 12px);
+  background: var(--cp-panel-strong);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-top: 1px solid var(--cp-border);
+  display: flex; gap: 8px;
+}
+.actions-inner { max-width: 720px; margin: 0 auto; width: 100%; display: flex; gap: 8px; }
+.btn {
+  flex: 1; border: 0; border-radius: 0.625rem; padding: 14px 16px;
+  font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
+  background: var(--cp-accent); color: var(--cp-accent-fg);
+  transition: transform .1s, opacity .15s;
+}
+.btn:active { transform: scale(0.985); }
+.btn[disabled] { opacity: .4; cursor: default; }
+.btn.ghost { background: var(--cp-surface); color: var(--cp-text); border: 1px solid var(--cp-border); flex: 0 0 auto; padding: 14px 18px; }
+.btn.small { padding: 9px 14px; font-size: 0.82rem; flex: 0 0 auto; }
+
+/* ---------- Result ---------- */
+.big { font-size: 3rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 14px 0 4px; }
+.kpi { background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 10px 8px; text-align: center; }
+.kpi b { display: block; font-size: 1.15rem; letter-spacing: -0.02em; }
+.kpi span { font-size: 0.62rem; color: var(--cp-text-soft); text-transform: uppercase; letter-spacing: 0.06em; }
+
+.rev { border-top: 1px solid var(--cp-border); padding: 12px 16px; }
+.rev:first-child { border-top: 0; }
+.rev-q { font-size: 0.85rem; font-weight: 600; line-height: 1.4; margin-bottom: 6px; }
+.rev-a { font-size: 0.78rem; color: var(--cp-text-muted); margin-bottom: 3px; }
+.rev-a b { color: var(--cp-success); font-weight: 600; }
+.rev-a.x b { color: var(--cp-danger); }
+
+.hidden { display: none !important; }
+
+.toast {
+  position: fixed; left: 50%; transform: translateX(-50%) translateY(-14px);
+  top: calc(env(safe-area-inset-top) + 70px); z-index: 90;
+  background: var(--cp-accent); color: var(--cp-accent-fg);
+  padding: 10px 16px; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
+  box-shadow: var(--cp-shadow); opacity: 0; pointer-events: none;
+  transition: opacity .25s, transform .25s; white-space: nowrap; max-width: 90vw;
+}
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+.combo {
+  position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%) scale(0.7);
+  font-size: 2.2rem; font-weight: 800; letter-spacing: -0.03em; color: var(--cp-accent);
+  opacity: 0; pointer-events: none; z-index: 80; text-shadow: 0 4px 24px rgba(0,0,0,0.2);
+}
+.combo.pop { animation: pop .8s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes pop {
+  0%   { opacity: 0; transform: translate(-50%,-50%) scale(0.6); }
+  25%  { opacity: 1; transform: translate(-50%,-50%) scale(1.12); }
+  60%  { opacity: 1; transform: translate(-50%,-58%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%,-78%) scale(0.95); }
+}
+
+.list-row { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-top: 1px solid var(--cp-border); font-size: 0.85rem; }
+.list-row:first-of-type { border-top: 0; }
+.list-row .rt { margin-left: auto; color: var(--cp-text-soft); font-size: 0.76rem; white-space: nowrap; }
+
+a { color: var(--cp-link); }
+.foot { text-align: center; font-size: 0.68rem; color: var(--cp-text-soft); padding: 6px 0 2px; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-row">
+    <div class="brand">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4c1.6 10.6 5.3 17.4 12.1 20.8C51 28.2 57 30 60 32c-3 2-9 3.8-15.9 7.2C37.3 42.6 33.6 49.4 32 60c-1.6-10.6-5.3-17.4-12.1-20.8C13 35.8 7 34 4 32c3-2 9-3.8 15.9-7.2C26.7 21.4 30.4 14.6 32 4Z" fill="var(--cp-accent)"/></svg>
+      <span>AI Cert Trainer</span>
+    </div>
+    <div class="spacer"></div>
+    <span class="chip flame" id="streakChip" title="Tage in Folge">🔥 0</span>
+    <span class="chip accent" id="levelChip">Lv 1</span>
+  </div>
+  <div class="xpbar"><i id="xpFill" style="width:0%"></i></div>
+  <div class="xpmeta"><span id="xpNow">0 XP</span><span id="xpNext">100 XP bis Level 2</span></div>
+</div>
+
+<div class="app">
+
+  <!-- ============ HOME ============ -->
+  <section id="s-home">
+    <div class="segmented" id="examSwitch">
+      <button data-exam="AB730" class="on">AB-730 · Business Pro</button>
+      <button data-exam="AB731">AB-731 · Transf. Leader</button>
+    </div>
+
+    <div class="card">
+      <div class="ready">
+        <div class="ring">
+          <svg width="108" height="108" viewBox="0 0 108 108">
+            <circle cx="54" cy="54" r="46" fill="none" stroke="var(--cp-surface-soft)" stroke-width="11"></circle>
+            <circle id="ringArc" cx="54" cy="54" r="46" fill="none" stroke="var(--cp-accent)" stroke-width="11"
+                    stroke-linecap="round" stroke-dasharray="289" stroke-dashoffset="289"
+                    style="transition:stroke-dashoffset .9s cubic-bezier(.2,.8,.2,1), stroke .4s"></circle>
+          </svg>
+          <div class="val"><b id="readyVal">0</b><span>von 1000</span></div>
+        </div>
+        <div style="flex:1">
+          <div class="verdict" id="verdict">Noch keine Daten</div>
+          <p class="muted" id="verdictSub" style="margin-bottom:8px">Bestehensgrenze: 700 Punkte. Starte einen Quick Drill, um deine Prüfungsreife zu berechnen.</p>
+          <span class="chip" id="coverChip">0 / 0 Fragen gesehen</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="modes">
+      <button class="mode" data-mode="drill">
+        <span class="ic">⚡</span><b>Quick Drill</b>
+        <small>10 Fragen, adaptiv auf deine Schwächen gewichtet</small>
+      </button>
+      <button class="mode" data-mode="exam">
+        <span class="ic">🎯</span><b>Prüfungs&shy;simulation</b>
+        <small id="examModeSub">40 Fragen · 45 Min · Blueprint-gewichtet</small>
+      </button>
+      <button class="mode" data-mode="domain">
+        <span class="ic">🧭</span><b>Domain-Training</b>
+        <small>Gezielt einen Wissensbereich üben</small>
+      </button>
+      <button class="mode" data-mode="review">
+        <span class="ic">🔁</span><b>Wiederholung</b>
+        <small id="reviewSub">Spaced Repetition der Fehler</small>
+      </button>
+      <button class="mode wide" data-mode="cards">
+        <span class="ic">🃏</span>
+        <span><b>Lernkarten</b><br><small>Fragen + Erklärungen durchblättern, ohne Bewertung</small></span>
+      </button>
+    </div>
+
+    <div class="card" style="margin-top:12px">
+      <h3>Wissensbereiche</h3>
+      <div id="domainBars"></div>
+    </div>
+
+    <div class="card">
+      <h3>Abzeichen <span id="badgeCount" style="text-transform:none;letter-spacing:0;color:var(--cp-text-soft)"></span></h3>
+      <div class="badges" id="badgeGrid"></div>
+    </div>
+
+    <div class="card" id="historyCard">
+      <h3>Verlauf</h3>
+      <div id="historyList"></div>
+    </div>
+
+    <div class="card">
+      <h3>Prüfungsinfo</h3>
+      <div id="examInfo"></div>
+    </div>
+
+    <p class="foot">
+      Inhalte nach dem offiziellen Microsoft Study Guide (Stand 22. Juli 2026).<br>
+      Inoffizielles Lernwerkzeug · kein Microsoft-Produkt · keine echten Prüfungsfragen.
+      <br><br>
+      <button class="btn ghost small" id="btnTheme">Theme wechseln</button>
+      <button class="btn ghost small" id="btnReset">Fortschritt zurücksetzen</button>
+    </p>
+  </section>
+
+  <!-- ============ DOMAIN PICKER ============ -->
+  <section id="s-domain" class="hidden">
+    <h1 style="margin-bottom:12px">Domain-Training</h1>
+    <div id="domainPick"></div>
+  </section>
+
+  <!-- ============ QUIZ ============ -->
+  <section id="s-quiz" class="hidden">
+    <div class="qhead">
+      <span class="chip" id="qCounter">1 / 10</span>
+      <div class="qprog"><i id="qProg" style="width:0%"></i></div>
+      <span class="timer hidden" id="qTimer">45:00</span>
+    </div>
+    <div class="card">
+      <div class="qtags" id="qTags"></div>
+      <div class="qtext" id="qText"></div>
+      <div class="opts" id="qOpts"></div>
+      <div class="feedback hidden" id="qFeed"></div>
+    </div>
+  </section>
+
+  <!-- ============ CARDS ============ -->
+  <section id="s-cards" class="hidden">
+    <div class="qhead">
+      <span class="chip" id="cCounter">1 / 1</span>
+      <div class="qprog"><i id="cProg" style="width:0%"></i></div>
+    </div>
+    <div class="card">
+      <div class="qtags" id="cTags"></div>
+      <div class="qtext" id="cText"></div>
+      <div id="cBody"></div>
+    </div>
+  </section>
+
+  <!-- ============ RESULT ============ -->
+  <section id="s-result" class="hidden">
+    <div class="card" style="text-align:center">
+      <div id="rEmoji" style="font-size:2.4rem;line-height:1;margin-bottom:6px">🎉</div>
+      <div class="big" id="rScore">0</div>
+      <div class="muted" id="rSub" style="margin-top:4px">Ergebnis</div>
+      <div class="kpis">
+        <div class="kpi"><b id="rCorrect">0</b><span>Richtig</span></div>
+        <div class="kpi"><b id="rAcc">0 %</b><span>Trefferquote</span></div>
+        <div class="kpi"><b id="rXp">+0</b><span>XP</span></div>
+      </div>
+    </div>
+    <div class="card" id="rDomainCard">
+      <h3>Nach Wissensbereich</h3>
+      <div id="rDomains"></div>
+    </div>
+    <div class="card flush" id="rReviewCard">
+      <div style="padding:16px 16px 4px"><h3 style="margin:0">Zum Nacharbeiten</h3></div>
+      <div id="rReview"></div>
+    </div>
+  </section>
+
+</div>
+
+<div class="actions hidden" id="actionBar"><div class="actions-inner" id="actionInner"></div></div>
+<div class="toast" id="toast"></div>
+<div class="combo" id="combo"></div>
+
+<script src="./data-ab730.js"></script>
+<script src="./data-ab731.js"></script>
+<script>
+(() => {
+"use strict";
+
+/* ================= Storage ================= */
+const KEY = "aiCertTrainer.v1";
+let mem = null;
+const store = {
+  read() {
+    if (mem) return mem;
+    try { mem = JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { mem = null; }
+    if (!mem) mem = { xp:0, streak:0, last:"", badges:[], q:{}, hist:[], best:{}, exam:"AB730" };
+    if (!mem.q) mem.q = {}; if (!mem.hist) mem.hist = []; if (!mem.badges) mem.badges = []; if (!mem.best) mem.best = {};
+    return mem;
+  },
+  save() { try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch (e) {} }
+};
+
+const EXAMS = { AB730: window.EXAM_AB730, AB731: window.EXAM_AB731 };
+const S = store.read();
+let examId = EXAMS[S.exam] ? S.exam : "AB730";
+
+const $  = (s) => document.querySelector(s);
+const $$ = (s) => Array.from(document.querySelectorAll(s));
+const today = () => new Date().toISOString().slice(0,10);
+const esc = (s) => String(s).replace(/[&<>"]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]));
+const buzz = (ms) => { try { navigator.vibrate && navigator.vibrate(ms); } catch(e){} };
+
+/* ================= Gamification ================= */
+const LEVELS = [0,100,250,450,700,1000,1400,1900,2500,3200,4000,5000,6200,7600,9200,11000];
+function levelOf(xp) { let l = 1; for (let i=0;i<LEVELS.length;i++) if (xp >= LEVELS[i]) l = i+1; return l; }
+function levelBounds(xp) {
+  const l = levelOf(xp);
+  return { lvl: l, from: LEVELS[l-1] ?? 0, to: LEVELS[l] ?? (LEVELS[LEVELS.length-1] + (l-LEVELS.length+1)*1600) };
+}
+
+const BADGES = [
+  { id:"first",     ic:"🌱", name:"Erster Treffer" },
+  { id:"combo5",    ic:"🔥", name:"5er-Serie" },
+  { id:"combo10",   ic:"⚡", name:"10er-Serie" },
+  { id:"perfect",   ic:"💯", name:"Perfekter Drill" },
+  { id:"c50",       ic:"📚", name:"50 Fragen" },
+  { id:"c150",      ic:"🏛️", name:"150 Fragen" },
+  { id:"comeback",  ic:"↩️", name:"Comeback" },
+  { id:"master",    ic:"🧠", name:"Domain-Meister" },
+  { id:"pass730",   ic:"🥇", name:"AB-730 bestanden" },
+  { id:"pass731",   ic:"🏆", name:"AB-731 bestanden" },
+  { id:"streak3",   ic:"📅", name:"3 Tage Serie" },
+  { id:"complete",  ic:"🗺️", name:"Alles gesehen" }
+];
+
+function award(id) {
+  if (S.badges.includes(id)) return;
+  S.badges.push(id); store.save();
+  const b = BADGES.find(x => x.id === id);
+  if (b) toast(b.ic + "  Abzeichen: " + b.name);
+  buzz([12,40,12]);
+}
+
+function addXp(n) {
+  const before = levelOf(S.xp);
+  S.xp += n;
+  const after = levelOf(S.xp);
+  if (after > before) { toast("🎊  Level " + after + " erreicht!"); buzz([18,60,18,60,18]); }
+  store.save(); renderTop();
+}
+
+function touchStreak() {
+  const t = today();
+  if (S.last === t) return;
+  const y = new Date(Date.now() - 864e5).toISOString().slice(0,10);
+  S.streak = (S.last === y) ? (S.streak + 1) : 1;
+  S.last = t; store.save();
+  if (S.streak >= 3) award("streak3");
+}
+
+/* ================= Stats ================= */
+function rec(qid) { return S.q[qid] || (S.q[qid] = { s:0, c:0, w:0, box:1, due:0 }); }
+
+function domainStats(ex) {
+  return ex.domains.map(d => {
+    const qs = ex.questions.filter(q => q.d === d.id);
+    let c = 0, w = 0, seen = 0;
+    qs.forEach(q => { const r = S.q[q.id]; if (r && r.s) { seen++; c += r.c; w += r.w; } });
+    const acc = (c + w) ? c / (c + w) : 0;
+    const cov = qs.length ? seen / qs.length : 0;
+    return { d, total: qs.length, seen, acc, cov, score: acc * (0.4 + 0.6 * cov) };
+  });
+}
+
+function readiness(ex) {
+  const ds = domainStats(ex);
+  const any = ds.some(x => x.seen > 0);
+  if (!any) return { score: 0, ds, any: false };
+  const s = ds.reduce((a, x) => a + x.d.w * x.score, 0);
+  return { score: Math.round(s * 1000), ds, any: true };
+}
+
+/* ================= Question selection ================= */
+function weightFor(q) {
+  const r = S.q[q.id];
+  if (!r || !r.s) return 3;                     // unbekannt: hohe Priorität
+  const acc = (r.c + r.w) ? r.c / (r.c + r.w) : 0;
+  if (acc < 0.5) return 5;                      // schwach: höchste Priorität
+  if (acc < 0.8) return 2;
+  return 0.6;                                   // sitzt: selten
+}
+function pickWeighted(pool, n) {
+  const out = [], src = pool.slice();
+  while (out.length < n && src.length) {
+    const tot = src.reduce((a, q) => a + weightFor(q), 0);
+    let r = Math.random() * tot, i = 0;
+    for (; i < src.length; i++) { r -= weightFor(src[i]); if (r <= 0) break; }
+    out.push(src.splice(Math.min(i, src.length - 1), 1)[0]);
+  }
+  return out;
+}
+function blueprintSet(ex, n) {
+  const out = [];
+  ex.domains.forEach(d => {
+    const want = Math.round(n * d.w);
+    out.push(...pickWeighted(ex.questions.filter(q => q.d === d.id), want));
+  });
+  const rest = ex.questions.filter(q => !out.includes(q));
+  while (out.length < n && rest.length) out.push(rest.splice(Math.floor(Math.random()*rest.length),1)[0]);
+  return shuffle(out).slice(0, n);
+}
+function shuffle(a) { const x = a.slice(); for (let i = x.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [x[i],x[j]] = [x[j],x[i]]; } return x; }
+
+const BOX_DAYS = [0, 1, 3, 7, 16, 35];
+function dueDelay(box) { return BOX_DAYS[Math.max(0, Math.min(BOX_DAYS.length - 1, box - 1))] * 864e5; }
+function dueQuestions(ex) {
+  const now = Date.now();
+  return ex.questions.filter(q => { const r = S.q[q.id]; return r && r.s && r.box < 5 && (r.due || 0) <= now; });
+}
+
+/* ================= Screens ================= */
+const SCREENS = ["home","domain","quiz","cards","result"];
+function show(name) {
+  SCREENS.forEach(s => $("#s-" + s).classList.toggle("hidden", s !== name));
+  window.scrollTo(0, 0);
+}
+function setActions(html) {
+  const bar = $("#actionBar");
+  if (!html) { bar.classList.add("hidden"); $("#actionInner").innerHTML = ""; return; }
+  bar.classList.remove("hidden"); $("#actionInner").innerHTML = html;
+}
+
+let toastT;
+function toast(msg) {
+  const el = $("#toast"); el.textContent = msg; el.classList.add("show");
+  clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("show"), 2200);
+}
+function popCombo(txt) {
+  const el = $("#combo"); el.textContent = txt;
+  el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
+}
+
+/* ================= Top bar ================= */
+function renderTop() {
+  const b = levelBounds(S.xp);
+  const pct = Math.max(0, Math.min(100, ((S.xp - b.from) / (b.to - b.from)) * 100));
+  $("#xpFill").style.width = pct + "%";
+  $("#levelChip").textContent = "Lv " + b.lvl;
+  $("#xpNow").textContent = S.xp + " XP";
+  $("#xpNext").textContent = Math.max(0, b.to - S.xp) + " XP bis Level " + (b.lvl + 1);
+  $("#streakChip").textContent = "🔥 " + (S.streak || 0);
+}
+
+/* ================= Home ================= */
+function renderHome() {
+  const ex = EXAMS[examId];
+  $$("#examSwitch button").forEach(b => b.classList.toggle("on", b.dataset.exam === examId));
+
+  const R = readiness(ex);
+  const arc = $("#ringArc"), C = 2 * Math.PI * 46;
+  const frac = Math.max(0, Math.min(1, R.score / 1000));
+  arc.style.strokeDasharray = C;
+  arc.style.strokeDashoffset = C * (1 - frac);
+  arc.style.stroke = !R.any ? "var(--cp-border-strong)" : R.score >= 700 ? "var(--cp-success)" : R.score >= 550 ? "var(--cp-warning)" : "var(--cp-danger)";
+  $("#readyVal").textContent = R.score;
+
+  if (!R.any) {
+    $("#verdict").textContent = "Noch keine Daten";
+    $("#verdictSub").textContent = "Bestehensgrenze: 700 Punkte. Starte einen Quick Drill, um deine Prüfungsreife zu berechnen.";
+  } else if (R.score >= 800) {
+    $("#verdict").textContent = "Sehr sicher — du bist bereit";
+    $("#verdictSub").textContent = "Deutlich über der Bestehensgrenze von 700. Halte das Niveau mit kurzen Wiederholungen.";
+  } else if (R.score >= 700) {
+    $("#verdict").textContent = "Über der Bestehensgrenze";
+    $("#verdictSub").textContent = "Du liegst über 700. Arbeite die schwächste Domain gezielt nach, dann sitzt es.";
+  } else if (R.score >= 550) {
+    $("#verdict").textContent = "Auf gutem Weg";
+    $("#verdictSub").textContent = "Noch unter 700. Fokus auf die roten Balken unten — dort holst du am schnellsten Punkte.";
+  } else {
+    $("#verdict").textContent = "Noch Aufbauarbeit nötig";
+    $("#verdictSub").textContent = "Starte mit Domain-Training und Lernkarten, bevor du die Prüfungssimulation ziehst.";
+  }
+
+  const seen = ex.questions.filter(q => S.q[q.id] && S.q[q.id].s).length;
+  $("#coverChip").textContent = seen + " / " + ex.questions.length + " Fragen gesehen";
+  $("#examModeSub").textContent = ex.examQuestions + " Fragen · " + ex.examMinutes + " Min · Blueprint-gewichtet";
+
+  const due = dueQuestions(ex).length;
+  $("#reviewSub").textContent = due ? (due + " Fragen fällig — Spaced Repetition") : "Keine Fragen fällig. Gut gemacht.";
+  $('.mode[data-mode="review"]').disabled = due === 0;
+
+  // Domain bars
+  $("#domainBars").innerHTML = R.ds.map(x => {
+    const p = Math.round(x.acc * 100);
+    const cls = x.seen === 0 ? "" : x.acc >= 0.8 ? "good" : x.acc >= 0.6 ? "warn" : "bad";
+    return '<div class="dbar"><div class="dbar-top"><b>' + esc(x.d.name) + '</b>' +
+      '<span>' + (x.seen ? p + " % · " : "") + x.seen + "/" + x.total + " · " + esc(x.d.weight) + '</span></div>' +
+      '<div class="track"><i class="' + cls + '" style="width:' + (x.seen ? Math.max(3, p) : 0) + '%"></i></div></div>';
+  }).join("");
+
+  // Badges
+  $("#badgeGrid").innerHTML = BADGES.map(b =>
+    '<div class="badge' + (S.badges.includes(b.id) ? " on" : "") + '" title="' + esc(b.name) + '">' +
+    b.ic + '<em>' + esc(b.name) + '</em></div>').join("");
+  $("#badgeCount").textContent = "· " + S.badges.length + " / " + BADGES.length;
+
+  // History
+  const h = S.hist.filter(x => x.exam === examId).slice(-6).reverse();
+  $("#historyCard").classList.toggle("hidden", h.length === 0);
+  $("#historyList").innerHTML = h.map(x =>
+    '<div class="list-row"><span>' + ({ drill:"⚡ Quick Drill", exam:"🎯 Simulation", domain:"🧭 Domain", review:"🔁 Wiederholung" }[x.mode] || x.mode) +
+    '</span><b>' + x.c + "/" + x.n + '</b><span class="rt">' + x.date + "</span></div>").join("");
+
+  const best = S.best[examId];
+  $("#examInfo").innerHTML =
+    '<div class="list-row"><span>Prüfung</span><span class="rt">' + esc(ex.code) + " · " + esc(ex.title) + "</span></div>" +
+    '<div class="list-row"><span>Blueprint-Stand</span><span class="rt">' + esc(ex.updated) + "</span></div>" +
+    '<div class="list-row"><span>Bestehensgrenze</span><span class="rt">700 / 1000</span></div>' +
+    '<div class="list-row"><span>Fragen im Pool</span><span class="rt">' + ex.questions.length + "</span></div>" +
+    (best != null ? '<div class="list-row"><span>Bestes Simulationsergebnis</span><span class="rt">' + best + " / 1000</span></div>" : "");
+
+  setActions("");
+}
+
+/* ================= Session ================= */
+let ses = null;
+
+function startSession(mode, opts) {
+  const ex = EXAMS[examId];
+  opts = opts || {};
+  let qs = [];
+  if (mode === "drill")       qs = pickWeighted(ex.questions, Math.min(10, ex.questions.length));
+  else if (mode === "exam")   qs = blueprintSet(ex, Math.min(ex.examQuestions, ex.questions.length));
+  else if (mode === "domain") qs = pickWeighted(ex.questions.filter(q => q.d === opts.domain), 12);
+  else if (mode === "review") qs = shuffle(dueQuestions(ex)).slice(0, 15);
+
+  if (!qs.length) { toast("Keine Fragen verfügbar."); return; }
+
+  ses = {
+    mode, exam: examId, qs, i: 0, sel: [], locked: false,
+    correct: 0, combo: 0, bestCombo: 0, xp: 0, log: [],
+    endAt: mode === "exam" ? Date.now() + ex.examMinutes * 60000 : 0
+  };
+  touchStreak();
+  show("quiz");
+  renderQuestion();
+  if (ses.endAt) tick();
+}
+
+let timerH;
+function tick() {
+  clearTimeout(timerH);
+  if (!ses || !ses.endAt) return;
+  const left = Math.max(0, ses.endAt - Date.now());
+  const el = $("#qTimer");
+  el.classList.remove("hidden");
+  const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
+  el.textContent = m + ":" + String(s).padStart(2, "0");
+  el.classList.toggle("low", left < 300000);
+  if (left <= 0) { toast("⏰ Zeit abgelaufen"); finish(); return; }
+  timerH = setTimeout(tick, 1000);
+}
+
+function renderQuestion() {
+  const ex = EXAMS[ses.exam], q = ses.qs[ses.i];
+  const dom = ex.domains.find(d => d.id === q.d);
+  const obj = dom.objectives.find(o => o.id === q.o);
+
+  $("#qCounter").textContent = (ses.i + 1) + " / " + ses.qs.length;
+  $("#qProg").style.width = (ses.i / ses.qs.length * 100) + "%";
+  $("#qTimer").classList.toggle("hidden", !ses.endAt);
+
+  const need = q.c.length;
+  $("#qTags").innerHTML =
+    '<span class="chip accent">' + esc(dom.name) + "</span>" +
+    '<span class="chip">' + esc(q.o + " " + obj.name) + "</span>" +
+    (q.t === "multi" ? '<span class="chip">' + need + " Antworten</span>" : "");
+
+  $("#qText").textContent = q.q;
+  ses.sel = []; ses.locked = false;
+  $("#qFeed").classList.add("hidden");
+
+  $("#qOpts").innerHTML = q.a.map((opt, i) =>
+    '<button class="opt' + (q.t === "multi" ? " multi" : "") + '" data-i="' + i + '">' +
+    '<span class="mk">' + (q.t === "multi" ? "" : String.fromCharCode(65 + i)) + "</span>" +
+    "<span>" + esc(opt) + "</span></button>").join("");
+
+  $$("#qOpts .opt").forEach(b => b.addEventListener("click", () => choose(parseInt(b.dataset.i, 10))));
+  updateActions();
+}
+
+function choose(i) {
+  if (ses.locked) return;
+  const q = ses.qs[ses.i];
+  if (q.t === "multi") {
+    const k = ses.sel.indexOf(i);
+    if (k >= 0) ses.sel.splice(k, 1); else ses.sel.push(i);
+  } else {
+    ses.sel = [i];
+  }
+  $$("#qOpts .opt").forEach(b => b.classList.toggle("sel", ses.sel.includes(parseInt(b.dataset.i, 10))));
+  buzz(6);
+  updateActions();
+}
+
+function updateActions() {
+  if (ses.locked) {
+    const last = ses.i === ses.qs.length - 1;
+    setActions('<button class="btn" id="aNext">' + (last ? "Auswertung ansehen" : "Weiter") + "</button>");
+    $("#aNext").addEventListener("click", next);
+  } else {
+    const ok = ses.sel.length > 0;
+    setActions('<button class="btn ghost" id="aQuit">Beenden</button><button class="btn" id="aCheck"' + (ok ? "" : " disabled") + ">Prüfen</button>");
+    $("#aQuit").addEventListener("click", quit);
+    if (ok) $("#aCheck").addEventListener("click", check);
+  }
+}
+
+function check() {
+  if (ses.locked || !ses.sel.length) return;
+  ses.locked = true;
+  const q = ses.qs[ses.i];
+  const sel = ses.sel.slice().sort().join(",");
+  const cor = q.c.slice().sort().join(",");
+  const right = sel === cor;
+
+  const r = rec(q.id);
+  r.s++;
+  if (right) { r.c++; r.box = Math.min(5, r.box + 1); }
+  else { r.w++; r.box = 1; }
+  r.due = Date.now() + dueDelay(r.box);
+
+  if (right) {
+    ses.correct++; ses.combo++;
+    ses.bestCombo = Math.max(ses.bestCombo, ses.combo);
+    const bonus = ses.combo >= 5 ? 6 : ses.combo >= 3 ? 3 : 0;
+    const gain = 10 + bonus;
+    ses.xp += gain; addXp(gain);
+    award("first");
+    if (ses.combo === 5)  { award("combo5");  popCombo("5× Serie"); }
+    if (ses.combo === 10) { award("combo10"); popCombo("10× Serie!"); }
+    if (r.w > 0 && r.c === 1) award("comeback");
+    buzz(14);
+  } else {
+    ses.combo = 0; buzz([20, 50, 20]);
+  }
+
+  ses.log.push({ q, right, sel: ses.sel.slice() });
+  store.save();
+
+  $$("#qOpts .opt").forEach(b => {
+    const i = parseInt(b.dataset.i, 10);
+    b.disabled = true;
+    b.classList.remove("sel");
+    if (q.c.includes(i)) { b.classList.add("correct"); b.querySelector(".mk").textContent = "✓"; }
+    else if (ses.sel.includes(i)) { b.classList.add("wrong"); b.querySelector(".mk").textContent = "✕"; }
+  });
+
+  const f = $("#qFeed");
+  f.innerHTML = '<div class="fh ' + (right ? "ok" : "no") + '">' + (right ? "✓ Richtig" : "✕ Nicht ganz") + "</div><p>" + esc(q.e) + "</p>";
+  f.classList.remove("hidden");
+  updateActions();
+}
+
+function next() {
+  if (ses.i >= ses.qs.length - 1) { finish(); return; }
+  ses.i++; renderQuestion();
+}
+
+function quit() {
+  if (ses.log.length && !confirm("Session beenden? Der bisherige Fortschritt wird gespeichert.")) return;
+  clearTimeout(timerH);
+  if (ses.log.length) { finish(); return; }
+  ses = null; show("home"); renderHome();
+}
+
+function finish() {
+  clearTimeout(timerH);
+  const ex = EXAMS[ses.exam];
+  const n = ses.log.length || 1;
+  const acc = ses.correct / n;
+  const scaled = Math.round(acc * 1000);
+
+  S.hist.push({ date: today(), mode: ses.mode, exam: ses.exam, c: ses.correct, n: ses.log.length });
+  if (S.hist.length > 60) S.hist = S.hist.slice(-60);
+
+  if (ses.mode === "exam") {
+    if (!S.best[ses.exam] || scaled > S.best[ses.exam]) S.best[ses.exam] = scaled;
+    if (scaled >= 700) award(ses.exam === "AB730" ? "pass730" : "pass731");
+  }
+  if (ses.mode === "drill" && ses.correct === ses.log.length && ses.log.length >= 10) award("perfect");
+
+  const answered = Object.values(S.q).filter(r => r.s > 0).length;
+  if (answered >= 50) award("c50");
+  if (answered >= 150) award("c150");
+  domainStats(ex).forEach(x => { if (x.cov >= 0.8 && x.acc >= 0.9) award("master"); });
+  if (ex.questions.every(q => S.q[q.id] && S.q[q.id].s)) award("complete");
+
+  const bonus = ses.mode === "exam" && scaled >= 700 ? 50 : 0;
+  if (bonus) addXp(bonus);
+  store.save();
+
+  const pass = scaled >= 700;
+  $("#rEmoji").textContent = ses.mode === "exam" ? (pass ? "🏆" : "📈") : acc >= 0.9 ? "🎉" : acc >= 0.7 ? "👍" : "📚";
+  $("#rScore").textContent = ses.mode === "exam" ? scaled : (ses.correct + " / " + ses.log.length);
+  $("#rSub").textContent = ses.mode === "exam"
+    ? (pass ? "Bestanden — Grenze liegt bei 700" : "Noch nicht bestanden — 700 sind nötig")
+    : ({ drill:"Quick Drill", domain:"Domain-Training", review:"Wiederholung" }[ses.mode] || "Ergebnis");
+  $("#rCorrect").textContent = ses.correct;
+  $("#rAcc").textContent = Math.round(acc * 100) + " %";
+  $("#rXp").textContent = "+" + (ses.xp + bonus);
+
+  const byD = {};
+  ses.log.forEach(l => { const k = l.q.d; (byD[k] = byD[k] || { c:0, n:0 }); byD[k].n++; if (l.right) byD[k].c++; });
+  const keys = Object.keys(byD);
+  $("#rDomainCard").classList.toggle("hidden", keys.length === 0);
+  $("#rDomains").innerHTML = keys.map(k => {
+    const d = ex.domains.find(x => x.id === k), v = byD[k], p = Math.round(v.c / v.n * 100);
+    const cls = p >= 80 ? "good" : p >= 60 ? "warn" : "bad";
+    return '<div class="dbar"><div class="dbar-top"><b>' + esc(d.name) + '</b><span>' + v.c + "/" + v.n + " · " + p + ' %</span></div>' +
+      '<div class="track"><i class="' + cls + '" style="width:' + Math.max(3, p) + '%"></i></div></div>';
+  }).join("");
+
+  const wrong = ses.log.filter(l => !l.right);
+  $("#rReviewCard").classList.toggle("hidden", wrong.length === 0);
+  $("#rReview").innerHTML = wrong.map(l =>
+    '<div class="rev"><div class="rev-q">' + esc(l.q.q) + "</div>" +
+    '<div class="rev-a">Richtig: <b>' + esc(l.q.c.map(i => l.q.a[i]).join(" · ")) + "</b></div>" +
+    '<div class="rev-a x">Deine Antwort: <b>' + esc(l.sel.map(i => l.q.a[i]).join(" · ") || "—") + "</b></div>" +
+    '<div class="rev-a" style="margin-top:6px">' + esc(l.q.e) + "</div></div>").join("");
+
+  show("result");
+  const m = ses.mode, dom = ses.qs[0] ? ses.qs[0].d : null;
+  setActions('<button class="btn ghost" id="aHome">Startseite</button><button class="btn" id="aAgain">Nochmal</button>');
+  $("#aHome").addEventListener("click", () => { ses = null; show("home"); renderHome(); });
+  $("#aAgain").addEventListener("click", () => startSession(m, { domain: dom }));
+  ses = null;
+}
+
+/* ================= Lernkarten ================= */
+let cards = null;
+function startCards() {
+  const ex = EXAMS[examId];
+  cards = { qs: shuffle(ex.questions), i: 0, open: false };
+  show("cards"); renderCard();
+}
+function renderCard() {
+  const ex = EXAMS[examId], q = cards.qs[cards.i];
+  const dom = ex.domains.find(d => d.id === q.d);
+  $("#cCounter").textContent = (cards.i + 1) + " / " + cards.qs.length;
+  $("#cProg").style.width = ((cards.i + 1) / cards.qs.length * 100) + "%";
+  $("#cTags").innerHTML = '<span class="chip accent">' + esc(dom.name) + "</span><span class='chip'>" + esc(q.o) + "</span>";
+  $("#cText").textContent = q.q;
+  $("#cBody").innerHTML = cards.open
+    ? '<div class="opts">' + q.a.map((o, i) =>
+        '<div class="opt' + (q.c.includes(i) ? " correct" : "") + '"><span class="mk">' + (q.c.includes(i) ? "✓" : String.fromCharCode(65 + i)) + "</span><span>" + esc(o) + "</span></div>").join("") +
+      '</div><div class="feedback" style="margin-top:14px"><div class="fh">💡 Erklärung</div><p>' + esc(q.e) + "</p></div>"
+    : '<p class="muted">Überlege dir die Antwort und tippe dann auf „Auflösen“.</p>';
+  setActions('<button class="btn ghost" id="cHome">Zurück</button>' +
+    (cards.open ? '<button class="btn" id="cNext">Nächste Karte</button>' : '<button class="btn" id="cShow">Auflösen</button>'));
+  $("#cHome").addEventListener("click", () => { cards = null; show("home"); renderHome(); });
+  const sh = $("#cShow"), nx = $("#cNext");
+  if (sh) sh.addEventListener("click", () => { cards.open = true; renderCard(); });
+  if (nx) nx.addEventListener("click", () => {
+    if (cards.i >= cards.qs.length - 1) { toast("Alle Karten durch 🎓"); cards = null; show("home"); renderHome(); return; }
+    cards.i++; cards.open = false; renderCard();
+  });
+}
+
+/* ================= Domain picker ================= */
+function renderDomainPick() {
+  const ex = EXAMS[examId], ds = domainStats(ex);
+  $("#domainPick").innerHTML = ds.map(x =>
+    '<button class="mode wide" data-d="' + x.d.id + '" style="margin-bottom:10px;width:100%">' +
+    '<span class="ic">' + ["①","②","③","④"][x.d.num - 1] + "</span><span><b>" + esc(x.d.name) + "</b><br><small>" +
+    esc(x.d.weight) + " der Prüfung · " + x.total + " Fragen · " + (x.seen ? Math.round(x.acc * 100) + " % Trefferquote" : "noch ungeübt") +
+    "</small></span></button>").join("");
+  $$("#domainPick .mode").forEach(b => b.addEventListener("click", () => startSession("domain", { domain: b.dataset.d })));
+  setActions('<button class="btn ghost" id="dHome">Zurück</button>');
+  $("#dHome").addEventListener("click", () => { show("home"); renderHome(); });
+}
+
+/* ================= Wiring ================= */
+$$("#examSwitch button").forEach(b => b.addEventListener("click", () => {
+  examId = b.dataset.exam; S.exam = examId; store.save(); renderHome();
+}));
+
+$$(".mode[data-mode]").forEach(b => b.addEventListener("click", () => {
+  const m = b.dataset.mode;
+  if (m === "cards") { startCards(); return; }
+  if (m === "domain") { show("domain"); renderDomainPick(); return; }
+  startSession(m, {});
+}));
+
+$("#btnTheme").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
+});
+
+$("#btnReset").addEventListener("click", () => {
+  if (!confirm("Wirklich den gesamten Fortschritt löschen? XP, Abzeichen und Statistiken gehen verloren.")) return;
+  mem = { xp:0, streak:0, last:"", badges:[], q:{}, hist:[], best:{}, exam: examId };
+  Object.assign(S, mem); store.save();
+  renderTop(); renderHome(); toast("Fortschritt zurückgesetzt");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (!ses || $("#s-quiz").classList.contains("hidden")) return;
+  const n = parseInt(e.key, 10);
+  if (n >= 1 && n <= 9) { const b = $$("#qOpts .opt")[n - 1]; if (b && !ses.locked) b.click(); }
+  if (e.key === "Enter") { const a = $("#aCheck") || $("#aNext"); if (a && !a.disabled) a.click(); }
+});
+
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+}
+
+renderTop();
+renderHome();
+})();
+</script>
+</body>
+</html>
