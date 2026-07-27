@@ -1,5 +1,8 @@
 # AI Cert Trainer — AB-730 & AB-731
 
+**➡️ App öffnen: [tinyurl.com/aicert730](https://tinyurl.com/aicert730)**
+(direkt: https://macalexister.github.io/ms-ai-cert-trainer/)
+
 Gamifizierter Prüfungstrainer für die Microsoft-Zertifizierungen:
 
 - **AB-730** — AI Business Professional (70 Fragen)
@@ -27,7 +30,7 @@ es werden keine Daten übertragen.
 
 ## Auf dem iPhone installieren
 
-1. Die veröffentlichte URL in **Safari** öffnen
+1. **https://tinyurl.com/aicert730** in **Safari** öffnen
 2. Teilen-Symbol → **Zum Home-Bildschirm**
 3. Die App startet danach im Vollbild und funktioniert dank Service Worker auch **offline**
 
