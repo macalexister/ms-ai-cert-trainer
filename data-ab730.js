@@ -11,8 +11,31 @@ window.EXAM_AB730 = {
   updated: "22. Juli 2026",
   passScore: 700,
   examMinutes: 45,
-  examQuestions: 40,
+  examQuestions: 35,
+  seatMinutes: 65,
+  level: "Beginner",
   blurb: "Generative AI im Arbeitsalltag: Microsoft 365 Copilot, Prompts, Agents und Business-Content.",
+  format: [
+    ["Prüfungszeit", "45 Minuten"],
+    ["Sitzungszeit gesamt", "ca. 65 Minuten inkl. Agreements"],
+    ["Bestehensgrenze", "700 von 1000"],
+    ["Sprache", "nur Englisch"],
+    ["Anbieter", "Pearson VUE — online (OnVUE) oder Testzentrum"],
+    ["Microsoft Learn während der Prüfung", "nein (nur bei Associate/Expert)"],
+    ["Zurückspringen", "ja — aber nach einer Pause sind frühere Fragen gesperrt"],
+    ["Wiederholung", "24 Std. nach dem 1. Versuch, danach 14 Tage"],
+    ["Fragetypen", "Multiple Choice, Multiple Response, Drag & Drop, Hot Area, Build List"]
+  ],
+  learn: {
+    title: "Offizieller Lernpfad",
+    paths: [
+      { n: "Transform business workflows with generative AI", u: "https://learn.microsoft.com/training/paths/transform-business-workflows-with-ai/", m: "6 Module — Hauptpfad" },
+      { n: "Work smarter with AI", u: "https://learn.microsoft.com/training/paths/work-smarter-with-ai/", m: "1 Modul — ergänzend" },
+      { n: "Practice Assessment", u: "https://learn.microsoft.com/credentials/certifications/ai-business-professional/practice/assessment?assessment-type=practice", m: "Offizieller Übungstest" },
+      { n: "Study Guide AB-730", u: "https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-730", m: "Prüfungsziele im Original" }
+    ]
+  },
+
   domains: [
     {
       id: "d1", num: 1, name: "Generative AI Fundamentals", weight: "25–30 %", w: 0.275,
@@ -800,6 +823,326 @@ window.EXAM_AB730 = {
     a: ["True", "False"],
     c: [0],
     e: "Richtig. Copilot extrahiert Kandidaten für Aktionspunkte aus dem Transkript. Verbindlichkeit, Owner und Termin bestätigt der Mensch — Human-in-the-loop bleibt Pflicht."
+  },
+
+  /* ================= Vertiefung: verifizierte Detailfakten aus dem offiziellen Lernpfad ================= */
+
+  /* ---- D1 / 1.1 ---- */
+  {
+    id: "730-1115", d: "d1", o: "1.1", t: "single",
+    q: "Which layer of Work IQ learns an individual's style, preferences, habits and workflows?",
+    a: ["The Data layer", "The Memory layer", "The Inference layer", "The Graph layer"],
+    c: [1],
+    e: "Work IQ hat drei Schichten: Data (Wissen aus Mails, Dateien, Meetings, Chats), Memory (Stil, Präferenzen, Gewohnheiten des Nutzers) und Inference (kombiniert beides zu Vorschlägen). Memory ist die personalisierende Schicht."
+  },
+  {
+    id: "730-1116", d: "d1", o: "1.1", t: "single",
+    q: "In the Microsoft 365 Copilot app, which in-app label indicates that a user has the paid add-on licence with priority model access?",
+    a: [
+      "Microsoft 365 Copilot (Premium)",
+      "Microsoft 365 Copilot (Basic)",
+      "Copilot Chat (Basic)",
+      "Copilot Standard Edition"
+    ],
+    c: [0],
+    e: "Die App unterscheidet sichtbar: 'M365 Copilot (Premium)' = Add-on-Lizenz mit Priority Access, 'M365 Copilot (Basic)' = ohne Add-on mit Standard Access, 'Copilot Chat (Basic)' = ohne Copilot-Chat in den Office-Apps."
+  },
+  {
+    id: "730-1117", d: "d1", o: "1.1", t: "single",
+    q: "A user without a Microsoft 365 Copilot add-on licence wants to use Copilot Chat with their own organizational documents. What must they do?",
+    a: [
+      "Nothing — Copilot Chat automatically accesses all their work files through Microsoft Graph.",
+      "Upload the relevant files manually, because automatic grounding in work data requires the add-on licence.",
+      "Request administrator approval for each document.",
+      "Convert the documents to plain text first."
+    ],
+    c: [1],
+    e: "Ohne Add-on-Lizenz gibt es kein automatisches Work-Grounding über Graph. Dateien lassen sich aber manuell hochladen — das ist der praktische Unterschied zwischen Copilot Chat und Microsoft 365 Copilot."
+  },
+
+  /* ---- D1 / 1.2 ---- */
+  {
+    id: "730-1213", d: "d1", o: "1.2", t: "multi",
+    q: "A document is protected by a sensitivity label that applies encryption. Which usage rights must the user have for Copilot to return that content? (Choose two.)",
+    a: ["VIEW", "EXTRACT", "PRINT", "FORWARD"],
+    c: [0, 1],
+    e: "Copilot benötigt für verschlüsselte Inhalte sowohl VIEW als auch EXTRACT. Fehlt eines der beiden Rechte, gibt Copilot den Inhalt nicht zurück — PRINT und FORWARD sind dafür irrelevant."
+  },
+  {
+    id: "730-1214", d: "d1", o: "1.2", t: "single",
+    q: "Which type of email is never returned by Microsoft 365 Copilot, regardless of the user's permissions?",
+    a: [
+      "S/MIME-protected email",
+      "Email with a 'Confidential' sensitivity label",
+      "Email containing attachments larger than 10 MB",
+      "Email sent to an external recipient"
+    ],
+    c: [0],
+    e: "S/MIME-geschützte E-Mails werden grundsätzlich nie von Copilot verarbeitet. Gelabelte E-Mails dagegen schon — sofern der Nutzer die nötigen Usage Rights besitzt."
+  },
+  {
+    id: "730-1215", d: "d1", o: "1.2", t: "single",
+    q: "An administrator uses Restricted SharePoint Search to limit Copilot's search scope during a permissions clean-up. What is the maximum number of SharePoint sites that can be placed on the allow list?",
+    a: ["50 sites", "100 sites", "500 sites", "There is no limit"],
+    c: [1],
+    e: "Restricted SharePoint Search erlaubt maximal 100 Sites auf der Allow-List (Hub-Sites zählen als eine). Es war als Übergangslösung gedacht, um Zeit für die Berechtigungsbereinigung zu gewinnen — der Nachfolger heißt Restricted Content Discovery."
+  },
+  {
+    id: "730-1216", d: "d1", o: "1.2", t: "multi",
+    q: "When Restricted SharePoint Search is enabled, which content remains accessible to Copilot regardless of the allow list? (Choose three.)",
+    a: [
+      "The user's own OneDrive files",
+      "Files shared directly with the user",
+      "The user's own chats, emails and calendar",
+      "All SharePoint sites in the tenant",
+      "Sites belonging to other departments"
+    ],
+    c: [0, 1, 2],
+    e: "Eigene OneDrive-Dateien, direkt geteilte Dateien sowie eigene Chats, Mails und Kalender bleiben immer zugänglich — ebenso die zuletzt genutzten Elemente. Die Allow-List begrenzt nur die breite SharePoint-Suche."
+  },
+  {
+    id: "730-1217", d: "d1", o: "1.2", t: "single",
+    q: "A user is worried that Copilot will expose a password-protected document. Under which circumstance could Copilot use it?",
+    a: [
+      "Only if the document is already open in the same app (data in use).",
+      "Copilot can always open password-protected documents.",
+      "Only if the user shares the password in the prompt.",
+      "Only after an administrator removes the password."
+    ],
+    c: [0],
+    e: "Passwortgeschützte Dokumente sind für Copilot nur zugänglich, wenn sie bereits in derselben App geöffnet sind ('data in use'). Passwörter gehören niemals in einen Prompt."
+  },
+
+  /* ---- D2 / 2.1 ---- */
+  {
+    id: "730-2111", d: "d2", o: "2.1", t: "single",
+    q: "How does a user save a prompt for reuse in Microsoft 365 Copilot Chat?",
+    a: [
+      "Hover over the response and select the bookmark icon, then give the prompt a name.",
+      "Right-click the prompt and choose 'Export'.",
+      "Copy the prompt into a Word document stored in OneDrive.",
+      "Send the prompt to yourself by email."
+    ],
+    c: [0],
+    e: "Über das Lesezeichen-Symbol beim Hovern wird der Prompt benannt und in der Prompt Gallery unter 'Your prompts' abgelegt."
+  },
+  {
+    id: "730-2112", d: "d2", o: "2.1", t: "single",
+    q: "A user wants to change the wording of a prompt they previously saved. What is the correct procedure?",
+    a: [
+      "Open the saved prompt and edit the text in place.",
+      "Copy it, save the modified version as a new prompt and delete the original — saved prompts cannot be edited directly.",
+      "Ask an administrator to unlock the prompt for editing.",
+      "Saved prompts are permanent and can never be removed."
+    ],
+    c: [1],
+    e: "Gespeicherte Prompts sind nicht direkt bearbeitbar. Der dokumentierte Weg ist: kopieren, angepasst neu speichern und das Original löschen."
+  },
+  {
+    id: "730-2113", d: "d2", o: "2.1", t: "single",
+    q: "What is the required first step before a prompt can be shared with a team?",
+    a: [
+      "The prompt must first be saved to the Prompt Gallery.",
+      "The prompt must be approved by an administrator.",
+      "The prompt must be translated into English.",
+      "The prompt must be converted into an agent."
+    ],
+    c: [0],
+    e: "Erst speichern, dann über das Share-Symbol in der Prompt Gallery teilen. Der geteilte Prompt erscheint für die Teammitglieder im 'Team'-Tab der Gallery."
+  },
+  {
+    id: "730-2114", d: "d2", o: "2.1", t: "single",
+    q: "What is the maximum number of scheduled prompts a single user can have?",
+    a: ["5", "10", "25", "Unlimited"],
+    c: [1],
+    e: "Pro Nutzer sind maximal 10 geplante Prompts möglich, mit insgesamt maximal 15 Ausführungen. Geplante Prompts erscheinen fett im Conversations-Bereich."
+  },
+  {
+    id: "730-2115", d: "d2", o: "2.1", t: "single",
+    q: "Scheduled prompts are unavailable for all users in an organization. Which setting is the most likely cause?",
+    a: [
+      "Optional Connected Experiences has been disabled by the administrator.",
+      "The users have not renamed their chats.",
+      "The tenant has more than 1,000 users.",
+      "The users are working outside business hours."
+    ],
+    c: [0],
+    e: "Geplante Prompts setzen eine Microsoft-365-Copilot-Lizenz UND aktivierte Optional Connected Experiences voraus. Deaktiviert die Organisation OCE, steht die Funktion nicht zur Verfügung."
+  },
+  {
+    id: "730-2116", d: "d2", o: "2.1", t: "single",
+    q: "In Microsoft's prompt framework, which element specifies WHICH content Copilot should base its answer on?",
+    a: [
+      "Source",
+      "Goal",
+      "Context",
+      "Expectations"
+    ],
+    c: [0],
+    e: "Source benennt die Datengrundlage (Datei, Mail, Meeting). Goal beschreibt das gewünschte Ergebnis, Context die Situation und Zielgruppe, Expectations regelt Format, Ton und Länge."
+  },
+
+  /* ---- D2 / 2.2 ---- */
+  {
+    id: "730-2208", d: "d2", o: "2.2", t: "single",
+    q: "A Copilot Notebook references files stored in SharePoint and a file saved on the local desktop. Both files are edited. What happens?",
+    a: [
+      "Both updates are picked up automatically.",
+      "The SharePoint change is detected; the locally stored file is only used in its original uploaded version.",
+      "Neither change is detected.",
+      "Only the local change is detected."
+    ],
+    c: [1],
+    e: "Bei SharePoint-Quellen arbeitet das Notebook mit der aktuellen Version. Lokal hochgeladene Dateien bleiben auf dem Stand des Uploads — ein häufiger Stolperstein in der Praxis."
+  },
+  {
+    id: "730-2209", d: "d2", o: "2.2", t: "single",
+    q: "Which statement about sharing in Copilot Notebooks is correct?",
+    a: [
+      "The whole notebook is private; individual pages can be shared.",
+      "Notebooks are shared with the entire organization by default.",
+      "Notebooks can only be shared by an administrator.",
+      "Sharing a notebook automatically grants access to all referenced files."
+    ],
+    c: [0],
+    e: "Das Notebook selbst bleibt privat; geteilt werden einzelne Seiten. Referenzierte Dateien behalten unabhängig davon ihre eigenen Berechtigungen."
+  },
+  {
+    id: "730-2210", d: "d2", o: "2.2", t: "single",
+    q: "Which collaboration surface is described as hierarchical — organizing files, chats and pages by project — and offers the deepest Copilot integration?",
+    a: ["Microsoft Loop", "Copilot Pages", "Copilot Notebooks", "Microsoft Planner"],
+    c: [2],
+    e: "Notebooks sind hierarchisch nach Projekt strukturiert und haben die höchste KI-Integration. Loop ist modular für Echtzeit-Kollaboration, Pages ist eine flache Canvas für Copilot-Antworten."
+  },
+
+  /* ---- D2 / 2.3 ---- */
+  {
+    id: "730-2311", d: "d2", o: "2.3", t: "single",
+    q: "What is the maximum number of knowledge sources that can be added to an agent created with the agent builder in Copilot Chat?",
+    a: ["5", "10", "20", "100"],
+    c: [2],
+    e: "Bis zu 20 Knowledge-Quellen sind möglich: SharePoint-Seiten, OneDrive-Dateien, Teams-Chats und öffentliche Websites."
+  },
+  {
+    id: "730-2312", d: "d2", o: "2.3", t: "multi",
+    q: "Which capabilities can be switched on for an agent built in Copilot Chat? (Choose two.)",
+    a: [
+      "Code Interpreter — run Python code for calculations and charts",
+      "Image Creator — generate visual content",
+      "Mailbox Delegation — send email on behalf of the user",
+      "Tenant Administration — change organization-wide settings"
+    ],
+    c: [0, 1],
+    e: "Konfigurierbare Capabilities sind Code Interpreter (Python-Ausführung für Berechnungen und Diagramme) und Image Creator. Administrative Rechte oder Mailbox-Delegation gehören nicht dazu."
+  },
+  {
+    id: "730-2313", d: "d2", o: "2.3", t: "multi",
+    q: "When sharing an agent, which two access roles can be assigned? (Choose two.)",
+    a: ["Viewer — can use the agent", "Editor — can modify the agent", "Owner — can delete the tenant", "Auditor — can read all conversations"],
+    c: [0, 1],
+    e: "Beim Teilen wählt man zwischen Viewer (nur nutzen) und Editor (bearbeiten). Innerhalb der Organisation ist dafür keine Admin-Freigabe nötig."
+  },
+  {
+    id: "730-2314", d: "d2", o: "2.3", t: "single",
+    q: "An organization wants to publish an internally built agent so it appears in the Agent Store for all employees. What is required?",
+    a: [
+      "An administrator must approve the organization agent before users can access it.",
+      "Nothing — published agents appear immediately.",
+      "Every user must individually request access.",
+      "The agent must first be rebuilt in Microsoft Foundry."
+    ],
+    c: [0],
+    e: "Organisationsweit veröffentlichte Agents durchlaufen eine Admin-Genehmigung. Das direkte Teilen mit einzelnen Personen oder Gruppen benötigt dagegen keine Freigabe."
+  },
+  {
+    id: "730-2315", d: "d2", o: "2.3", t: "single",
+    q: "A colleague edits the suggested prompts of a shared agent. What must the existing users do?",
+    a: [
+      "Reinstall the agent to see the updated suggested prompts.",
+      "Nothing — changes appear instantly for everyone.",
+      "Request a new share link from an administrator.",
+      "Delete and recreate their own copy of the agent."
+    ],
+    c: [0],
+    e: "Werden die Suggested Prompts nach dem Teilen geändert, müssen Nutzer den Agent neu installieren, damit die Änderungen sichtbar werden."
+  },
+
+  /* ---- D3 / 3.1 ---- */
+  {
+    id: "730-3110", d: "d3", o: "3.1", t: "single",
+    q: "Which file types can the Analyst agent use for statistical data analysis?",
+    a: [
+      ".xlsx, .csv and .json",
+      ".jpg, .png and .gif",
+      ".mp4 and .mov",
+      ".zip archives only"
+    ],
+    c: [0],
+    e: "Für die statistische Auswertung nutzt Analyst strukturierte Daten aus .xlsx, .csv und .json. Für reine Inhaltsanalyse kommen zusätzlich .txt, .doc und .pdf infrage."
+  },
+  {
+    id: "730-3111", d: "d3", o: "3.1", t: "single",
+    q: "Researcher and Analyst share a usage budget. How many combined queries per month are available?",
+    a: ["10", "25", "100", "Unlimited"],
+    c: [1],
+    e: "25 Abfragen pro Monat, gemeinsam für Researcher und Analyst. Beide setzen zudem eine Microsoft-365-Copilot-Lizenz voraus."
+  },
+  {
+    id: "730-3112", d: "d3", o: "3.1", t: "single",
+    q: "Which reasoning approach does the Analyst agent use to surface trends, outliers and key metrics?",
+    a: [
+      "Chain-of-thought reasoning, showing the analytical steps",
+      "Random sampling of 10 percent of the rows",
+      "A fixed set of predefined report templates",
+      "Manual review by a Microsoft support engineer"
+    ],
+    c: [0],
+    e: "Analyst arbeitet mit Chain-of-Thought-Reasoning und legt die Analyseschritte offen — dadurch bleibt der Rechenweg nachvollziehbar und überprüfbar."
+  },
+
+  /* ---- D3 / 3.2 ---- */
+  {
+    id: "730-3209", d: "d3", o: "3.2", t: "single",
+    q: "In Teams meeting options, which 'Allow Copilot' setting requires transcription to be enabled?",
+    a: [
+      "During and after the meeting",
+      "Only during the meeting",
+      "Never",
+      "Both settings work without transcription"
+    ],
+    c: [0],
+    e: "'During and after the meeting' setzt Transkription voraus, damit nach dem Meeting auf den Verlauf zugegriffen werden kann. 'Only during the meeting' nutzt Speech-to-Text ohne gespeichertes Transkript."
+  },
+  {
+    id: "730-3210", d: "d3", o: "3.2", t: "single",
+    q: "You share a Copilot Page using 'Copy component' instead of 'Page link'. What is the difference?",
+    a: [
+      "The component stays synchronized in real time inside the Microsoft 365 app where it is pasted.",
+      "The component is a static screenshot of the page.",
+      "The component can only be opened by administrators.",
+      "There is no functional difference."
+    ],
+    c: [0],
+    e: "'Copy component' fügt die Seite als Loop-Komponente ein, die sich in Echtzeit mitaktualisiert. 'Page link' verweist auf die Seite, die dann in Loop geöffnet wird."
+  },
+  {
+    id: "730-3211", d: "d3", o: "3.2", t: "single",
+    q: "Where do you find the post-meeting Copilot summary with citations in Microsoft Teams?",
+    a: [
+      "In the Recap tab of the meeting chat",
+      "In the Outlook Deleted Items folder",
+      "In the SharePoint site collection settings",
+      "In the Teams admin center"
+    ],
+    c: [0],
+    e: "Der Recap-Tab im Meeting-Chat enthält Zusammenfassung, Aktionspunkte und Quellenangaben. Ein Export nach Word oder Excel ist von dort möglich."
+  },
+  {
+    id: "730-3212", d: "d3", o: "3.2", t: "tf",
+    q: "Recipients of a shared Copilot Page can edit it without having access to the original Copilot chat session.",
+    a: ["True", "False"],
+    c: [0],
+    e: "Richtig. Die Page ist vom Chat entkoppelt: Empfänger arbeiten direkt auf der Seite mit, ohne Zugriff auf die ursprüngliche Unterhaltung zu benötigen."
   }
 
   ]

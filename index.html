@@ -301,9 +301,11 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.9rem; }
   100% { opacity: 0; transform: translate(-50%,-78%) scale(0.95); }
 }
 
-.list-row { display: flex; align-items: center; gap: 10px; padding: 11px 0; border-top: 1px solid var(--cp-border); font-size: 0.85rem; }
+.list-row { display: flex; align-items: baseline; gap: 12px; padding: 11px 0; border-top: 1px solid var(--cp-border); font-size: 0.85rem; }
 .list-row:first-of-type { border-top: 0; }
-.list-row .rt { margin-left: auto; color: var(--cp-text-soft); font-size: 0.76rem; white-space: nowrap; }
+.list-row > span:first-child { flex: 0 1 auto; min-width: 0; }
+.list-row .rt { margin-left: auto; color: var(--cp-text-soft); font-size: 0.76rem; text-align: right; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.list-row .rt.nw { white-space: nowrap; }
 
 a { color: var(--cp-link); }
 .foot { text-align: center; font-size: 0.68rem; color: var(--cp-text-soft); padding: 6px 0 2px; line-height: 1.6; }
@@ -392,8 +394,13 @@ a { color: var(--cp-link); }
     </div>
 
     <div class="card">
-      <h3>Prüfungsinfo</h3>
+      <h3>Prüfungsformat</h3>
       <div id="examInfo"></div>
+    </div>
+
+    <div class="card">
+      <h3>Offizieller Lernpfad</h3>
+      <div id="learnList"></div>
     </div>
 
     <p class="foot">
@@ -699,12 +706,18 @@ function renderHome() {
     '</span><b>' + x.c + "/" + x.n + '</b><span class="rt">' + x.date + "</span></div>").join("");
 
   const best = S.best[examId];
+  const fmt = (ex.format || []).map(([k, v]) =>
+    '<div class="list-row"><span>' + esc(k) + '</span><span class="rt">' + esc(v) + "</span></div>").join("");
   $("#examInfo").innerHTML =
     '<div class="list-row"><span>Prüfung</span><span class="rt">' + esc(ex.code) + " · " + esc(ex.title) + "</span></div>" +
     '<div class="list-row"><span>Blueprint-Stand</span><span class="rt">' + esc(ex.updated) + "</span></div>" +
-    '<div class="list-row"><span>Bestehensgrenze</span><span class="rt">700 / 1000</span></div>' +
     '<div class="list-row"><span>Fragen im Pool</span><span class="rt">' + ex.questions.length + "</span></div>" +
+    fmt +
     (best != null ? '<div class="list-row"><span>Bestes Simulationsergebnis</span><span class="rt">' + best + " / 1000</span></div>" : "");
+
+  $("#learnList").innerHTML = (ex.learn ? ex.learn.paths : []).map(p =>
+    '<div class="list-row" style="display:block"><a href="' + esc(p.u) + '" target="_blank" rel="noopener">' + esc(p.n) +
+    '</a><br><span class="muted" style="font-size:0.72rem">' + esc(p.m) + "</span></div>").join("");
 
   setActions("");
 }

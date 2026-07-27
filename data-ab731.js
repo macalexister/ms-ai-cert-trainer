@@ -12,7 +12,31 @@ window.EXAM_AB731 = {
   passScore: 700,
   examMinutes: 45,
   examQuestions: 40,
+  seatMinutes: 65,
+  level: "Beginner",
   blurb: "AI-Strategie für Entscheider: Business Value, Microsoft AI Portfolio, Responsible AI und Adoption.",
+  format: [
+    ["Prüfungszeit", "45 Minuten"],
+    ["Sitzungszeit gesamt", "ca. 65 Minuten inkl. Agreements"],
+    ["Bestehensgrenze", "700 von 1000"],
+    ["Sprache", "nur Englisch"],
+    ["Anbieter", "Pearson VUE — online (OnVUE) oder Testzentrum"],
+    ["Microsoft Learn während der Prüfung", "nein (nur bei Associate/Expert)"],
+    ["Zurückspringen", "ja — aber nach einer Pause sind frühere Fragen gesperrt"],
+    ["Wiederholung", "24 Std. nach dem 1. Versuch, danach 14 Tage"],
+    ["Fragetypen", "Multiple Choice, Multiple Response, Drag & Drop, Hot Area, Build List"]
+  ],
+  learn: {
+    title: "Offizieller Lernpfad",
+    paths: [
+      { n: "Explore the Business Value of Generative AI", u: "https://learn.microsoft.com/training/paths/explore-business-value-generative-ai-solutions/", m: "2 Module — Domain 1" },
+      { n: "Drive Business Value with AI Solutions", u: "https://learn.microsoft.com/training/paths/drive-value-generative-ai-solutions/", m: "2 Module — Domain 2" },
+      { n: "Transform Your Business with AI", u: "https://learn.microsoft.com/training/paths/transform-your-business-with-microsoft-ai/", m: "4 Module — Domain 3" },
+      { n: "Practice Assessment", u: "https://learn.microsoft.com/credentials/certifications/ai-transformation-leader/practice/assessment?assessment-type=practice", m: "Offizieller Übungstest" },
+      { n: "Study Guide AB-731", u: "https://learn.microsoft.com/credentials/certifications/resources/study-guides/ab-731", m: "Prüfungsziele im Original" }
+    ]
+  },
+
   domains: [
     {
       id: "d1", num: 1, name: "Business Value of Generative AI", weight: "35–40 %", w: 0.375,
@@ -533,15 +557,15 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-2115", d: "d2", o: "2.1", t: "single",
-    q: "Which decision best reflects 'buy' in a build-buy-extend framework?",
+    q: "In Microsoft's build-buy-extend framework, which action corresponds to 'buy'?",
     a: [
-      "Adopting a published agent from the Agent Store that already solves the scenario.",
-      "Writing a custom orchestration layer from scratch.",
-      "Fine-tuning your own foundation model.",
-      "Hiring a data science team to label training data."
+      "Using preconfigured Microsoft 365 Copilot capabilities as they ship.",
+      "Adding a custom agent with Copilot Studio.",
+      "Developing a bespoke AI application on Microsoft Foundry.",
+      "Fine-tuning your own foundation model."
     ],
     c: [0],
-    e: "Buy = fertige Lösung übernehmen, hier ein veröffentlichter Agent. Build wäre die Eigenentwicklung, Extend die gezielte Erweiterung der Plattform."
+    e: "Microsofts Einteilung: Buy = vorkonfigurierte M365-Copilot-Funktionen nutzen. Extend = mit Agent Builder oder Copilot Studio erweitern. Build = eigene Lösung auf Microsoft Foundry bzw. per SDK entwickeln."
   },
 
   /* ============ D2 / 2.2 — Foundry Tools ============ */
@@ -828,9 +852,9 @@ window.EXAM_AB731 = {
   {
     id: "731-3206", d: "d3", o: "3.2", t: "single",
     q: "Which Copilot licence model charges based on actual consumption rather than a fixed fee per user?",
-    a: ["Pay-as-you-go", "Monthly per-user subscription", "Included with a Microsoft 365 subscription", "Perpetual licence"],
+    a: ["Pay-as-you-go, billed through Copilot Credits", "Monthly per-user subscription", "Included with a Microsoft 365 subscription", "Perpetual licence"],
     c: [0],
-    e: "Pay-as-you-go rechnet nach tatsächlichem Verbrauch ab und eignet sich für schwankende oder pilotierende Nutzung — im Gegensatz zum festen Monatspreis pro Nutzer."
+    e: "Verbrauchsbasierte Abrechnung läuft über Copilot Credits — vor allem für Agents und Erweiterungen aus Copilot Studio. Alternativ gibt es das monatliche Add-on pro Nutzer sowie Copilot Chat, das im M365-Abo enthalten ist."
   },
   {
     id: "731-3207", d: "d3", o: "3.2", t: "single",
@@ -898,6 +922,227 @@ window.EXAM_AB731 = {
     ],
     c: [0],
     e: "Prompts, Lizenzen und Erstöffnungen sind Aktivitätsmetriken. Business Impact zeigt sich in Prozesskennzahlen wie Durchlaufzeit, Qualität oder Kosten pro Vorgang."
+  },
+
+  /* ================= Vertiefung: verifizierte Detailfakten aus dem offiziellen Lernpfad ================= */
+
+  /* ---- D1 / 1.2 ---- */
+  {
+    id: "731-1214", d: "d1", o: "1.2", t: "single",
+    q: "How does Microsoft position grounding in relation to retrieval-augmented generation?",
+    a: [
+      "Grounding is the overall concept of providing trusted context at inference time; RAG is one method of achieving it.",
+      "RAG is the overall concept and grounding is one specific technique within it.",
+      "They are two unrelated approaches.",
+      "Grounding replaces the need for RAG entirely."
+    ],
+    c: [0],
+    e: "Grounding ist der Oberbegriff: dem Modell zur Laufzeit vertrauenswürdigen Kontext mitgeben. RAG ist eine Methode dafür — daneben gibt es Datei-Uploads und Websuche."
+  },
+  {
+    id: "731-1215", d: "d1", o: "1.2", t: "single",
+    q: "Which sequence reflects Microsoft's recommended order when trying to improve output quality?",
+    a: [
+      "Prompt engineering first, then grounding or RAG, and fine-tuning only if still required",
+      "Fine-tuning first, then prompt engineering, then grounding",
+      "Train a model from scratch, then apply RAG",
+      "Increase model size first, then adjust prompts"
+    ],
+    c: [0],
+    e: "Microsoft empfiehlt ausdrücklich, erst Grounding und RAG auszuschöpfen und Fine-Tuning nur einzusetzen, wenn Prompting und Grounding nicht ausreichen — es ist der teuerste und trägste Hebel."
+  },
+
+  /* ---- D2 / 2.1 ---- */
+  {
+    id: "731-2116", d: "d2", o: "2.1", t: "single",
+    q: "A business user with no technical background needs a simple agent grounded in a few SharePoint documents. Which tool is designed for them?",
+    a: [
+      "The agent builder inside Microsoft 365 Copilot",
+      "Microsoft Copilot Studio",
+      "Microsoft Foundry",
+      "The Azure portal"
+    ],
+    c: [0],
+    e: "Der Agent Builder in M365 Copilot richtet sich an Fachanwender: declarative Agents per natürlicher Sprache, bis zu 20 Knowledge-Quellen. Copilot Studio ist die Low-Code-Stufe für komplexere Anforderungen."
+  },
+  {
+    id: "731-2117", d: "d2", o: "2.1", t: "multi",
+    q: "Which requirements indicate that Microsoft Copilot Studio is needed rather than the in-product agent builder? (Choose three.)",
+    a: [
+      "The agent must connect to an external line-of-business system through a connector",
+      "The agent needs branching logic and automated flows",
+      "The agent must be deployed to multiple channels such as a website or Teams",
+      "The agent should answer questions from three SharePoint documents",
+      "The agent needs a friendly name and an icon"
+    ],
+    c: [0, 1, 2],
+    e: "Konnektoren zu Drittsystemen, Flows mit Verzweigungslogik und Multi-Channel-Deployment sind Copilot-Studio-Merkmale. Einfaches Grounding auf wenige Dokumente schafft der Agent Builder."
+  },
+  {
+    id: "731-2118", d: "d2", o: "2.1", t: "single",
+    q: "Which Microsoft tool reports Copilot usage alongside estimated financial savings, helping leaders quantify return on investment?",
+    a: [
+      "The Microsoft Copilot Dashboard in Viva Insights",
+      "The Azure Cost Management blade",
+      "The SharePoint admin center",
+      "Microsoft Intune"
+    ],
+    c: [0],
+    e: "Das Copilot Dashboard in Viva Insights liefert Nutzungsmetriken und geschätzte finanzielle Einsparungen. Ergänzend gibt es das Consumption Dashboard für Copilot Credits und den Business Impact Report."
+  },
+  {
+    id: "731-2119", d: "d2", o: "2.1", t: "single",
+    q: "A leader wants to see how Copilot Credits are consumed by team and by service. Which report is appropriate?",
+    a: [
+      "The Consumption Dashboard in Copilot Analytics",
+      "The Microsoft 365 message center",
+      "The Entra sign-in log",
+      "The Teams call quality dashboard"
+    ],
+    c: [0],
+    e: "Das Consumption Dashboard schlüsselt den Copilot-Credits-Verbrauch nach Team, Service und Nutzer auf — die Basis für Kostensteuerung bei verbrauchsbasierten Modellen."
+  },
+  {
+    id: "731-2120", d: "d2", o: "2.1", t: "single",
+    q: "Which licence is required for the Researcher and Analyst agents?",
+    a: [
+      "A Microsoft 365 Copilot add-on licence",
+      "Any Microsoft 365 subscription, no add-on needed",
+      "A standalone Copilot Studio subscription",
+      "An Azure subscription only"
+    ],
+    c: [0],
+    e: "Researcher und Analyst sind Premium-Funktionen und setzen die kostenpflichtige M365-Copilot-Add-on-Lizenz voraus — nicht im kostenfreien Copilot Chat enthalten."
+  },
+  {
+    id: "731-2121", d: "d2", o: "2.1", t: "single",
+    q: "An organization on Microsoft 365 Business Standard wants to add full Copilot capability. Which licence applies?",
+    a: [
+      "Microsoft 365 Copilot Business, the add-on for Business plans",
+      "Microsoft 365 E5 only",
+      "Copilot cannot be added to Business plans",
+      "Azure OpenAI Service"
+    ],
+    c: [0],
+    e: "Microsoft 365 Copilot Business ist das Add-on für Business Basic, Standard, Premium und Apps for Business. Das reguläre M365-Copilot-Add-on richtet sich an Enterprise-Pläne."
+  },
+
+  /* ---- D2 / 2.2 ---- */
+  {
+    id: "731-2212", d: "d2", o: "2.2", t: "single",
+    q: "Which name change is reflected in the current Microsoft documentation and exam terminology?",
+    a: [
+      "Azure AI Foundry is now Microsoft Foundry, and Azure AI Services are now Foundry Tools.",
+      "Microsoft Foundry is now Azure AI Studio.",
+      "Foundry Tools are now called Azure Cognitive Services.",
+      "Microsoft 365 Copilot is now called Microsoft Foundry."
+    ],
+    c: [0],
+    e: "Die Umbenennung ist offiziell dokumentiert: Microsoft Foundry als Plattform, Foundry Tools als Dienste-Familie. Der Study Guide vom 22.07.2026 verwendet durchgängig die neuen Bezeichnungen."
+  },
+  {
+    id: "731-2213", d: "d2", o: "2.2", t: "single",
+    q: "Which service kept its original name and was NOT rebranded under the Foundry Tools naming?",
+    a: ["Azure AI Search", "Azure Vision", "Azure Speech", "Azure Language"],
+    c: [0],
+    e: "Azure AI Search heißt weiterhin so. Die anderen Dienste tragen jetzt den Zusatz 'in Foundry Tools' — etwa 'Azure Vision in Foundry Tools'."
+  },
+  {
+    id: "731-2214", d: "d2", o: "2.2", t: "multi",
+    q: "Which of the following are current Foundry Tools recommended for new applications? (Choose three.)",
+    a: [
+      "Document Intelligence",
+      "Content Safety",
+      "Content Understanding",
+      "Language Understanding (LUIS)",
+      "QnA Maker"
+    ],
+    c: [0, 1, 2],
+    e: "Document Intelligence, Content Safety und Content Understanding sind aktiv. LUIS, QnA Maker, Anomaly Detector, Content Moderator, Metrics Advisor und Personalizer sind abgekündigt und für neue Anwendungen nicht mehr empfohlen."
+  },
+  {
+    id: "731-2215", d: "d2", o: "2.2", t: "single",
+    q: "Which capability would you use to detect harmful or unwanted content in AI-generated output?",
+    a: ["Content Safety", "Document Intelligence", "Immersive Reader", "Translator"],
+    c: [0],
+    e: "Content Safety erkennt unerwünschte Inhalte in Text und Bild — ein zentraler Baustein für den Responsible-AI-Grundsatz Reliability & Safety in produktiven Anwendungen."
+  },
+  {
+    id: "731-2216", d: "d2", o: "2.2", t: "single",
+    q: "A team wants to try a Foundry Tool at no cost before committing to a paid tier. Which option exists for most Foundry Tools?",
+    a: [
+      "A free tier (F0) intended for testing and evaluation",
+      "A 30-day money-back guarantee only",
+      "Free unlimited production usage",
+      "There is no free option"
+    ],
+    c: [0],
+    e: "Die meisten Foundry Tools bieten einen kostenlosen F0-Tier zum Testen. Für den Produktivbetrieb folgen pay-as-you-go oder Commitment Tiers."
+  },
+  {
+    id: "731-2217", d: "d2", o: "2.2", t: "single",
+    q: "Where can an organization compare and select from a large catalogue of models, including offerings from Microsoft, OpenAI, Anthropic and Meta?",
+    a: [
+      "The model catalogue in Microsoft Foundry",
+      "The Microsoft 365 admin center",
+      "The Teams app store",
+      "The Copilot Prompt Gallery"
+    ],
+    c: [0],
+    e: "Der Modellkatalog in Microsoft Foundry umfasst über 1.900 Modelle verschiedener Anbieter — dort erfolgt die Auswahl passend zu Modalität, Qualität, Latenz und Kosten."
+
+  },
+
+  /* ---- D3 / 3.1 ---- */
+  {
+    id: "731-3110", d: "d3", o: "3.1", t: "single",
+    q: "Microsoft's responsible AI framework describes three operational stages. Which sequence is correct?",
+    a: [
+      "Discover, Protect, Govern",
+      "Plan, Build, Deploy",
+      "Detect, Delete, Deny",
+      "Design, Develop, Distribute"
+    ],
+    c: [0],
+    e: "Discover (Risiken erkennen und messen), Protect (Schutz auf Modell- und Agent-Ebene) und Govern (Monitoring und Compliance) bilden das operative Gerüst des Responsible AI Standard."
+  },
+  {
+    id: "731-3111", d: "d3", o: "3.1", t: "single",
+    q: "How should a leader describe the AI council when asked what it is?",
+    a: [
+      "An internal cross-functional governance body that guides AI strategy, oversight and alignment.",
+      "A Microsoft-run certification programme.",
+      "A paid Microsoft consulting service.",
+      "A technical component of Microsoft Foundry."
+    ],
+    c: [0],
+    e: "Der AI Council ist ein internes Governance-Gremium, kein Microsoft-Produkt oder -Programm. Er bündelt Business, IT, Security, Legal und Datenschutz für Strategie und Aufsicht."
+  },
+
+  /* ---- D3 / 3.2 ---- */
+  {
+    id: "731-3213", d: "d3", o: "3.2", t: "single",
+    q: "An adoption lead is looking for documented business outcome metrics per role and department to justify a Copilot rollout. Which Microsoft resource is designed for this?",
+    a: [
+      "The Copilot Scenario Library",
+      "The Azure pricing calculator",
+      "The Microsoft 365 roadmap",
+      "The Entra ID governance portal"
+    ],
+    c: [0],
+    e: "Die Copilot Scenario Library beschreibt konkrete Anwendungsfälle je Funktion (Sales, Marketing, Finance, IT, HR) samt zugehöriger Business-Outcome-Metriken — ideal als Grundlage für Enablement und Nutzenargumentation."
+  },
+  {
+    id: "731-3214", d: "d3", o: "3.2", t: "single",
+    q: "Which statement correctly describes AI champions in an adoption programme?",
+    a: [
+      "Internal ambassadors in each business area who demonstrate use cases and support colleagues.",
+      "Certified Microsoft employees assigned to the customer.",
+      "External consultants who run the deployment.",
+      "Members of the IT helpdesk exclusively."
+    ],
+    c: [0],
+    e: "Champions sind interne Botschafter aus den Fachbereichen. Ihr Hebel ist Peer-Vertrauen: sie zeigen Use Cases im eigenen Arbeitskontext und senken die Hemmschwelle wirksamer als zentrale Schulungen."
   }
 
   ]

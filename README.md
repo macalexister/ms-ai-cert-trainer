@@ -5,18 +5,20 @@
 
 Gamifizierter Prüfungstrainer für die Microsoft-Zertifizierungen:
 
-- **AB-730** — AI Business Professional (70 Fragen)
-- **AB-731** — AI Transformation Leader (75 Fragen)
+- **AB-730** — AI Business Professional (99 Fragen)
+- **AB-731** — AI Transformation Leader (93 Fragen)
 
 Inhaltlich ausgerichtet an den offiziellen Microsoft Study Guides,
-Stand **22. Juli 2026** ("Skills measured as of July 22, 2026").
+Stand **22. Juli 2026** ("Skills measured as of July 22, 2026"),
+zusätzlich abgeglichen mit den offiziellen Lernpfaden auf Microsoft Learn
+(Modulinhalte, Feature-Limits und aktuelle Produktterminologie 2026).
 
 ## Funktionen
 
 | Modus | Beschreibung |
 |---|---|
 | ⚡ Quick Drill | 10 Fragen, adaptiv auf schwache Themen gewichtet |
-| 🎯 Prüfungssimulation | 40 Fragen, 45 Minuten, nach Blueprint-Gewichtung, skalierter Score /1000 |
+| 🎯 Prüfungssimulation | Blueprint-gewichtet, 45 Minuten, nach Blueprint-Gewichtung, skalierter Score /1000 |
 | 🧭 Domain-Training | Gezieltes Üben eines Wissensbereichs |
 | 🔁 Wiederholung | Spaced Repetition (Leitner-Boxen: 0/1/3/7/16 Tage) |
 | 🃏 Lernkarten | Durchblättern mit Erklärungen, ohne Bewertung |
