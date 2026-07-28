@@ -28,7 +28,12 @@ zusätzlich abgeglichen mit den offiziellen Lernpfaden auf Microsoft Learn
 sowie Trefferquote je Wissensbereich.
 
 Der Fortschritt wird lokal im Browser gespeichert (`localStorage`) —
-es werden keine Daten übertragen.
+es werden keine Daten übertragen. Jede Person, die den Link öffnet, hat
+ihren eigenen, unabhängigen Fortschritt.
+
+**Gerätewechsel:** Über „Fortschritt sichern" lässt sich der Stand als Code
+oder Datei exportieren und auf einem anderen Gerät wieder einlesen —
+wahlweise ersetzend oder mit dem dortigen Stand zusammengeführt.
 
 ## Auf dem iPhone installieren
 

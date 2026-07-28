@@ -8,6 +8,15 @@ window.APP_META = {
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
     {
+      v: "1.3.0", d: "2026-07-28",
+      t: "Fortschritt exportieren und importieren",
+      items: [
+        "Fortschritt lässt sich als Code oder Datei sichern und auf einem anderen Gerät einlesen",
+        "Beim Import wahlweise ersetzen oder mit dem vorhandenen Stand zusammenführen",
+        "Fehlerbehebung: Nach dem Zurücksetzen wurde neuer Fortschritt nicht mehr gespeichert"
+      ]
+    },
+    {
       v: "1.2.0", d: "2026-07-28",
       t: "Anti-Bias-Überarbeitung und prüfungsgetreue Bewertung",
       items: [

@@ -280,6 +280,30 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.9rem; }
 
 .hidden { display: none !important; }
 
+/* ---------- Sheet / Modal ---------- */
+.sheet { position: fixed; inset: 0; z-index: 100; display: flex; align-items: flex-end; justify-content: center; }
+.sheet-bg { position: absolute; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.sheet-card {
+  position: relative; width: 100%; max-width: 720px;
+  background: var(--cp-bg-elevated); border: 1px solid var(--cp-border);
+  border-radius: 20px 20px 0 0; padding: 20px 16px calc(env(safe-area-inset-bottom) + 16px);
+  box-shadow: var(--cp-shadow); max-height: 88vh; overflow-y: auto;
+  animation: rise .25s cubic-bezier(.2,.8,.2,1);
+}
+@keyframes rise { from { transform: translateY(24px); opacity: .6; } to { transform: translateY(0); opacity: 1; } }
+.sheet-card h2 { margin-bottom: 12px; }
+.sheet-actions { display: flex; gap: 8px; margin-top: 16px; }
+.sheet-actions .btn { flex: 1; }
+.code-box {
+  width: 100%; min-height: 132px; resize: vertical;
+  font-family: Consolas, "Courier New", Courier, monospace; font-size: 0.72rem; line-height: 1.45;
+  padding: 12px; border-radius: 0.625rem; border: 1px solid var(--cp-border);
+  background: var(--cp-surface-soft); color: var(--cp-text); word-break: break-all;
+}
+.code-box:focus { outline: 2px solid var(--cp-accent); outline-offset: -1px; }
+.sum { background: var(--cp-surface-soft); border: 1px solid var(--cp-border); border-radius: 0.625rem; padding: 12px; margin: 12px 0; font-size: 0.82rem; }
+.sum b { display: inline-block; min-width: 92px; }
+
 .toast {
   position: fixed; left: 50%; transform: translateX(-50%) translateY(-14px);
   top: calc(env(safe-area-inset-top) + 70px); z-index: 90;
@@ -411,6 +435,15 @@ a { color: var(--cp-link); }
       <div id="changelog" style="margin-top:4px"></div>
     </div>
 
+    <div class="card">
+      <h3>Fortschritt sichern</h3>
+      <p class="muted" style="margin-bottom:12px">Dein Fortschritt liegt nur in diesem Browser. Zum Wechsel auf ein anderes Gerät exportierst du ihn hier als Code.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <button class="btn ghost small" id="btnExport">Exportieren</button>
+        <button class="btn ghost small" id="btnImport">Importieren</button>
+      </div>
+    </div>
+
     <p class="foot">
       Inhalte nach dem offiziellen Microsoft Study Guide (Stand 22. Juli 2026).<br>
       Inoffizielles Lernwerkzeug · kein Microsoft-Produkt · keine echten Prüfungsfragen.
@@ -483,6 +516,15 @@ a { color: var(--cp-link); }
 <div class="actions hidden" id="actionBar"><div class="actions-inner" id="actionInner"></div></div>
 <div class="toast" id="toast"></div>
 <div class="combo" id="combo"></div>
+
+<div class="sheet hidden" id="sheet">
+  <div class="sheet-bg" id="sheetBg"></div>
+  <div class="sheet-card">
+    <h2 id="sheetTitle">Titel</h2>
+    <div id="sheetBody"></div>
+    <div class="sheet-actions" id="sheetActions"></div>
+  </div>
+</div>
 
 <script src="./version.js"></script>
 <script src="./data-ab730.js"></script>
@@ -1090,20 +1132,218 @@ $("#btnTheme").addEventListener("click", () => {
 });
 
 $("#btnUpdate").addEventListener("click", checkForUpdate);
+$("#btnExport").addEventListener("click", showExport);
+$("#btnImport").addEventListener("click", showImport);
+$("#sheetBg").addEventListener("click", closeSheet);
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && !$("#sheet").classList.contains("hidden")) closeSheet();
+});
 
 $("#btnReset").addEventListener("click", () => {
   if (!confirm("Wirklich den gesamten Fortschritt löschen? XP, Abzeichen und Statistiken gehen verloren.")) return;
-  mem = { xp:0, streak:0, last:"", badges:[], q:{}, hist:[], best:{}, exam: examId };
-  Object.assign(S, mem); store.save();
+  /* S in-place zurücksetzen — eine Neuzuweisung würde die Referenz auf den
+     Speicher-Cache trennen und alle späteren Änderungen verwerfen. */
+  S.xp = 0; S.streak = 0; S.last = "";
+  S.badges = []; S.q = {}; S.hist = []; S.best = {};
+  store.save();
   renderTop(); renderHome(); toast("Fortschritt zurückgesetzt");
 });
 
 document.addEventListener("keydown", (e) => {
   if (!ses || $("#s-quiz").classList.contains("hidden")) return;
+  if (!$("#sheet").classList.contains("hidden")) return;
+  if (/^(INPUT|TEXTAREA)$/.test((e.target && e.target.tagName) || "")) return;
   const n = parseInt(e.key, 10);
   if (n >= 1 && n <= 9) { const b = $$("#qOpts .opt")[n - 1]; if (b && !ses.locked) b.click(); }
   if (e.key === "Enter") { const a = $("#aCheck") || $("#aNext"); if (a && !a.disabled) a.click(); }
 });
+
+/* ================= Fortschritt exportieren / importieren ================= */
+
+/* Kompaktes Transportformat: Frage-IDs werden gekürzt (730- -> a, 731- -> b)
+   und die Fälligkeit als Tageszahl statt Millisekunden gespeichert. */
+function encodeProgress() {
+  const qs = [];
+  for (const id in S.q) {
+    const r = S.q[id];
+    if (!r || !r.s) continue;
+    const key = id.replace(/^730-/, "a").replace(/^731-/, "b");
+    qs.push(key + ":" + r.s + "," + r.c + "," + r.w + "," + (r.box || 1) + "," + Math.round((r.due || 0) / 864e5));
+  }
+  const payload = {
+    v: 1, app: META.version, ts: today(),
+    x: S.xp, k: S.streak, l: S.last, e: S.exam,
+    b: (S.badges || []).join(","),
+    t: S.best || {},
+    h: (S.hist || []).slice(-25),
+    q: qs.join(";")
+  };
+  return btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+}
+
+function decodeProgress(code) {
+  const clean = String(code).replace(/\s+/g, "");
+  if (!clean) throw new Error("Der Code ist leer.");
+  let obj;
+  try {
+    obj = JSON.parse(decodeURIComponent(escape(atob(clean))));
+  } catch (e) {
+    throw new Error("Der Code ist unvollständig oder beschädigt.");
+  }
+  if (!obj || obj.v !== 1) throw new Error("Dieses Code-Format wird nicht unterstützt.");
+
+  const q = {};
+  (obj.q || "").split(";").filter(Boolean).forEach(part => {
+    const [key, vals] = part.split(":");
+    if (!key || !vals) return;
+    const id = key.replace(/^a/, "730-").replace(/^b/, "731-");
+    const [s, c, w, box, dueD] = vals.split(",").map(Number);
+    if ([s, c, w].some(n => !isFinite(n))) return;
+    q[id] = { s, c, w, box: box || 1, due: (dueD || 0) * 864e5 };
+  });
+
+  return {
+    xp: Number(obj.x) || 0,
+    streak: Number(obj.k) || 0,
+    last: obj.l || "",
+    exam: EXAMS[obj.e] ? obj.e : "AB730",
+    badges: (obj.b || "").split(",").filter(Boolean),
+    best: obj.t && typeof obj.t === "object" ? obj.t : {},
+    hist: Array.isArray(obj.h) ? obj.h : [],
+    q,
+    meta: { app: obj.app || "?", ts: obj.ts || "" }
+  };
+}
+
+function progressSummary(d) {
+  const answered = Object.keys(d.q).length;
+  const correct = Object.values(d.q).reduce((a, r) => a + (r.c || 0), 0);
+  const wrong = Object.values(d.q).reduce((a, r) => a + (r.w || 0), 0);
+  return { answered, correct, wrong, xp: d.xp, lvl: levelOf(d.xp), badges: d.badges.length, streak: d.streak };
+}
+
+function applyProgress(d, mode) {
+  if (mode === "replace") {
+    S.xp = d.xp; S.streak = d.streak; S.last = d.last;
+    S.badges = d.badges.slice(); S.best = Object.assign({}, d.best);
+    S.hist = d.hist.slice(); S.q = {}; Object.keys(d.q).forEach(k => S.q[k] = d.q[k]);
+    S.exam = d.exam;
+  } else {
+    S.xp = Math.max(S.xp, d.xp);
+    S.streak = Math.max(S.streak, d.streak);
+    if (d.last > (S.last || "")) S.last = d.last;
+    d.badges.forEach(b => { if (!S.badges.includes(b)) S.badges.push(b); });
+    for (const k in d.best) S.best[k] = Math.max(S.best[k] || 0, d.best[k]);
+    for (const id in d.q) {
+      const mine = S.q[id], theirs = d.q[id];
+      if (!mine) { S.q[id] = theirs; continue; }
+      S.q[id] = {
+        s: mine.s + theirs.s,
+        c: mine.c + theirs.c,
+        w: mine.w + theirs.w,
+        box: Math.max(mine.box || 1, theirs.box || 1),
+        due: Math.max(mine.due || 0, theirs.due || 0)
+      };
+    }
+    S.hist = S.hist.concat(d.hist).slice(-60);
+  }
+  store.save();
+}
+
+/* ---------- Sheet ---------- */
+function openSheet(title, bodyHtml, actionsHtml) {
+  $("#sheetTitle").textContent = title;
+  $("#sheetBody").innerHTML = bodyHtml;
+  $("#sheetActions").innerHTML = actionsHtml || "";
+  $("#sheet").classList.remove("hidden");
+}
+function closeSheet() { $("#sheet").classList.add("hidden"); }
+
+function showExport() {
+  let code;
+  try { code = encodeProgress(); }
+  catch (e) { toast("Export fehlgeschlagen"); return; }
+
+  const s = progressSummary(decodeProgress(code));
+  openSheet("Fortschritt exportieren",
+    '<div class="sum"><b>Beantwortet</b>' + s.answered + " Fragen<br><b>XP</b>" + s.xp +
+      " (Level " + s.lvl + ")<br><b>Abzeichen</b>" + s.badges + "<br><b>Serie</b>" + s.streak + " Tage</div>" +
+    '<p class="muted">Kopiere den Code und öffne ihn auf dem anderen Gerät unter „Importieren“.</p>' +
+    '<textarea class="code-box" id="expCode" readonly>' + esc(code) + "</textarea>",
+    '<button class="btn ghost" id="shClose">Schließen</button>' +
+    '<button class="btn ghost" id="shFile">Als Datei</button>' +
+    '<button class="btn" id="shCopy">Kopieren</button>');
+
+  $("#shClose").addEventListener("click", closeSheet);
+  $("#shCopy").addEventListener("click", () => {
+    const ta = $("#expCode");
+    ta.select(); ta.setSelectionRange(0, 999999);
+    const done = () => { toast("✓  Code kopiert"); buzz(12); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(ta.value).then(done).catch(() => {
+        try { document.execCommand("copy"); done(); } catch (e) { toast("Bitte manuell kopieren"); }
+      });
+    } else {
+      try { document.execCommand("copy"); done(); } catch (e) { toast("Bitte manuell kopieren"); }
+    }
+  });
+  $("#shFile").addEventListener("click", () => {
+    const blob = new Blob([code], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "ai-cert-trainer-" + today() + ".txt";
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+    toast("Datei gespeichert");
+  });
+}
+
+function showImport() {
+  openSheet("Fortschritt importieren",
+    '<p class="muted">Füge den Code vom anderen Gerät ein oder wähle eine zuvor gespeicherte Datei.</p>' +
+    '<textarea class="code-box" id="impCode" placeholder="Code hier einfügen…" autocomplete="off" spellcheck="false"></textarea>' +
+    '<div style="margin-top:10px"><input type="file" id="impFile" accept=".txt,text/plain" style="font-size:0.78rem"></div>' +
+    '<div id="impPreview"></div>',
+    '<button class="btn ghost" id="shClose">Abbrechen</button>' +
+    '<button class="btn" id="shCheck">Code prüfen</button>');
+
+  $("#shClose").addEventListener("click", closeSheet);
+  $("#impFile").addEventListener("change", (e) => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    const fr = new FileReader();
+    fr.onload = () => { $("#impCode").value = String(fr.result || "").trim(); };
+    fr.readAsText(f);
+  });
+
+  $("#shCheck").addEventListener("click", () => {
+    let d;
+    try { d = decodeProgress($("#impCode").value); }
+    catch (err) { $("#impPreview").innerHTML = '<div class="sum" style="color:var(--cp-danger)">' + esc(err.message) + "</div>"; return; }
+
+    const s = progressSummary(d);
+    const mine = progressSummary({ q: S.q, xp: S.xp, badges: S.badges, streak: S.streak });
+    $("#impPreview").innerHTML =
+      '<div class="sum"><b>Im Code</b>' + s.answered + " Fragen · " + s.xp + " XP · " + s.badges + " Abzeichen" +
+      (d.meta.ts ? "<br><b>Erstellt</b>" + deDate(d.meta.ts) + " mit v" + esc(d.meta.app) : "") +
+      "<br><b>Auf diesem Gerät</b>" + mine.answered + " Fragen · " + mine.xp + " XP</div>";
+
+    $("#sheetActions").innerHTML =
+      '<button class="btn ghost" id="shBack">Zurück</button>' +
+      '<button class="btn ghost" id="shReplace">Ersetzen</button>' +
+      '<button class="btn" id="shMerge">Zusammenführen</button>';
+    $("#shBack").addEventListener("click", closeSheet);
+    $("#shMerge").addEventListener("click", () => {
+      applyProgress(d, "merge"); closeSheet(); renderTop(); renderHome();
+      toast("✓  Fortschritt zusammengeführt");
+    });
+    $("#shReplace").addEventListener("click", () => {
+      if (!confirm("Der Fortschritt auf diesem Gerät wird vollständig überschrieben. Fortfahren?")) return;
+      applyProgress(d, "replace"); closeSheet(); renderTop(); renderHome();
+      toast("✓  Fortschritt ersetzt");
+    });
+  });
+}
 
 /* ================= Service Worker & Updates ================= */
 let swReg = null;
