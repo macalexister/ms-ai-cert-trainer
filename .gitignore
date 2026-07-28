@@ -1,2 +1,11 @@
 .DS_Store
 node_modules/
+
+# OneDrive legt beim gleichzeitigen Bearbeiten Konfliktkopien an
+# ("README 2.md", "index 3.html"). Eine davon war schon versehentlich
+# eingecheckt und wurde live ausgeliefert.
+* [0-9].md
+* [0-9].html
+* [0-9].js
+*-Konflikt*
+*conflicted copy*
