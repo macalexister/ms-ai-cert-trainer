@@ -381,6 +381,10 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.92rem; }
   transition: opacity .3s var(--spring), transform .42s var(--spring); white-space: nowrap; max-width: 90vw;
 }
 .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+/* Nur der Aktions-Toast ist anklickbar; der normale Hinweis bleibt durchlässig. */
+.toast.tappable { pointer-events: auto; cursor: pointer; padding-right: 16px; }
+.toast.tappable::after { content: " ›"; font-weight: 700; opacity: .85; }
+.toast.tappable:active { transform: translateX(-50%) scale(.97); }
 
 .combo {
   position: fixed; left: 50%; top: 42%; transform: translate(-50%, -50%) scale(.7);
@@ -441,6 +445,47 @@ details > summary::-webkit-details-marker { display: none; }
 .foot { text-align: center; font-size: 0.72rem; color: var(--cp-text-soft); padding: 10px 0 2px; line-height: 1.7; }
 .foot .btn { margin: 4px 3px; }
 
+/* ---------- Breite Bildschirme ---------- */
+.home-grid { display: block; }
+
+@media (min-width: 900px) {
+  .app { max-width: 1160px; padding-left: 24px; padding-right: 24px; }
+  .topbar { padding-left: 24px; padding-right: 24px; }
+  .topbar > * { max-width: 1112px; }
+  .actions-inner { max-width: 1112px; }
+
+  /* Startseite zweispaltig: Aktion links, Auswertung rechts */
+  .home-grid {
+    display: grid; grid-template-columns: 1.15fr 1fr;
+    gap: 0 var(--gap); align-items: start;
+  }
+  .segmented { max-width: 460px; }
+
+  /* Vier Modus-Kacheln nebeneinander, Lernkarten als Band darunter */
+  .modes { grid-template-columns: repeat(2, 1fr); }
+
+  .badges { gap: 12px; }
+  .badge { width: calc(16.666% - 10px); }
+
+  /* Quiz mittig und ruhiger */
+  #s-quiz, #s-result, #s-cards, #s-domain { max-width: 800px; margin: 0 auto; }
+  /* Aktionsleiste folgt der Breite des Quiz, nicht der ganzen Seite */
+  body.narrow-actions .actions-inner { max-width: 800px; }
+  .qtext { font-size: 1.2rem; }
+  .opt { padding: 16px 18px; }
+
+  .kpis { gap: 12px; }
+}
+
+@media (min-width: 1200px) {
+  .app { max-width: 1280px; }
+  .topbar > * { max-width: 1232px; }
+  .actions-inner { max-width: 1232px; }
+  .home-grid { grid-template-columns: 1.2fr 1fr; }
+  .badge { width: calc(12.5% - 9px); }
+  body.narrow-actions .actions-inner { max-width: 800px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
@@ -472,6 +517,9 @@ details > summary::-webkit-details-marker { display: none; }
     </div>
 
     <p class="muted" id="examBlurb" style="margin:-6px 2px 14px"></p>
+
+    <div class="home-grid">
+    <div class="col-a">
 
     <div class="card">
       <div class="ready">
@@ -515,7 +563,10 @@ details > summary::-webkit-details-marker { display: none; }
       </button>
     </div>
 
-    <div class="card" style="margin-top:12px">
+    </div>
+    <div class="col-b">
+
+    <div class="card">
       <h3>Wissensbereiche</h3>
       <div id="domainBars"></div>
     </div>
@@ -575,6 +626,9 @@ details > summary::-webkit-details-marker { display: none; }
         die Fragen sind anhand der öffentlich dokumentierten Prüfungsziele selbst formuliert.
         Ein gutes Ergebnis hier ist keine Garantie für das Bestehen der Prüfung.
       </p>
+    </div>
+
+    </div>
     </div>
 
     <p class="foot">
@@ -858,6 +912,7 @@ function renderAbout() {
 const SCREENS = ["home","domain","quiz","cards","result"];
 function show(name) {
   SCREENS.forEach(s => $("#s-" + s).classList.toggle("hidden", s !== name));
+  document.body.classList.toggle("narrow-actions", name !== "home");
   window.scrollTo(0, 0);
 }
 function setActions(html) {
@@ -868,8 +923,25 @@ function setActions(html) {
 
 let toastT;
 function toast(msg) {
-  const el = $("#toast"); el.textContent = msg; el.classList.add("show");
+  const el = $("#toast");
+  el.textContent = msg;
+  el.classList.remove("tappable");
+  el.onclick = null;
+  el.classList.add("show");
   clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("show"), 2200);
+}
+/* Toast mit Aktion — bleibt länger stehen und ist anklickbar. */
+function actionToast(msg, fn, ms) {
+  const el = $("#toast");
+  el.textContent = msg;
+  el.classList.add("show", "tappable");
+  el.onclick = () => {
+    el.classList.remove("show", "tappable");
+    el.onclick = null;
+    fn();
+  };
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.classList.remove("show", "tappable"); el.onclick = null; }, ms || 12000);
 }
 function popCombo(txt) {
   const el = $("#combo"); el.textContent = txt;
@@ -1488,15 +1560,10 @@ function showImport() {
 let swReg = null;
 
 function announceUpdate(worker) {
-  toast("⬆︎  Neue Version verfügbar — tippe hier");
-  const el = $("#toast");
-  el.style.cursor = "pointer";
-  el.onclick = () => {
+  actionToast("Neue Version verfügbar — tippe hier", () => {
     if (worker) worker.postMessage({ type: "SKIP_WAITING" });
-    location.reload();
-  };
-  clearTimeout(toastT);
-  toastT = setTimeout(() => { el.classList.remove("show"); el.onclick = null; }, 12000);
+    setTimeout(() => location.reload(), 300);
+  });
 }
 
 function initSW() {

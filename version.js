@@ -9,11 +9,12 @@ window.APP_META = {
   changelog: [
     {
       v: "1.5.0", d: "2026-07-28",
-      t: "Datenschutzhinweis in der App",
+      t: "Datenschutzhinweis, responsives Layout und One-Pager",
       items: [
-        "Eigener Abschnitt erklärt direkt in der App, welche Daten wo bleiben",
-        "Hinweis beim Export, dass der Code nur Lernfortschritt enthält",
-        "One-Pager zusätzlich als HTML-Seite zum Teilen"
+        "Eigener Datenschutzabschnitt direkt in der App statt nur im Projekt-README",
+        "Auf großen Bildschirmen zweispaltige Startseite, auf dem Handy unverändert einspaltig",
+        "One-Pager als HTML-Seite: Folie im Querformat, auf dem Handy ein Dokument",
+        "Fehlerbehebung: der Update-Hinweis ließ sich nicht antippen"
       ]
     },
     {
