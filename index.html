@@ -403,11 +403,18 @@ a { color: var(--cp-link); }
       <div id="learnList"></div>
     </div>
 
+    <div class="card" id="aboutCard">
+      <h3>Version &amp; Aktualität</h3>
+      <div id="aboutList"></div>
+      <div id="changelog" style="margin-top:4px"></div>
+    </div>
+
     <p class="foot">
       Inhalte nach dem offiziellen Microsoft Study Guide (Stand 22. Juli 2026).<br>
       Inoffizielles Lernwerkzeug · kein Microsoft-Produkt · keine echten Prüfungsfragen.
       <br><br>
       <button class="btn ghost small" id="btnTheme">Theme wechseln</button>
+      <button class="btn ghost small" id="btnUpdate">Auf Updates prüfen</button>
       <button class="btn ghost small" id="btnReset">Fortschritt zurücksetzen</button>
     </p>
   </section>
@@ -474,6 +481,7 @@ a { color: var(--cp-link); }
 <div class="toast" id="toast"></div>
 <div class="combo" id="combo"></div>
 
+<script src="./version.js"></script>
 <script src="./data-ab730.js"></script>
 <script src="./data-ab731.js"></script>
 <script>
@@ -612,6 +620,50 @@ function dueQuestions(ex) {
   return ex.questions.filter(q => { const r = S.q[q.id]; return r && r.s && r.box < 5 && (r.due || 0) <= now; });
 }
 
+/* ================= Version & Aktualität ================= */
+const META = window.APP_META || { version: "?", built: "", contentReviewed: "", changelog: [] };
+
+function deDate(iso) {
+  if (!iso) return "unbekannt";
+  const p = String(iso).split("-");
+  return p.length === 3 ? p[2] + "." + p[1] + "." + p[0] : iso;
+}
+function daysAgo(iso) {
+  if (!iso) return null;
+  const d = new Date(iso + "T00:00:00");
+  if (isNaN(d)) return null;
+  return Math.floor((Date.now() - d.getTime()) / 864e5);
+}
+function freshness(iso) {
+  const n = daysAgo(iso);
+  if (n === null) return "";
+  if (n <= 0) return "heute";
+  if (n === 1) return "gestern";
+  if (n < 30) return "vor " + n + " Tagen";
+  if (n < 60) return "vor einem Monat";
+  return "vor " + Math.floor(n / 30) + " Monaten";
+}
+
+function renderAbout() {
+  const rev = META.contentReviewed;
+  const age = daysAgo(rev);
+  const warn = age !== null && age > 90;
+  $("#aboutList").innerHTML =
+    '<div class="list-row"><span>Inhalte zuletzt geprüft</span><span class="rt' + (warn ? '" style="color:var(--cp-warning)' : '') +
+      '">' + deDate(rev) + " · " + freshness(rev) + "</span></div>" +
+    '<div class="list-row"><span>App-Version</span><span class="rt nw">v' + esc(META.version) + " (" + deDate(META.built) + ")</span></div>" +
+    '<div class="list-row"><span>Quellen</span><span class="rt">' + esc(META.sources || "—") + "</span></div>" +
+    (warn ? '<div class="list-row"><span style="color:var(--cp-warning)">⚠︎ Hinweis</span><span class="rt">Die Prüfungsziele könnten sich seit der letzten Prüfung geändert haben. Study Guide gegenlesen.</span></div>' : "");
+
+  $("#changelog").innerHTML = (META.changelog || []).map((c, i) =>
+    '<details' + (i === 0 ? " open" : "") + ' style="border-top:1px solid var(--cp-border);padding:10px 0 2px">' +
+    '<summary style="cursor:pointer;font-size:0.83rem;font-weight:600;list-style:none">v' + esc(c.v) +
+    ' <span class="muted" style="font-weight:400">· ' + deDate(c.d) + "</span><br>" +
+    '<span class="muted" style="font-weight:400;font-size:0.78rem">' + esc(c.t) + "</span></summary>" +
+    '<ul style="margin:8px 0 4px;padding-left:18px;font-size:0.78rem;color:var(--cp-text-muted);line-height:1.55">' +
+    c.items.map(x => "<li>" + esc(x) + "</li>").join("") + "</ul></details>").join("");
+}
+
 /* ================= Screens ================= */
 const SCREENS = ["home","domain","quiz","cards","result"];
 function show(name) {
@@ -718,6 +770,8 @@ function renderHome() {
   $("#learnList").innerHTML = (ex.learn ? ex.learn.paths : []).map(p =>
     '<div class="list-row" style="display:block"><a href="' + esc(p.u) + '" target="_blank" rel="noopener">' + esc(p.n) +
     '</a><br><span class="muted" style="font-size:0.72rem">' + esc(p.m) + "</span></div>").join("");
+
+  renderAbout();
 
   setActions("");
 }
@@ -997,6 +1051,8 @@ $("#btnTheme").addEventListener("click", () => {
   document.documentElement.setAttribute("data-theme", cur === "dark" ? "light" : "dark");
 });
 
+$("#btnUpdate").addEventListener("click", checkForUpdate);
+
 $("#btnReset").addEventListener("click", () => {
   if (!confirm("Wirklich den gesamten Fortschritt löschen? XP, Abzeichen und Statistiken gehen verloren.")) return;
   mem = { xp:0, streak:0, last:"", badges:[], q:{}, hist:[], best:{}, exam: examId };
@@ -1011,12 +1067,55 @@ document.addEventListener("keydown", (e) => {
   if (e.key === "Enter") { const a = $("#aCheck") || $("#aNext"); if (a && !a.disabled) a.click(); }
 });
 
-if ("serviceWorker" in navigator && location.protocol === "https:") {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {}));
+/* ================= Service Worker & Updates ================= */
+let swReg = null;
+
+function announceUpdate(worker) {
+  toast("⬆︎  Neue Version verfügbar — tippe hier");
+  const el = $("#toast");
+  el.style.cursor = "pointer";
+  el.onclick = () => {
+    if (worker) worker.postMessage({ type: "SKIP_WAITING" });
+    location.reload();
+  };
+  clearTimeout(toastT);
+  toastT = setTimeout(() => { el.classList.remove("show"); el.onclick = null; }, 12000);
+}
+
+function initSW() {
+  if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
+  navigator.serviceWorker.register("./sw.js").then(reg => {
+    swReg = reg;
+    if (reg.waiting) announceUpdate(reg.waiting);
+    reg.addEventListener("updatefound", () => {
+      const nw = reg.installing;
+      if (!nw) return;
+      nw.addEventListener("statechange", () => {
+        if (nw.state === "installed" && navigator.serviceWorker.controller) announceUpdate(nw);
+      });
+    });
+    setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
+  }).catch(() => {});
+
+  let reloading = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (reloading) return;
+    reloading = true;
+    location.reload();
+  });
+}
+
+function checkForUpdate() {
+  if (!swReg) { toast("Updates nur in der installierten Version"); return; }
+  toast("Suche nach Updates…");
+  swReg.update()
+    .then(() => setTimeout(() => { if (!swReg.waiting && !swReg.installing) toast("✓  Du bist auf dem neuesten Stand"); }, 1500))
+    .catch(() => toast("Update-Prüfung fehlgeschlagen"));
 }
 
 renderTop();
 renderHome();
+initSW();
 })();
 </script>
 </body>

@@ -1,7 +1,8 @@
-const CACHE = "ai-cert-trainer-v2";
+const CACHE = "ai-cert-trainer-1.1.0";
 const ASSETS = [
   "./",
   "./index.html",
+  "./version.js",
   "./data-ab730.js",
   "./data-ab731.js",
   "./manifest.webmanifest",
@@ -10,8 +11,12 @@ const ASSETS = [
   "./icon-512.png"
 ];
 
+self.addEventListener("message", (e) => {
+  if (e.data && e.data.type === "SKIP_WAITING") self.skipWaiting();
+});
+
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(ASSETS)));
 });
 
 self.addEventListener("activate", (e) => {
