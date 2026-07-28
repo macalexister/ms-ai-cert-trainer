@@ -406,8 +406,8 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.92rem; }
   font-size: 0.89rem; letter-spacing: -0.012em;
 }
 .list-row:first-of-type { border-top: 0; }
-.list-row > span:first-child { flex: 0 1 auto; min-width: 0; }
-.list-row .rt { margin-left: auto; color: var(--cp-text-soft); font-size: 0.8rem; text-align: right; flex: 1 1 auto; min-width: 0; overflow-wrap: anywhere; }
+.list-row > span:first-child { flex: 0 1 auto; min-width: 0; padding-right: 4px; }
+.list-row .rt { margin-left: auto; color: var(--cp-text-soft); font-size: 0.8rem; text-align: right; flex: 1 1 55%; min-width: 0; overflow-wrap: anywhere; }
 .list-row .rt.nw { white-space: nowrap; }
 
 a { color: var(--cp-link); text-decoration: none; font-weight: 560; }
@@ -444,6 +444,46 @@ details > summary::-webkit-details-marker { display: none; }
 
 .foot { text-align: center; font-size: 0.72rem; color: var(--cp-text-soft); padding: 10px 0 2px; line-height: 1.7; }
 .foot .btn { margin: 4px 3px; }
+
+/* ---------- Aufklappbare Abschnitte ---------- */
+.accordion > details { border-top: 0.5px solid var(--hairline); }
+.accordion > details:first-of-type { border-top: 0; }
+.accordion > details > summary {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px var(--pad); cursor: pointer;
+  list-style: none; -webkit-tap-highlight-color: transparent;
+  transition: background .2s;
+}
+.accordion > details > summary::-webkit-details-marker { display: none; }
+.accordion > details > summary:active { background: var(--fill-soft); }
+.accordion .ac-t { font-size: 0.92rem; font-weight: 640; letter-spacing: -0.016em; flex: 0 0 auto; }
+.accordion .ac-s {
+  font-size: 0.78rem; color: var(--cp-text-soft); margin-left: auto; text-align: right;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+}
+.accordion .ac-c {
+  flex: 0 0 auto; color: var(--cp-text-soft); font-size: 1.2rem; font-weight: 700;
+  transition: transform .32s var(--spring); line-height: 1;
+}
+.accordion > details[open] > summary .ac-c { transform: rotate(90deg); }
+.accordion > details[open] > summary .ac-s { opacity: 0; }
+.accordion > details > .ac-body { padding: 0 var(--pad) 18px; animation: fade-up .3s var(--spring); }
+.accordion .ac-body .list-row:first-of-type { border-top: 0.5px solid var(--hairline); }
+
+/* ---------- Willkommens-Banner ---------- */
+.firstrun {
+  display: flex; align-items: center; gap: 13px;
+  background: var(--cp-accent-soft); border-radius: var(--r-lg);
+  padding: 15px 16px; margin-bottom: var(--gap);
+  text-decoration: none; color: inherit;
+  transition: transform .3s var(--spring);
+}
+.firstrun:active { transform: scale(.985); }
+.firstrun .fr-ic { font-size: 1.5rem; flex: 0 0 auto; line-height: 1; }
+.firstrun .fr-tx { flex: 1; font-size: 0.92rem; line-height: 1.4; letter-spacing: -0.014em; }
+.firstrun .fr-tx b { font-weight: 650; }
+.firstrun .fr-tx small { display: inline-block; margin-top: 2px; color: var(--cp-text-muted); font-size: 0.8rem; font-weight: 400; }
+.firstrun .fr-go { flex: 0 0 auto; color: var(--cp-accent); font-size: 1.35rem; font-weight: 700; }
 
 /* ---------- Breite Bildschirme ---------- */
 .home-grid { display: block; }
@@ -518,6 +558,12 @@ details > summary::-webkit-details-marker { display: none; }
 
     <p class="muted" id="examBlurb" style="margin:-6px 2px 14px"></p>
 
+    <a class="firstrun hidden" id="firstRun" href="./erste-schritte.html">
+      <span class="fr-ic">👋</span>
+      <span class="fr-tx"><b>Zum ersten Mal hier?</b><br><small>Erste Schritte lesen — fünf Minuten, dann weißt du alles Wichtige.</small></span>
+      <span class="fr-go">›</span>
+    </a>
+
     <div class="home-grid">
     <div class="col-a">
 
@@ -582,22 +628,6 @@ details > summary::-webkit-details-marker { display: none; }
     </div>
 
     <div class="card">
-      <h3>Prüfungsformat</h3>
-      <div id="examInfo"></div>
-    </div>
-
-    <div class="card">
-      <h3>Offizieller Lernpfad</h3>
-      <div id="learnList"></div>
-    </div>
-
-    <div class="card" id="aboutCard">
-      <h3>Version &amp; Aktualität</h3>
-      <div id="aboutList"></div>
-      <div id="changelog" style="margin-top:4px"></div>
-    </div>
-
-    <div class="card">
       <h3>Fortschritt sichern</h3>
       <p class="muted" style="margin-bottom:12px">Dein Fortschritt liegt nur in diesem Browser. Zum Wechsel auf ein anderes Gerät exportierst du ihn hier als Code.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -606,26 +636,44 @@ details > summary::-webkit-details-marker { display: none; }
       </div>
     </div>
 
-    <div class="card" id="privacyCard">
-      <h3>Datenschutz</h3>
-      <div class="privacy-lead">
-        <span class="dot"></span>
-        <div><b>Kein Server, kein Konto, kein Tracking.</b><br>
-        <span class="muted">Dein Fortschritt bleibt auf diesem Gerät und wird nirgendwo hin übertragen.</span></div>
-      </div>
-      <ul class="plist">
-        <li><b>Was gespeichert wird</b> — XP, Level, Abzeichen, Serie und die Statistik je Frage, ausschließlich im Speicher deines Browsers.</li>
-        <li><b>Was nicht passiert</b> — keine Übertragung an einen Server, keine Analyse- oder Werbedienste, keine Cookies, keine Registrierung, keine Aufrufe an fremde Adressen.</li>
-        <li><b>Mehrere Personen</b> — wer den Link öffnet, hat seinen eigenen getrennten Fortschritt. Niemand sieht die Ergebnisse der anderen.</li>
-        <li><b>Hosting</b> — die Seite liegt auf GitHub&nbsp;Pages. Beim Abruf verarbeitet GitHub technisch nötige Verbindungsdaten wie die IP-Adresse, wie bei jeder Website.</li>
-        <li><b>Deine Kontrolle</b> — „Fortschritt zurücksetzen“ löscht alle Daten sofort und vollständig. Das Löschen der Browserdaten für diese Seite wirkt genauso.</li>
-        <li><b>Keine internen Inhalte</b> — die App enthält nur selbst formulierte Lerninhalte zu öffentlich dokumentierten Prüfungszielen. Gib auch selbst keine vertraulichen Daten ein; die App fragt keine ab.</li>
-      </ul>
-      <p class="muted" style="margin:14px 0 0;font-size:0.78rem">
-        Inoffizielles Lernwerkzeug ohne Verbindung zu Microsoft. Es enthält keine echten Prüfungsfragen —
-        die Fragen sind anhand der öffentlich dokumentierten Prüfungsziele selbst formuliert.
-        Ein gutes Ergebnis hier ist keine Garantie für das Bestehen der Prüfung.
-      </p>
+    <!-- Nachschlagbares: eingeklappt, damit die Startseite ruhig bleibt -->
+    <div class="card flush accordion">
+      <details>
+        <summary><span class="ac-t">Prüfungsformat</span><span class="ac-s" id="fmtSummary"></span><span class="ac-c">›</span></summary>
+        <div class="ac-body"><div id="examInfo"></div></div>
+      </details>
+
+      <details>
+        <summary><span class="ac-t">Offizieller Lernpfad</span><span class="ac-s">Module auf Microsoft Learn</span><span class="ac-c">›</span></summary>
+        <div class="ac-body"><div id="learnList"></div></div>
+      </details>
+
+      <details id="aboutCard">
+        <summary><span class="ac-t">Version &amp; Aktualität</span><span class="ac-s" id="verSummary"></span><span class="ac-c">›</span></summary>
+        <div class="ac-body">
+          <div id="aboutList"></div>
+          <div id="changelog" style="margin-top:4px"></div>
+        </div>
+      </details>
+
+      <details id="privacyCard">
+        <summary><span class="ac-t">Datenschutz</span><span class="ac-s">Kein Server, kein Konto, kein Tracking</span><span class="ac-c">›</span></summary>
+        <div class="ac-body">
+          <ul class="plist">
+            <li><b>Was gespeichert wird</b> — XP, Level, Abzeichen, Serie und die Statistik je Frage, ausschließlich im Speicher deines Browsers.</li>
+            <li><b>Was nicht passiert</b> — keine Übertragung an einen Server, keine Analyse- oder Werbedienste, keine Cookies, keine Registrierung, keine Aufrufe an fremde Adressen.</li>
+            <li><b>Mehrere Personen</b> — wer den Link öffnet, hat seinen eigenen getrennten Fortschritt. Niemand sieht die Ergebnisse der anderen.</li>
+            <li><b>Hosting</b> — die Seite liegt auf GitHub&nbsp;Pages. Beim Abruf verarbeitet GitHub technisch nötige Verbindungsdaten wie die IP-Adresse, wie bei jeder Website.</li>
+            <li><b>Deine Kontrolle</b> — „Fortschritt zurücksetzen“ löscht alle Daten sofort und vollständig. Das Löschen der Browserdaten für diese Seite wirkt genauso.</li>
+            <li><b>Keine internen Inhalte</b> — die App enthält nur selbst formulierte Lerninhalte zu öffentlich dokumentierten Prüfungszielen. Gib auch selbst keine vertraulichen Daten ein; die App fragt keine ab.</li>
+          </ul>
+          <p class="muted" style="margin:14px 0 0;font-size:0.78rem">
+            Inoffizielles Lernwerkzeug ohne Verbindung zu Microsoft. Es enthält keine echten Prüfungsfragen —
+            die Fragen sind anhand der öffentlich dokumentierten Prüfungsziele selbst formuliert.
+            Ein gutes Ergebnis hier ist keine Garantie für das Bestehen der Prüfung.
+          </p>
+        </div>
+      </details>
     </div>
 
     </div>
@@ -635,8 +683,10 @@ details > summary::-webkit-details-marker { display: none; }
       Inhalte nach dem offiziellen Microsoft Study Guide (Stand 22. Juli 2026).<br>
       Inoffizielles Lernwerkzeug · kein Microsoft-Produkt · keine echten Prüfungsfragen.
       <br><br>
+      <a class="btn ghost small" href="./erste-schritte.html" style="text-decoration:none;display:inline-block">Erste Schritte</a>
       <button class="btn ghost small" id="btnTheme">Theme wechseln</button>
       <button class="btn ghost small" id="btnUpdate">Auf Updates prüfen</button>
+      <button class="btn ghost small" id="btnHardReload">Neu laden erzwingen</button>
       <button class="btn ghost small" id="btnReset">Fortschritt zurücksetzen</button>
     </p>
   </section>
@@ -900,7 +950,7 @@ function renderAbout() {
     (warn ? '<div class="list-row"><span style="color:var(--cp-warning)">⚠︎ Hinweis</span><span class="rt">Die Prüfungsziele könnten sich seit der letzten Prüfung geändert haben. Study Guide gegenlesen.</span></div>' : "");
 
   $("#changelog").innerHTML = (META.changelog || []).map((c, i) =>
-    '<details' + (i === 0 ? " open" : "") + ' style="border-top:1px solid var(--cp-border);padding:10px 0 2px">' +
+    '<details' + (i === 0 ? " open" : "") + ' style="border-top:0.5px solid var(--hairline);padding:10px 0 2px">' +
     '<summary style="cursor:pointer;font-size:0.83rem;font-weight:600;list-style:none">v' + esc(c.v) +
     ' <span class="muted" style="font-weight:400">· ' + deDate(c.d) + "</span><br>" +
     '<span class="muted" style="font-weight:400;font-size:0.78rem">' + esc(c.t) + "</span></summary>" +
@@ -991,6 +1041,9 @@ function renderHome() {
     $("#verdictSub").textContent = "Starte mit Domain-Training und Lernkarten, bevor du die Prüfungssimulation ziehst.";
   }
 
+  const answeredAny = Object.values(S.q).some(r => r && r.s);
+  $("#firstRun").classList.toggle("hidden", answeredAny);
+
   const seen = ex.questions.filter(q => S.q[q.id] && S.q[q.id].s).length;
   $("#coverChip").textContent = seen + " / " + ex.questions.length + " Fragen gesehen";
   $("#examModeSub").textContent = ex.examQuestions + " Fragen · " + ex.examMinutes + " Min · Blueprint-gewichtet";
@@ -1036,6 +1089,11 @@ function renderHome() {
     '</a><br><span class="muted" style="font-size:0.72rem">' + esc(p.m) + "</span></div>").join("");
 
   renderAbout();
+
+  const fmtEl = $("#fmtSummary");
+  if (fmtEl) fmtEl.textContent = ex.examMinutes + " Min · " + ex.questions.length + " Fragen im Pool";
+  const verEl = $("#verSummary");
+  if (verEl) verEl.textContent = "v" + META.version + " · geprüft " + freshness(META.contentReviewed);
 
   setActions("");
 }
@@ -1343,6 +1401,10 @@ $("#btnTheme").addEventListener("click", () => {
 });
 
 $("#btnUpdate").addEventListener("click", checkForUpdate);
+$("#btnHardReload").addEventListener("click", () => {
+  toast("Lade neu…");
+  hardReload();
+});
 $("#btnExport").addEventListener("click", showExport);
 $("#btnImport").addEventListener("click", showImport);
 $("#sheetBg").addEventListener("click", closeSheet);
@@ -1568,7 +1630,7 @@ function announceUpdate(worker) {
 
 function initSW() {
   if (!("serviceWorker" in navigator) || location.protocol !== "https:") return;
-  navigator.serviceWorker.register("./sw.js").then(reg => {
+  navigator.serviceWorker.register("./sw.js", { updateViaCache: "none" }).then(reg => {
     swReg = reg;
     if (reg.waiting) announceUpdate(reg.waiting);
     reg.addEventListener("updatefound", () => {
@@ -1590,11 +1652,50 @@ function initSW() {
 }
 
 function checkForUpdate() {
-  if (!swReg) { toast("Updates nur in der installierten Version"); return; }
   toast("Suche nach Updates…");
-  swReg.update()
-    .then(() => setTimeout(() => { if (!swReg.waiting && !swReg.installing) toast("✓  Du bist auf dem neuesten Stand"); }, 1500))
-    .catch(() => toast("Update-Prüfung fehlgeschlagen"));
+
+  /* Die veröffentlichte Version direkt abfragen — mit Cache-Umgehung, weil
+     GitHub Pages Dateien für einige Minuten zwischenspeichert. */
+  fetch("./version.js?cb=" + Date.now(), { cache: "no-store" })
+    .then(r => r.ok ? r.text() : Promise.reject())
+    .then(txt => {
+      const m = txt.match(/version:\s*"([^"]+)"/);
+      const remote = m ? m[1] : null;
+      if (remote && remote !== META.version) {
+        actionToast("Version " + remote + " verfügbar — jetzt laden", hardReload);
+        return;
+      }
+      if (!swReg) { toast("✓  Du bist auf dem neuesten Stand"); return; }
+      swReg.update()
+        .then(() => setTimeout(() => {
+          if (swReg.waiting) announceUpdate(swReg.waiting);
+          else toast("✓  Du bist auf dem neuesten Stand");
+        }, 1200))
+        .catch(() => toast("✓  Du bist auf dem neuesten Stand"));
+    })
+    .catch(() => toast("Keine Verbindung — Update-Prüfung nicht möglich"));
+}
+
+/* Alles Zwischengespeicherte verwerfen und neu laden. Der Lernfortschritt
+   liegt im localStorage und bleibt davon unberührt. */
+function hardReload() {
+  const done = () => location.reload();
+  const jobs = [];
+  if (window.caches && caches.keys) {
+    jobs.push(caches.keys().then(ks => Promise.all(ks.map(k => caches.delete(k)))).catch(() => {}));
+  }
+  if (navigator.serviceWorker && navigator.serviceWorker.getRegistrations) {
+    jobs.push(navigator.serviceWorker.getRegistrations()
+      .then(rs => Promise.all(rs.map(r => r.unregister()))).catch(() => {}));
+  }
+  Promise.all(jobs).then(done, done);
+  setTimeout(done, 2500);
+}
+
+/* Mit ?fresh=1 lässt sich ein vollständiger Neuaufbau von außen anstoßen. */
+if (new URLSearchParams(location.search).get("fresh") === "1") {
+  history.replaceState(null, "", location.pathname);
+  hardReload();
 }
 
 renderTop();

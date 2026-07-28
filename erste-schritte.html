@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Erste Schritte — AI Cert Trainer</title>
+<script>
+  (() => {
+    const param = new URLSearchParams(window.location.search).get("scoutTheme");
+    const theme =
+      param || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    document.documentElement.setAttribute("data-theme", theme);
+  })();
+</script>
+<style>
+:root {
+  color-scheme: light;
+  --cp-bg: #f7f4ef;
+  --cp-bg-elevated: #fcfbf8;
+  --cp-surface: #ffffff;
+  --cp-surface-soft: #f5f5f5;
+  --cp-border: #dedede;
+  --cp-border-strong: #919191;
+  --cp-text: #242424;
+  --cp-text-muted: #5c5c5c;
+  --cp-text-soft: #6f6f6f;
+  --cp-accent: #b11f4b;
+  --cp-accent-hover: #9a1a41;
+  --cp-accent-soft: rgba(177, 31, 75, 0.08);
+  --cp-accent-fg: #ffffff;
+  --cp-success: #16a34a;
+  --cp-danger: #dc2626;
+  --cp-warning: #f59e0b;
+  --cp-link: #0078d4;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.12);
+  --cp-overlay: rgba(255, 255, 255, 0.8);
+  --cp-panel: rgba(255, 255, 255, 0.86);
+  --cp-panel-strong: rgba(255, 255, 255, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.55);
+  --cp-highlight: rgba(177, 31, 75, 0.12);
+}
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --cp-bg: #3d3b3a;
+  --cp-bg-elevated: #343231;
+  --cp-surface: #292929;
+  --cp-surface-soft: #2e2e2e;
+  --cp-border: #474747;
+  --cp-border-strong: #5f5f5f;
+  --cp-text: #dedede;
+  --cp-text-muted: #919191;
+  --cp-text-soft: #b0b0b0;
+  --cp-accent: #fd8ea1;
+  --cp-accent-hover: #fb7b91;
+  --cp-accent-soft: rgba(253, 142, 161, 0.14);
+  --cp-accent-fg: #1a1a1a;
+  --cp-success: #4ade80;
+  --cp-danger: #f87171;
+  --cp-warning: #fbbf24;
+  --cp-link: #4da6ff;
+  --cp-shadow: 0 18px 48px rgba(0, 0, 0, 0.32);
+  --cp-overlay: rgba(41, 41, 41, 0.88);
+  --cp-panel: rgba(41, 41, 41, 0.72);
+  --cp-panel-strong: rgba(41, 41, 41, 0.96);
+  --cp-sheen: rgba(255, 255, 255, 0.04);
+  --cp-highlight: rgba(253, 142, 161, 0.12);
+}
+
+:root {
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-pill: 999px;
+  --gap: clamp(11px, 2.6vw, 14px);
+  --pad: clamp(15px, 3.6vw, 22px);
+  --spring: cubic-bezier(.32, .72, 0, 1);
+  --lift: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px -12px rgba(0,0,0,.16);
+  --hairline: rgba(128,128,128,.22);
+  --fill: rgba(128,128,128,.10);
+  --fill-soft: rgba(128,128,128,.065);
+}
+html[data-theme="dark"] {
+  --lift: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+  --fill: rgba(255,255,255,.07);
+  --fill-soft: rgba(255,255,255,.045);
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+html { font-size: clamp(15px, 2.2vw + 7.4px, 17px); }
+body {
+  margin: 0;
+  background: var(--cp-bg);
+  color: var(--cp-text);
+  font-family: "Segoe UI", Aptos, Calibri, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.5;
+  letter-spacing: -0.011em;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page { max-width: 780px; margin: 0 auto; padding: 6px 16px calc(env(safe-area-inset-bottom) + 88px); }
+
+/* ---------- Kopfleiste ---------- */
+.top {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--cp-panel);
+  backdrop-filter: saturate(180%) blur(24px); -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-bottom: 0.5px solid var(--hairline);
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 12px;
+  margin-bottom: 20px;
+}
+.top-in { max-width: 780px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+.top svg { width: 25px; height: 25px; flex: 0 0 auto; }
+.top b { font-size: 0.95rem; font-weight: 640; letter-spacing: -0.02em; }
+.top a.back {
+  margin-left: auto; font-size: 0.82rem; font-weight: 600; color: var(--cp-accent);
+  text-decoration: none; padding: 7px 14px; border-radius: var(--r-pill); background: var(--cp-accent-soft);
+}
+
+h1 { font-size: clamp(1.6rem, 5.6vw, 2.1rem); letter-spacing: -0.03em; font-weight: 720; margin: 0 0 10px; text-wrap: balance; }
+.lead { font-size: 1rem; color: var(--cp-text-muted); margin: 0 0 26px; }
+
+h2 {
+  font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.07em;
+  color: var(--cp-text-soft); font-weight: 680; margin: 30px 0 12px;
+}
+
+.card {
+  background: var(--cp-surface); border-radius: var(--r-lg);
+  padding: var(--pad); box-shadow: var(--lift); margin-bottom: var(--gap);
+}
+.card p:last-child { margin-bottom: 0; }
+p { margin: 0 0 10px; color: var(--cp-text-muted); font-size: 0.92rem; }
+b { color: var(--cp-text); font-weight: 640; }
+
+/* ---------- Schrittfolge ---------- */
+.steps { counter-reset: s; }
+.step { display: flex; gap: 14px; padding: 14px 0; border-top: 0.5px solid var(--hairline); }
+.step:first-child { border-top: 0; padding-top: 0; }
+.step .n {
+  flex: 0 0 auto; width: 28px; height: 28px; border-radius: var(--r-pill);
+  background: var(--cp-accent); color: var(--cp-accent-fg);
+  font-size: 0.8rem; font-weight: 700; display: flex; align-items: center; justify-content: center;
+}
+.step h3 { font-size: 0.98rem; font-weight: 650; letter-spacing: -0.018em; margin: 3px 0 4px; }
+.step p { font-size: 0.87rem; margin: 0; }
+
+/* ---------- Modus-Liste ---------- */
+.mode { display: flex; gap: 13px; padding: 14px 0; border-top: 0.5px solid var(--hairline); }
+.mode:first-child { border-top: 0; padding-top: 0; }
+.mode .ic {
+  flex: 0 0 auto; width: 40px; height: 40px; border-radius: var(--r-pill);
+  background: var(--cp-accent-soft); display: flex; align-items: center;
+  justify-content: center; font-size: 1.15rem;
+}
+.mode h3 { font-size: 0.97rem; font-weight: 650; letter-spacing: -0.018em; margin: 2px 0 4px; }
+.mode p { font-size: 0.86rem; margin: 0; }
+.mode .when { display: block; margin-top: 5px; font-size: 0.8rem; color: var(--cp-accent); font-weight: 600; }
+
+/* ---------- Hinweise ---------- */
+.tip {
+  display: flex; gap: 11px; align-items: flex-start;
+  background: var(--fill-soft); border-radius: var(--r-md);
+  padding: 14px 15px; margin: 12px 0; font-size: 0.87rem; line-height: 1.5; color: var(--cp-text-muted);
+}
+.tip .mk { flex: 0 0 auto; font-size: 1rem; line-height: 1.4; }
+.tip.warn { background: color-mix(in srgb, var(--cp-warning) 12%, transparent); }
+.tip.good { background: color-mix(in srgb, var(--cp-success) 11%, transparent); }
+
+/* ---------- Beispielhafte Antwortzustände ---------- */
+.demo { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.opt {
+  display: flex; align-items: flex-start; gap: 11px;
+  padding: 12px 14px; border-radius: var(--r-md);
+  border: 1.5px solid transparent; background: var(--fill-soft);
+  font-size: 0.87rem; line-height: 1.4;
+}
+.opt .mk {
+  flex: 0 0 auto; width: 21px; height: 21px; border-radius: 7px;
+  border: 1.5px solid var(--cp-border-strong); display: flex; align-items: center;
+  justify-content: center; font-size: 0.66rem; font-weight: 700; color: var(--cp-text-soft);
+}
+.opt.correct { border-color: var(--cp-success); background: color-mix(in srgb, var(--cp-success) 11%, transparent); }
+.opt.correct .mk { border-color: var(--cp-success); background: var(--cp-success); color: var(--cp-accent-fg); }
+.opt.missed { border-style: dashed; background: color-mix(in srgb, var(--cp-success) 6%, transparent); }
+.opt.missed::after {
+  content: "übersehen"; margin-left: auto; align-self: center;
+  font-size: 0.68rem; font-weight: 620; color: var(--cp-success); opacity: .85; white-space: nowrap;
+}
+.opt.wrong { border-color: var(--cp-danger); background: color-mix(in srgb, var(--cp-danger) 11%, transparent); }
+.opt.wrong .mk { border-color: var(--cp-danger); background: var(--cp-danger); color: var(--cp-accent-fg); }
+.cap { font-size: 0.8rem; color: var(--cp-text-soft); margin-top: 9px; }
+
+/* ---------- Tabellenartige Zeilen ---------- */
+.rows { margin-top: 6px; }
+.row {
+  display: flex; align-items: baseline; gap: 14px;
+  padding: 11px 0; border-top: 0.5px solid var(--hairline); font-size: 0.88rem;
+}
+.row:first-child { border-top: 0; }
+.row > span:first-child { flex: 0 0 auto; font-weight: 620; color: var(--cp-text); min-width: 108px; }
+.row > span:last-child { color: var(--cp-text-muted); }
+
+/* ---------- Abschluss ---------- */
+.cta-bar {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  background: var(--cp-panel); backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-top: 0.5px solid var(--hairline);
+  padding: 13px 16px calc(env(safe-area-inset-bottom) + 13px);
+}
+.cta-in { max-width: 780px; margin: 0 auto; }
+.cta {
+  display: block; text-align: center; background: var(--cp-accent); color: var(--cp-accent-fg);
+  padding: 15px 18px; border-radius: var(--r-pill); text-decoration: none;
+  font-weight: 640; font-size: 1rem; letter-spacing: -0.016em;
+  transition: transform .3s var(--spring);
+}
+.cta:active { transform: scale(.97); }
+
+.foot { text-align: center; font-size: 0.76rem; color: var(--cp-text-soft); line-height: 1.7; margin-top: 26px; }
+a { color: var(--cp-link); }
+
+@media (min-width: 900px) {
+  .page { max-width: 860px; }
+  .top-in { max-width: 860px; }
+  .cta-in { max-width: 500px; }
+}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="top-in">
+    <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M32 4c1.6 10.6 5.3 17.4 12.1 20.8C51 28.2 57 30 60 32c-3 2-9 3.8-15.9 7.2C37.3 42.6 33.6 49.4 32 60c-1.6-10.6-5.3-17.4-12.1-20.8C13 35.8 7 34 4 32c3-2 9-3.8 15.9-7.2C26.7 21.4 30.4 14.6 32 4Z" fill="var(--cp-accent)"/></svg>
+    <b>AI Cert Trainer</b>
+    <a class="back" href="./index.html">Zur App</a>
+  </div>
+</div>
+
+<div class="page">
+
+  <h1>Erste Schritte</h1>
+  <p class="lead">Fünf Minuten Lesezeit — danach weißt du, wie du am schnellsten zum Prüfungstermin kommst.</p>
+
+  <div class="card">
+    <h3 style="margin:0 0 10px;font-size:1.05rem;font-weight:660;letter-spacing:-.02em">Worum es geht</h3>
+    <p>Diese App bereitet auf zwei Microsoft-Zertifizierungen vor: <b>AB-730 (AI Business Professional)</b> für Anwender von Microsoft 365 Copilot und <b>AB-731 (AI Transformation Leader)</b> für Entscheider, die KI-Einführung verantworten.</p>
+    <p>Beide Prüfungen dauern 45 Minuten, die Bestehensgrenze liegt bei 700 von 1000 Punkten. Oben in der App schaltest du zwischen beiden um — jede hat ihren eigenen Fragenpool und eigenen Fortschritt.</p>
+  </div>
+
+  <h2>In vier Schritten startklar</h2>
+  <div class="card steps">
+    <div class="step">
+      <div class="n">1</div>
+      <div>
+        <h3>Zum Home-Bildschirm hinzufügen</h3>
+        <p>In Safari das Teilen-Symbol antippen, dann „Zum Home-Bildschirm". Auf Android geht das in Chrome über „Zum Startbildschirm hinzufügen". Danach startet die App im Vollbild wie eine normale App.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">2</div>
+      <div>
+        <h3>Einmal mit Internet öffnen</h3>
+        <p>Beim ersten Start lädt die App alle Fragen auf dein Gerät. Danach funktioniert sie <b>vollständig offline</b> — im Zug, im Flugzeug, im Funkloch.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <div>
+        <h3>Mit einem Quick Drill anfangen</h3>
+        <p>Zehn Fragen, etwa fünf Minuten. Danach zeigt dir die Startseite zum ersten Mal deinen Stand — und du siehst, welche Wissensbereiche noch schwach sind.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="n">4</div>
+      <div>
+        <h3>Erst kurz vor der Prüfung simulieren</h3>
+        <p>Die Prüfungssimulation ist am aussagekräftigsten, wenn du den Stoff schon einmal durch hast. Vorher lieber Domain-Training und Lernkarten nutzen.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>Die fünf Modi — und wann welcher</h2>
+  <div class="card">
+    <div class="mode">
+      <div class="ic">⚡</div>
+      <div>
+        <h3>Quick Drill</h3>
+        <p>Zehn Fragen, gewichtet auf deine schwachen Themen. Je öfter du eine Frage falsch hattest, desto häufiger kommt sie.</p>
+        <span class="when">Für zwischendurch — der Standardmodus</span>
+      </div>
+    </div>
+    <div class="mode">
+      <div class="ic">🎯</div>
+      <div>
+        <h3>Prüfungssimulation</h3>
+        <p>Fragenzahl und Themenverteilung wie in der echten Prüfung, mit Timer und einem Ergebnis von 0 bis 1000. Ab 700 wärst du durch.</p>
+        <span class="when">Ein bis zwei Tage vor dem Termin</span>
+      </div>
+    </div>
+    <div class="mode">
+      <div class="ic">🧭</div>
+      <div>
+        <h3>Domain-Training</h3>
+        <p>Zwölf Fragen aus genau einem Wissensbereich. Nützlich, wenn ein Balken auf der Startseite rot ist.</p>
+        <span class="when">Wenn du eine Schwachstelle kennst</span>
+      </div>
+    </div>
+    <div class="mode">
+      <div class="ic">🔁</div>
+      <div>
+        <h3>Wiederholung</h3>
+        <p>Fragen, die du falsch hattest, kommen nach 1, 3, 7 und 16 Tagen erneut. Der Modus ist nur aktiv, wenn etwas fällig ist.</p>
+        <span class="when">Täglich, wenn verfügbar — der wirksamste Modus</span>
+      </div>
+    </div>
+    <div class="mode">
+      <div class="ic">🃏</div>
+      <div>
+        <h3>Lernkarten</h3>
+        <p>Alle Fragen zum Durchblättern mit Erklärung, ohne Wertung und ohne Einfluss auf deine Statistik.</p>
+        <span class="when">Zum ersten Kennenlernen des Stoffs</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>Antworten und Bewertung</h2>
+  <div class="card">
+    <p>Die meisten Fragen haben <b>eine</b> richtige Antwort. Steht über den Optionen ein Hinweis wie „2 Antworten", musst du entsprechend viele auswählen.</p>
+
+    <div class="tip good">
+      <span class="mk">✓</span>
+      <div>Bei Mehrfachantworten zählt <b>jede korrekte Auswahl einen Punkt</b> — genau wie in der echten Prüfung. Für eine falsche Auswahl gibt es keinen Abzug. Zwei von drei richtig bedeutet also zwei Punkte, nicht null.</div>
+    </div>
+
+    <p style="margin-top:16px">Nach dem Prüfen siehst du, was richtig war:</p>
+    <div class="demo">
+      <div class="opt correct"><span class="mk">✓</span><span>Von dir gewählt und richtig</span></div>
+      <div class="opt correct missed"><span class="mk">✓</span><span>War auch richtig, hast du aber nicht gewählt</span></div>
+      <div class="opt wrong"><span class="mk">✕</span><span>Von dir gewählt, aber falsch</span></div>
+    </div>
+    <p class="cap">Die gestrichelte Umrandung mit „übersehen" zeigt dir genau, was dir gefehlt hat.</p>
+
+    <div class="tip">
+      <span class="mk">💡</span>
+      <div><b>Lies die Erklärung immer</b> — auch wenn du richtig lagst. Sie steht auf Deutsch unter jeder Frage und begründet meist auch, warum die anderen Antworten nicht passen. Genau da sitzt der Lerneffekt.</div>
+    </div>
+
+    <p style="margin-top:14px">Die Fragen sind auf Englisch, weil die Prüfung nur auf Englisch angeboten wird. So gewöhnst du dich gleich an die Formulierungen.</p>
+  </div>
+
+  <h2>Der Wert auf der Startseite</h2>
+  <div class="card">
+    <p>Der große Ring zeigt deine <b>geschätzte Prüfungsreife</b> von 0 bis 1000. Er berücksichtigt zwei Dinge: wie gut du antwortest und wie viel des Fragenpools du überhaupt gesehen hast.</p>
+    <div class="rows">
+      <div class="row"><span>unter 550</span><span>Grundlagen fehlen noch — Lernkarten und Domain-Training</span></div>
+      <div class="row"><span>550 – 699</span><span>Auf gutem Weg, aber noch unter der Grenze</span></div>
+      <div class="row"><span>700 – 799</span><span>Über der Bestehensgrenze</span></div>
+      <div class="row"><span>ab 800</span><span>Sicher — Niveau mit Wiederholungen halten</span></div>
+    </div>
+    <div class="tip warn">
+      <span class="mk">⚠︎</span>
+      <div>Der Wert ist eine <b>Selbsteinschätzungshilfe, keine Prognose</b>. Er beruht nur auf diesen Übungsfragen — die echte Prüfung enthält andere.</div>
+    </div>
+    <p>Darunter siehst du je Wissensbereich deine Trefferquote. Rote und gelbe Balken zeigen, wo sich Nacharbeit am meisten lohnt. Die Prozentangabe daneben (etwa „35–40 %") ist das offizielle Gewicht dieses Bereichs in der Prüfung.</p>
+  </div>
+
+  <h2>Auf mehreren Geräten lernen</h2>
+  <div class="card">
+    <p>Dein Fortschritt liegt <b>nur auf dem Gerät</b>, auf dem du lernst — es gibt keinen Server und keine Anmeldung. Für einen Wechsel gibt es Export und Import:</p>
+    <div class="rows">
+      <div class="row"><span>Altes Gerät</span><span>Fortschritt sichern → Exportieren → Kopieren</span></div>
+      <div class="row"><span>Neues Gerät</span><span>Fortschritt sichern → Importieren → Code einfügen → Prüfen</span></div>
+      <div class="row"><span>Dann</span><span>„Ersetzen" überschreibt, „Zusammenführen" kombiniert beide Stände</span></div>
+    </div>
+    <p style="margin-top:12px">Der Code enthält ausschließlich deinen Lernfortschritt, keine persönlichen Daten. Du kannst ihn dir auch selbst per Mail schicken oder als Datei speichern.</p>
+  </div>
+
+  <h2>Gut zu wissen</h2>
+  <div class="card">
+    <div class="tip">
+      <span class="mk">🔀</span>
+      <div>Die <b>Reihenfolge der Antworten wechselt</b> bei jeder Anzeige. Du kannst dir also nicht merken, dass „die dritte Antwort" richtig war — genau wie in der echten Prüfung.</div>
+    </div>
+    <div class="tip">
+      <span class="mk">🔒</span>
+      <div>Kein Server, kein Konto, kein Tracking. Wer den Link öffnet, hat seinen <b>eigenen getrennten Fortschritt</b>; niemand sieht die Ergebnisse anderer.</div>
+    </div>
+    <div class="tip">
+      <span class="mk">🔄</span>
+      <div>Erscheint oben <b>„Neue Version verfügbar"</b>, tippe darauf — dann lädt die App die aktuellen Inhalte nach. Dein Fortschritt bleibt dabei erhalten.</div>
+    </div>
+    <div class="tip">
+      <span class="mk">📅</span>
+      <div>Unter „Version &amp; Aktualität" steht, wann die Inhalte zuletzt geprüft wurden. Microsoft ändert die Prüfungsziele regelmäßig — bei älteren Ständen erscheint automatisch ein Hinweis.</div>
+    </div>
+  </div>
+
+  <h2>Ein realistischer Lernplan</h2>
+  <div class="card">
+    <div class="rows">
+      <div class="row"><span>Tag 1</span><span>Lernkarten überfliegen, dann zwei Quick Drills</span></div>
+      <div class="row"><span>Tag 2 – 4</span><span>Täglich ein Quick Drill plus Domain-Training des schwächsten Bereichs</span></div>
+      <div class="row"><span>Tag 5</span><span>Wiederholung abarbeiten, danach erste Prüfungssimulation</span></div>
+      <div class="row"><span>Tag 6</span><span>Schwächste Domain gezielt nacharbeiten</span></div>
+      <div class="row"><span>Vor der Prüfung</span><span>Zweite Simulation — ab 800 bist du gut aufgestellt</span></div>
+    </div>
+    <p style="margin-top:12px">Rund 20 Minuten täglich reichen. Wichtiger als lange Sitzungen ist, dass du die Wiederholung nicht auslässt — dort sitzt der eigentliche Lerneffekt.</p>
+  </div>
+
+  <div class="tip warn" style="margin-top:20px">
+    <span class="mk">ℹ︎</span>
+    <div>Dies ist ein <b>inoffizielles Lernwerkzeug</b> ohne Verbindung zu Microsoft und enthält <b>keine echten Prüfungsfragen</b>. Die Fragen sind anhand der öffentlich dokumentierten Prüfungsziele selbst formuliert. Ein gutes Ergebnis hier ist keine Garantie für das Bestehen — es ist eine Vorbereitungshilfe, kein Ersatz für den offiziellen Lernpfad auf Microsoft Learn, den du in der App verlinkt findest.</div>
+  </div>
+
+  <p class="foot">
+    Viel Erfolg bei der Prüfung.<br>
+    „Microsoft", „Microsoft 365" und „Copilot" sind Marken der Microsoft Corporation.
+  </p>
+
+</div>
+
+<div class="cta-bar">
+  <div class="cta-in"><a class="cta" href="./index.html">Los geht's — zur App</a></div>
+</div>
+
+</body>
+</html>

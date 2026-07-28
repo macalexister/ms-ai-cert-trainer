@@ -2,11 +2,22 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.5.0",
+  version: "1.6.0",
   built: "2026-07-28",
   contentReviewed: "2026-07-28",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
+    {
+      v: "1.6.0", d: "2026-07-28",
+      t: "Anleitung, ruhigere Startseite, zuverlässige Updates",
+      items: [
+        "Neue Seite „Erste Schritte“ erklärt Einstieg, alle Modi, Bewertung und Lernplan",
+        "Startseite aufgeräumt: Prüfungsformat, Lernpfad, Version und Datenschutz sind jetzt aufklappbar",
+        "Fehlerbehebung: Die Update-Prüfung übersah neue Versionen, weil der Browser eine ältere Kopie verwendete",
+        "Neuer Schalter „Neu laden erzwingen“ für den Notfall",
+        "One-Pager: Strandszene mit Meer, Wegweiser und Kokosnuss"
+      ]
+    },
     {
       v: "1.5.0", d: "2026-07-28",
       t: "Datenschutzhinweis, responsives Layout und One-Pager",
