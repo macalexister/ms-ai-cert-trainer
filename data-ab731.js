@@ -105,7 +105,7 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-1104", d: "d1", o: "1.1", t: "single",
-    q: "What is a pretrained model?",
+    q: "During a vendor briefing a colleague asks what is meant by a pretrained model. What is the accurate answer?",
     a: [
       "A model already trained on a large general dataset that can be used as-is for many tasks.",
       "A model that has been trained exclusively on your company's data.",
@@ -142,7 +142,7 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-1107", d: "d1", o: "1.1", t: "single",
-    q: "What is a token in the context of generative AI cost?",
+    q: "Your finance team sees an invoice priced per token and asks what a token actually is. How do you explain it?",
     a: [
       "A unit of text — roughly a word or part of a word — used to measure model input and output.",
       "A security credential that authenticates the application when it calls the model endpoint.",
@@ -273,7 +273,7 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-1203", d: "d1", o: "1.2", t: "single",
-    q: "What is retrieval-augmented generation (RAG)?",
+    q: "An architect proposes a RAG approach for your knowledge base. What does that mean in practice?",
     a: [
       "Retrieving relevant content from a knowledge source at query time and supplying it to the model as context.",
       "Retraining the model on all company documents on a nightly schedule so it learns the latest content.",
@@ -429,12 +429,12 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-2103", d: "d2", o: "2.1", t: "single",
-    q: "Which statement about the Microsoft 365 Copilot Chat mobile experience is correct?",
+    q: "A regional manager who works mostly from a phone asks whether Copilot Chat is usable on the road. What applies?",
     a: [
-      "It provides the Copilot chat experience with enterprise data protection on mobile devices.",
-      "It is only available on Windows desktops.",
-      "It removes all security controls when used outside the office.",
-      "It requires a separate Azure subscription for every user."
+      "It runs on mobile with the same enterprise data protection as on the desktop.",
+      "It is limited to Windows desktops, so mobile users need a different tool.",
+      "It runs on mobile, but data protection applies to the corporate network alone.",
+      "It runs on mobile once each user has been assigned an Azure subscription."
     ],
     c: [0],
     e: "Copilot Chat ist über Web und Mobile verfügbar und bringt Enterprise Data Protection mit. Für Führungskräfte ist das oft der niedrigschwellige Einstiegskanal."
@@ -523,7 +523,7 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-2112", d: "d2", o: "2.1", t: "single",
-    q: "Which mapping of business process to Microsoft AI capability is correct?",
+    q: "Which pairing of a business process with the right Microsoft AI capability holds up?",
     a: [
       "Extracting structured fields from scanned invoices → a document/vision capability in Foundry Tools",
       "Extracting structured fields from scanned invoices → Copilot in PowerPoint",
@@ -574,7 +574,7 @@ window.EXAM_AB731 = {
   /* ============ D2 / 2.2 — Foundry Tools ============ */
   {
     id: "731-2201", d: "d2", o: "2.2", t: "single",
-    q: "What is Microsoft Foundry in the Microsoft AI portfolio?",
+    q: "A steering committee asks where Microsoft Foundry sits in the AI portfolio. How do you describe it?",
     a: [
       "A platform for building, evaluating, deploying and governing custom AI applications and agents.",
       "A productivity assistant embedded in Word and Excel that drafts and analyses content for employees.",
@@ -817,7 +817,7 @@ window.EXAM_AB731 = {
   },
   {
     id: "731-3203", d: "d3", o: "3.2", t: "single",
-    q: "What is the primary purpose of an AI champions programme?",
+    q: "A transformation lead is putting together an AI champions programme. What should it achieve?",
     a: [
       "To use trusted peers in each business area to demonstrate practical use cases and support colleagues.",
       "To centralize all AI usage within the IT department so that requests can be handled consistently.",

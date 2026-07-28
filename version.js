@@ -2,11 +2,23 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.6.0",
+  version: "1.7.0",
   built: "2026-07-28",
   contentReviewed: "2026-07-28",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
+    {
+      v: "1.7.0", d: "2026-07-28",
+      t: "Prüfung auf Fehler und Ratbarkeit",
+      items: [
+        "Prüfungssimulation: vorzeitig beendete Durchläufe zählen offene Fragen als null und gelten nicht als Versuch",
+        "Mehrfachantworten: nicht mehr Optionen wählbar als gefragt",
+        "Prüfungsreife erreicht jetzt tatsächlich 1000 Punkte",
+        "Wiederholung: gut beherrschte Fragen kommen nach 35 Tagen erneut, statt dauerhaft zu verschwinden",
+        "Importierte Daten werden streng geprüft; beschädigte Codes legen die App nicht mehr lahm",
+        "Fragen überarbeitet: keine durch Formulierungsmuster ratbaren Antworten mehr, mehr Praxisszenarien"
+      ]
+    },
     {
       v: "1.6.0", d: "2026-07-28",
       t: "Anleitung, ruhigere Startseite, zuverlässige Updates",

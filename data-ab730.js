@@ -93,7 +93,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-1103", d: "d1", o: "1.1", t: "single",
-    q: "Which component allows Microsoft 365 Copilot to ground its answers in your organization's emails, chats, files and meetings?",
+    q: "An IT lead asks which component lets Copilot draw on your organization's emails, chats, files and meetings. What is the answer?",
     a: ["Microsoft Entra ID", "Microsoft Graph", "Microsoft Purview", "Azure AI Search"],
     c: [1],
     e: "Microsoft Graph ist die Datenschicht, über die Copilot auf Work Content (Mails, Chats, Dateien, Meetings, Kalender) zugreift — immer im Rahmen der Nutzerberechtigungen."
@@ -156,7 +156,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-1109", d: "d1", o: "1.1", t: "single",
-    q: "Which Copilot capability is designed to produce a first-draft presentation from an existing Word document?",
+    q: "A consultant has finished a Word business case and now needs a first-draft deck from it. Which capability applies?",
     a: ["Copilot in PowerPoint", "Copilot in Loop", "Copilot in Planner", "Copilot in Forms"],
     c: [0],
     e: "Copilot in PowerPoint erzeugt aus einem Prompt oder aus einer bestehenden Datei (z. B. Word-Dokument) einen Deck-Entwurf inklusive Struktur, Bildern und Sprechernotizen."
@@ -426,12 +426,12 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2109", d: "d2", o: "2.1", t: "single",
-    q: "Which statement about sharing a prompt is correct?",
+    q: "You share a saved prompt that references a restricted finance workbook with your team. A colleague runs it and gets nothing. Why?",
     a: [
-      "Sharing a prompt also grants recipients access to the files that prompt references.",
-      "Sharing a prompt shares the instruction text only; recipients still need their own permissions to any referenced content.",
-      "Prompts can only be shared with external users.",
-      "A shared prompt runs with the permissions of the person who created it."
+      "The shared prompt carried access to the workbook, but the colleague opened it before the permission was applied.",
+      "Sharing a prompt shares the instruction text only; the colleague still needs their own permission to the workbook.",
+      "Shared prompts can only be run by people outside the organization, so internal colleagues see no result.",
+      "The prompt runs with your permissions, so the workbook must have been moved after you shared it."
     ],
     c: [1],
     e: "Ein geteilter Prompt ist nur Text. Das Ergebnis hängt immer an den Berechtigungen der ausführenden Person — Prompt-Sharing ist kein Zugriffs-Sharing."
@@ -471,7 +471,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2203", d: "d2", o: "2.2", t: "single",
-    q: "What is the primary purpose of a Copilot Notebook?",
+    q: "A new colleague asks what a Copilot Notebook is actually for. How do you explain it?",
     a: [
       "To group a defined set of sources so Copilot stays grounded on them across multiple questions.",
       "To store credentials and connection details for the data sources a team works with regularly.",
@@ -528,12 +528,12 @@ window.EXAM_AB730 = {
   /* ============ D2 / 2.3 — Agents ============ */
   {
     id: "730-2301", d: "d2", o: "2.3", t: "single",
-    q: "When should you use the Agent Store instead of creating a new agent?",
+    q: "Your team needs an assistant for a common scenario such as summarizing customer feedback. What should you check first?",
     a: [
-      "When an existing published agent already covers the scenario you need.",
-      "Always, because custom agents are not supported.",
-      "Only when you have an administrator role.",
-      "Only for agents that access the public web."
+      "Whether a published agent in the Agent Store already covers the scenario",
+      "Whether your Copilot licence includes the option to build agents at all",
+      "Whether an administrator has reserved capacity for the new agent",
+      "Whether the scenario can be handled by the web search capability instead"
     ],
     c: [0],
     e: "Erst prüfen, ob ein vorhandener Agent (Microsoft, Partner oder intern veröffentlicht) den Bedarf abdeckt. Selbst bauen lohnt sich bei spezifischem Wissen, eigenem Ton oder eigenen Prozessen."
@@ -565,7 +565,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2304", d: "d2", o: "2.3", t: "single",
-    q: "What is the fastest way for a non-developer to build a first agent for a common scenario such as a writing assistant?",
+    q: "A marketing colleague with no development experience wants a writing assistant by the end of the day. What is the fastest route?",
     a: [
       "Start from an agent template and adjust the instructions and knowledge sources.",
       "Write custom code against the Microsoft Graph API to retrieve the required content.",
@@ -577,7 +577,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2305", d: "d2", o: "2.3", t: "single",
-    q: "What is the purpose of suggested (starter) prompts on an agent?",
+    q: "You are configuring an agent and wonder whether to bother with suggested prompts. What do they achieve?",
     a: [
       "They show users what the agent is good at and lower the barrier to first use.",
       "They restrict users to only those questions.",
@@ -589,12 +589,12 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2306", d: "d2", o: "2.3", t: "single",
-    q: "Which statement about agent instructions is correct?",
+    q: "A colleague asks what exactly the instructions of an agent control. What is the accurate answer?",
     a: [
-      "They define the agent's role, tone, scope and rules for responding.",
-      "They are visible only to Microsoft support staff.",
-      "They can only be written in JSON.",
-      "They replace the need for knowledge sources."
+      "They define the agent's role, tone, scope and the rules it follows when responding.",
+      "They are an internal diagnostic field that only Microsoft support staff can read.",
+      "They must be supplied as a JSON document that follows a fixed schema.",
+      "They supply the factual content, which makes separate knowledge sources unnecessary."
     ],
     c: [0],
     e: "Instructions sind das 'Systemverhalten' des Agents in natürlicher Sprache: Rolle, Tonalität, Umfang, Do's und Don'ts. Knowledge liefert zusätzlich die Fakten."
@@ -767,7 +767,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-3203", d: "d3", o: "3.2", t: "single",
-    q: "What is the primary benefit of Copilot Pages compared with a Copilot chat response?",
+    q: "Your team keeps copying Copilot answers into email to work on them together. What does Copilot Pages change?",
     a: [
       "Pages are persistent and multiple people can co-edit them with Copilot's help.",
       "Pages generate more accurate answers than chat.",
@@ -803,12 +803,12 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-3206", d: "d3", o: "3.2", t: "single",
-    q: "Which statement about memory and instructions is correct?",
+    q: "An employee is uneasy that Copilot remembers details about their way of working. What can you tell them?",
     a: [
-      "Users can review, edit and delete what Copilot has remembered about them.",
-      "Memory cannot be changed once it is created.",
-      "Memory is shared automatically with your manager.",
-      "Instructions only work in Microsoft Excel."
+      "They can review, edit and delete everything Copilot has remembered about them at any time.",
+      "Remembered details are fixed once created and can be removed by an administrator on request.",
+      "Remembered details are visible to their manager as part of standard usage reporting.",
+      "Memory applies to Excel alone, so it has no effect on the rest of their work."
     ],
     c: [0],
     e: "Transparenz und Kontrolle sind Teil des Designs: Nutzer können gespeicherte Memories einsehen, ändern und löschen."
@@ -838,7 +838,7 @@ window.EXAM_AB730 = {
   /* ---- D1 / 1.1 ---- */
   {
     id: "730-1115", d: "d1", o: "1.1", t: "single",
-    q: "Which layer of Work IQ learns an individual's style, preferences, habits and workflows?",
+    q: "A colleague asks how Copilot appears to know their preferred style. Which layer of Work IQ is responsible?",
     a: ["The Data layer", "The Memory layer", "The Inference layer", "The Graph layer"],
     c: [1],
     e: "Work IQ hat drei Schichten: Data (Wissen aus Mails, Dateien, Meetings, Chats), Memory (Stil, Präferenzen, Gewohnheiten des Nutzers) und Inference (kombiniert beides zu Vorschlägen). Memory ist die personalisierende Schicht."
@@ -948,7 +948,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2113", d: "d2", o: "2.1", t: "single",
-    q: "What is the required first step before a prompt can be shared with a team?",
+    q: "You have written a prompt your whole team should reuse and want to hand it over. What has to happen first?",
     a: [
       "The prompt must first be saved to the Prompt Gallery.",
       "The prompt must be approved by an administrator.",
@@ -960,7 +960,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2114", d: "d2", o: "2.1", t: "single",
-    q: "What is the maximum number of scheduled prompts a single user can have?",
+    q: "A user wants to automate several weekly reports through scheduled prompts. How many can they set up?",
     a: ["5", "10", "25", "Unlimited"],
     c: [1],
     e: "Pro Nutzer sind maximal 10 geplante Prompts möglich, mit insgesamt maximal 15 Ausführungen. Geplante Prompts erscheinen fett im Conversations-Bereich."
@@ -1005,12 +1005,12 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2209", d: "d2", o: "2.2", t: "single",
-    q: "Which statement about sharing in Copilot Notebooks is correct?",
+    q: "A project lead wants a colleague to see one page from a notebook, but not the whole project. What applies?",
     a: [
-      "The whole notebook is private; individual pages can be shared.",
-      "Notebooks are shared with the entire organization by default.",
-      "Notebooks can only be shared by an administrator.",
-      "Sharing a notebook automatically grants access to all referenced files."
+      "The notebook itself stays private; individual pages can be shared separately.",
+      "Notebooks are visible to the whole organization, so no separate sharing step is needed.",
+      "An administrator has to grant access, because notebooks cannot be shared by their owner.",
+      "Sharing any page passes on access to every file referenced in the notebook."
     ],
     c: [0],
     e: "Das Notebook selbst bleibt privat; geteilt werden einzelne Seiten. Referenzierte Dateien behalten unabhängig davon ihre eigenen Berechtigungen."
@@ -1026,7 +1026,7 @@ window.EXAM_AB730 = {
   /* ---- D2 / 2.3 ---- */
   {
     id: "730-2311", d: "d2", o: "2.3", t: "single",
-    q: "What is the maximum number of knowledge sources that can be added to an agent created with the agent builder in Copilot Chat?",
+    q: "You are building an agent in Copilot Chat and want to attach as much reference material as possible. How many knowledge sources are allowed?",
     a: ["5", "10", "20", "100"],
     c: [2],
     e: "Bis zu 20 Knowledge-Quellen sind möglich: SharePoint-Seiten, OneDrive-Dateien, Teams-Chats und öffentliche Websites."

@@ -184,7 +184,7 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.92rem; }
 .segmented button {
   flex: 1; border: 0; background: transparent; color: var(--cp-text-muted);
   font: inherit; font-size: 0.8rem; font-weight: 600; letter-spacing: -0.012em;
-  padding: 10px 6px; border-radius: var(--r-pill); cursor: pointer;
+  padding: 11px 6px; min-height: 42px; border-radius: var(--r-pill); cursor: pointer;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
   transition: background .32s var(--spring), color .2s ease, transform .2s var(--spring);
 }
@@ -321,7 +321,7 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.92rem; }
 .btn[disabled] { opacity: .35; cursor: default; }
 .btn[disabled]:active { transform: none; }
 .btn.ghost { background: var(--fill); color: var(--cp-text); flex: 0 0 auto; padding: 15px 22px; }
-.btn.small { padding: 11px 18px; font-size: 0.86rem; flex: 0 0 auto; min-height: 0; }
+.btn.small { padding: 11px 18px; font-size: 0.86rem; flex: 0 0 auto; min-height: 42px; display: inline-flex; align-items: center; justify-content: center; }
 
 /* ---------- Ergebnis ---------- */
 .big { font-size: 3.4rem; font-weight: 720; letter-spacing: -0.045em; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -450,7 +450,7 @@ details > summary::-webkit-details-marker { display: none; }
 .accordion > details:first-of-type { border-top: 0; }
 .accordion > details > summary {
   display: flex; align-items: center; gap: 12px;
-  padding: 16px var(--pad); cursor: pointer;
+  padding: 14px var(--pad); min-height: 46px; box-sizing: content-box; cursor: pointer;
   list-style: none; -webkit-tap-highlight-color: transparent;
   transition: background .2s;
 }
@@ -484,6 +484,15 @@ details > summary::-webkit-details-marker { display: none; }
 .firstrun .fr-tx b { font-weight: 650; }
 .firstrun .fr-tx small { display: inline-block; margin-top: 2px; color: var(--cp-text-muted); font-size: 0.8rem; font-weight: 400; }
 .firstrun .fr-go { flex: 0 0 auto; color: var(--cp-accent); font-size: 1.35rem; font-weight: 700; }
+
+/* ---------- Sehr schmale Geräte ---------- */
+@media (max-width: 359px) {
+  .modes { grid-template-columns: 1fr; }
+  .mode { min-height: 0; }
+  .mode.wide { grid-column: span 1; }
+  .badge { width: calc(33.333% - 7px); }
+  .segmented button { font-size: 0.74rem; padding: 9px 4px; }
+}
 
 /* ---------- Breite Bildschirme ---------- */
 .home-grid { display: block; }
@@ -860,7 +869,10 @@ function readiness(ex) {
   const ds = domainStats(ex);
   const any = ds.some(x => x.seen > 0);
   if (!any) return { score: 0, ds, any: false };
-  const s = ds.reduce((a, x) => a + x.d.w * x.score, 0);
+  /* Die Gewichte sind Mittelwerte der offiziellen Bandbreiten und ergeben in
+     Summe nicht exakt 1. Ohne Normierung wären 1000 Punkte unerreichbar. */
+  const wSum = ds.reduce((a, x) => a + x.d.w, 0) || 1;
+  const s = ds.reduce((a, x) => a + x.d.w * x.score, 0) / wSum;
   return { score: Math.round(s * 1000), ds, any: true };
 }
 
@@ -885,8 +897,9 @@ function pickWeighted(pool, n) {
 }
 function blueprintSet(ex, n) {
   const out = [];
+  const wSum = ex.domains.reduce((a, d) => a + d.w, 0) || 1;
   ex.domains.forEach(d => {
-    const want = Math.round(n * d.w);
+    const want = Math.round(n * d.w / wSum);
     out.push(...pickWeighted(ex.questions.filter(q => q.d === d.id), want));
   });
   const rest = ex.questions.filter(q => !out.includes(q));
@@ -908,10 +921,13 @@ function presentQuestion(q) {
 }
 
 const BOX_DAYS = [0, 1, 3, 7, 16, 35];
+const MAX_BOX = BOX_DAYS.length;
 function dueDelay(box) { return BOX_DAYS[Math.max(0, Math.min(BOX_DAYS.length - 1, box - 1))] * 864e5; }
+/* Allein die Fälligkeit entscheidet. Eine Obergrenze für die Box würde Fragen
+   nach genügend richtigen Antworten dauerhaft aus der Wiederholung nehmen. */
 function dueQuestions(ex) {
   const now = Date.now();
-  return ex.questions.filter(q => { const r = S.q[q.id]; return r && r.s && r.box < 5 && (r.due || 0) <= now; });
+  return ex.questions.filter(q => { const r = S.q[q.id]; return r && r.s && (r.due || 0) <= now; });
 }
 
 /* ================= Version & Aktualität ================= */
@@ -961,6 +977,7 @@ function renderAbout() {
 /* ================= Screens ================= */
 const SCREENS = ["home","domain","quiz","cards","result"];
 function show(name) {
+  if (name !== "quiz") stopTimer();
   SCREENS.forEach(s => $("#s-" + s).classList.toggle("hidden", s !== name));
   document.body.classList.toggle("narrow-actions", name !== "home");
   window.scrollTo(0, 0);
@@ -1068,11 +1085,12 @@ function renderHome() {
   $("#badgeCount").textContent = "· " + S.badges.length + " / " + BADGES.length;
 
   // History
-  const h = S.hist.filter(x => x.exam === examId).slice(-6).reverse();
+  const h = (S.hist || []).filter(x => x && x.exam === examId).slice(-6).reverse();
   $("#historyCard").classList.toggle("hidden", h.length === 0);
+  const modeLabel = { drill:"⚡ Quick Drill", exam:"🎯 Simulation", domain:"🧭 Domain", review:"🔁 Wiederholung" };
   $("#historyList").innerHTML = h.map(x =>
-    '<div class="list-row"><span>' + ({ drill:"⚡ Quick Drill", exam:"🎯 Simulation", domain:"🧭 Domain", review:"🔁 Wiederholung" }[x.mode] || x.mode) +
-    '</span><b>' + x.c + "/" + x.n + '</b><span class="rt">' + x.date + "</span></div>").join("");
+    '<div class="list-row"><span>' + esc(modeLabel[x.mode] || String(x.mode)) +
+    '</span><b>' + esc(String(x.c)) + "/" + esc(String(x.n)) + '</b><span class="rt">' + esc(String(x.date)) + "</span></div>").join("");
 
   const best = S.best[examId];
   const fmt = (ex.format || []).map(([k, v]) =>
@@ -1082,7 +1100,7 @@ function renderHome() {
     '<div class="list-row"><span>Blueprint-Stand</span><span class="rt">' + esc(ex.updated) + "</span></div>" +
     '<div class="list-row"><span>Fragen im Pool</span><span class="rt">' + ex.questions.length + "</span></div>" +
     fmt +
-    (best != null ? '<div class="list-row"><span>Bestes Simulationsergebnis</span><span class="rt">' + best + " / 1000</span></div>" : "");
+    (best != null ? '<div class="list-row"><span>Bestes Simulationsergebnis</span><span class="rt">' + esc(String(best)) + " / 1000</span></div>" : "");
 
   $("#learnList").innerHTML = (ex.learn ? ex.learn.paths : []).map(p =>
     '<div class="list-row" style="display:block"><a href="' + esc(p.u) + '" target="_blank" rel="noopener">' + esc(p.n) +
@@ -1125,16 +1143,19 @@ function startSession(mode, opts) {
 }
 
 let timerH;
+function stopTimer() { clearTimeout(timerH); timerH = null; }
 function tick() {
   clearTimeout(timerH);
-  if (!ses || !ses.endAt) return;
+  /* Ohne laufende Session darf sich der Timer nicht neu planen, sonst
+     würde er später eine bereits beendete Sitzung abbrechen. */
+  if (!ses || !ses.endAt) { timerH = null; return; }
   const left = Math.max(0, ses.endAt - Date.now());
   const el = $("#qTimer");
   el.classList.remove("hidden");
   const m = Math.floor(left / 60000), s = Math.floor((left % 60000) / 1000);
   el.textContent = m + ":" + String(s).padStart(2, "0");
   el.classList.toggle("low", left < 300000);
-  if (left <= 0) { toast("⏰ Zeit abgelaufen"); finish(); return; }
+  if (left <= 0) { stopTimer(); toast("⏰ Zeit abgelaufen"); finish(); return; }
   timerH = setTimeout(tick, 1000);
 }
 
@@ -1174,7 +1195,9 @@ function choose(i) {
   const q = ses.qs[ses.i];
   if (q.t === "multi") {
     const k = ses.sel.indexOf(i);
-    if (k >= 0) ses.sel.splice(k, 1); else ses.sel.push(i);
+    if (k >= 0) ses.sel.splice(k, 1);
+    else if (ses.sel.length < ses.view.c.length) ses.sel.push(i);
+    else { toast("Es sind " + ses.view.c.length + " Antworten gefragt"); return; }
   } else {
     ses.sel = [i];
   }
@@ -1215,7 +1238,7 @@ function check() {
 
   const r = rec(q.id);
   r.s++;
-  if (right) { r.c++; r.box = Math.min(5, r.box + 1); }
+  if (right) { r.c++; r.box = Math.min(MAX_BOX, r.box + 1); }
   else { r.w++; r.box = 1; }
   r.due = Date.now() + dueDelay(r.box);
 
@@ -1266,25 +1289,36 @@ function next() {
 }
 
 function quit() {
+  if (!ses) return;
   if (ses.log.length && !confirm("Session beenden? Der bisherige Fortschritt wird gespeichert.")) return;
-  clearTimeout(timerH);
+  ses.endAt = 0;
+  stopTimer();
   if (ses.log.length) { finish(); return; }
-  ses = null; show("home"); renderHome();
+  ses = null; setActions(""); show("home"); renderHome();
 }
 
 function finish() {
-  clearTimeout(timerH);
+  if (!ses) return;
+  ses.endAt = 0;
+  stopTimer();
+  if (!ses.log.length) { ses = null; setActions(""); show("home"); renderHome(); return; }
   const ex = EXAMS[ses.exam];
   const n = ses.log.length || 1;
   const acc = ses.correct / n;
   /* Skalierter Score nach Punkten, wie in der echten Prüfung */
-  const ptAcc = ses.maxPts ? ses.pts / ses.maxPts : 0;
+  /* Unbeantwortete Fragen zählen als null Punkte mit — sonst ergäbe eine
+     einzige richtige Antwort mit anschließendem Abbruch das volle Ergebnis. */
+  const offen = ses.qs.slice(ses.log.length)
+    .reduce((sum, x) => sum + (x.t === "multi" ? x.c.length : 1), 0);
+  const gesamtPts = ses.maxPts + offen;
+  const ptAcc = gesamtPts ? ses.pts / gesamtPts : 0;
   const scaled = Math.round(ptAcc * 1000);
+  const vollstaendig = ses.log.length === ses.qs.length;
 
   S.hist.push({ date: today(), mode: ses.mode, exam: ses.exam, c: ses.correct, n: ses.log.length });
   if (S.hist.length > 60) S.hist = S.hist.slice(-60);
 
-  if (ses.mode === "exam") {
+  if (ses.mode === "exam" && vollstaendig) {
     if (!S.best[ses.exam] || scaled > S.best[ses.exam]) S.best[ses.exam] = scaled;
     if (scaled >= 700) award(ses.exam === "AB730" ? "pass730" : "pass731");
   }
@@ -1296,7 +1330,7 @@ function finish() {
   domainStats(ex).forEach(x => { if (x.cov >= 0.8 && x.acc >= 0.9) award("master"); });
   if (ex.questions.every(q => S.q[q.id] && S.q[q.id].s)) award("complete");
 
-  const bonus = ses.mode === "exam" && scaled >= 700 ? 50 : 0;
+  const bonus = ses.mode === "exam" && vollstaendig && scaled >= 700 ? 50 : 0;
   if (bonus) addXp(bonus);
   store.save();
 
@@ -1304,12 +1338,14 @@ function finish() {
   $("#rEmoji").textContent = ses.mode === "exam" ? (pass ? "🏆" : "📈") : acc >= 0.9 ? "🎉" : acc >= 0.7 ? "👍" : "📚";
   $("#rScore").textContent = ses.mode === "exam" ? scaled : (ses.correct + " / " + ses.log.length);
   $("#rSub").textContent = ses.mode === "exam"
-    ? (pass ? "Bestanden — Grenze liegt bei 700" : "Noch nicht bestanden — 700 sind nötig")
+    ? (!vollstaendig ? "Vorzeitig beendet — zählt nicht als Versuch"
+       : pass ? "Bestanden — Grenze liegt bei 700" : "Noch nicht bestanden — 700 sind nötig")
     : ({ drill:"Quick Drill", domain:"Domain-Training", review:"Wiederholung" }[ses.mode] || "Ergebnis");
   $("#rCorrect").textContent = ses.correct;
   $("#rAcc").textContent = Math.round(acc * 100) + " %";
   $("#rXp").textContent = "+" + (ses.xp + bonus);
-  $("#rPtsRow").textContent = ses.pts + " von " + ses.maxPts + " Punkten (" + Math.round(ptAcc * 100) + " %)";
+  $("#rPtsRow").textContent = ses.pts + " von " + gesamtPts + " Punkten (" + Math.round(ptAcc * 100) + " %)"
+    + (vollstaendig ? "" : " — vorzeitig beendet, offene Fragen zählen als null");
 
   const byD = {};
   ses.log.forEach(l => { const k = l.q.d; (byD[k] = byD[k] || { c:0, n:0 }); byD[k].n++; if (l.right) byD[k].c++; });
@@ -1475,16 +1511,42 @@ function decodeProgress(code) {
     q[id] = { s, c, w, box: box || 1, due: (dueD || 0) * 864e5 };
   });
 
+  /* Fremde Daten streng normalisieren: nur bekannte Felder mit erwartetem Typ
+     übernehmen, damit ein beschädigter Code die Oberfläche nicht lahmlegt. */
+  const isDate = s => typeof s === "string" && /^\d{4}-\d{2}-\d{2}$/.test(s);
+  const modes = ["drill", "exam", "domain", "review"];
+  const hist = (Array.isArray(obj.h) ? obj.h : [])
+    .filter(x => x && typeof x === "object")
+    .map(x => ({
+      date: isDate(x.date) ? x.date : "",
+      mode: modes.includes(x.mode) ? x.mode : "drill",
+      exam: EXAMS[x.exam] ? x.exam : "AB730",
+      c: Math.max(0, Number(x.c) || 0),
+      n: Math.max(0, Number(x.n) || 0)
+    }))
+    .filter(x => x.date)
+    .slice(-60);
+
+  const best = {};
+  if (obj.t && typeof obj.t === "object") {
+    Object.keys(obj.t).forEach(k => {
+      if (!EXAMS[k]) return;
+      const v = Number(obj.t[k]);
+      if (isFinite(v) && v >= 0) best[k] = Math.min(1000, Math.round(v));
+    });
+  }
+
+  const known = BADGES.map(b => b.id);
   return {
-    xp: Number(obj.x) || 0,
-    streak: Number(obj.k) || 0,
-    last: obj.l || "",
+    xp: Math.max(0, Number(obj.x) || 0),
+    streak: Math.max(0, Number(obj.k) || 0),
+    last: isDate(obj.l) ? obj.l : "",
     exam: EXAMS[obj.e] ? obj.e : "AB730",
-    badges: (obj.b || "").split(",").filter(Boolean),
-    best: obj.t && typeof obj.t === "object" ? obj.t : {},
-    hist: Array.isArray(obj.h) ? obj.h : [],
+    badges: String(obj.b || "").split(",").filter(b => known.includes(b)),
+    best,
+    hist,
     q,
-    meta: { app: obj.app || "?", ts: obj.ts || "" }
+    meta: { app: String(obj.app || "?").slice(0, 20), ts: isDate(obj.ts) ? obj.ts : "" }
   };
 }
 
@@ -1510,15 +1572,21 @@ function applyProgress(d, mode) {
     for (const id in d.q) {
       const mine = S.q[id], theirs = d.q[id];
       if (!mine) { S.q[id] = theirs; continue; }
+      /* Höchstwert statt Summe: sonst würde ein zweimal eingelesener Code
+         alle Zähler verdoppeln. */
       S.q[id] = {
-        s: mine.s + theirs.s,
-        c: mine.c + theirs.c,
-        w: mine.w + theirs.w,
+        s: Math.max(mine.s, theirs.s),
+        c: Math.max(mine.c, theirs.c),
+        w: Math.max(mine.w, theirs.w),
         box: Math.max(mine.box || 1, theirs.box || 1),
         due: Math.max(mine.due || 0, theirs.due || 0)
       };
     }
-    S.hist = S.hist.concat(d.hist).slice(-60);
+    /* Verlauf zusammenführen und Doppel entfernen */
+    const key = x => [x.date, x.mode, x.exam, x.c, x.n].join("|");
+    const gesehen = new Set(S.hist.map(key));
+    d.hist.forEach(x => { if (!gesehen.has(key(x))) { gesehen.add(key(x)); S.hist.push(x); } });
+    S.hist = S.hist.slice(-60);
   }
   store.save();
 }
@@ -1598,7 +1666,7 @@ function showImport() {
     const mine = progressSummary({ q: S.q, xp: S.xp, badges: S.badges, streak: S.streak });
     $("#impPreview").innerHTML =
       '<div class="sum"><b>Im Code</b>' + s.answered + " Fragen · " + s.xp + " XP · " + s.badges + " Abzeichen" +
-      (d.meta.ts ? "<br><b>Erstellt</b>" + deDate(d.meta.ts) + " mit v" + esc(d.meta.app) : "") +
+      (d.meta.ts ? "<br><b>Erstellt</b>" + esc(deDate(d.meta.ts)) + " mit v" + esc(d.meta.app) : "") +
       "<br><b>Auf diesem Gerät</b>" + mine.answered + " Fragen · " + mine.xp + " XP</div>";
 
     $("#sheetActions").innerHTML =
@@ -1623,8 +1691,8 @@ let swReg = null;
 
 function announceUpdate(worker) {
   actionToast("Neue Version verfügbar — tippe hier", () => {
-    if (worker) worker.postMessage({ type: "SKIP_WAITING" });
-    setTimeout(() => location.reload(), 300);
+    if (worker) { worker.postMessage({ type: "SKIP_WAITING" }); setTimeout(() => location.reload(), 1500); }
+    else location.reload();
   });
 }
 
@@ -1643,9 +1711,12 @@ function initSW() {
     setInterval(() => reg.update().catch(() => {}), 60 * 60 * 1000);
   }).catch(() => {});
 
+  /* Beim Erstbesuch übernimmt der Worker per claim() die Kontrolle. Das ist
+     kein Update und darf keinen Neuladen auslösen. */
+  const hatteController = !!navigator.serviceWorker.controller;
   let reloading = false;
   navigator.serviceWorker.addEventListener("controllerchange", () => {
-    if (reloading) return;
+    if (!hatteController || reloading) return;
     reloading = true;
     location.reload();
   });
@@ -1693,14 +1764,15 @@ function hardReload() {
 }
 
 /* Mit ?fresh=1 lässt sich ein vollständiger Neuaufbau von außen anstoßen. */
-if (new URLSearchParams(location.search).get("fresh") === "1") {
+const frischStart = new URLSearchParams(location.search).get("fresh") === "1";
+if (frischStart) {
   history.replaceState(null, "", location.pathname);
   hardReload();
 }
 
 renderTop();
 renderHome();
-initSW();
+if (!frischStart) initSW();
 })();
 </script>
 </body>

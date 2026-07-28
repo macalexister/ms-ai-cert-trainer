@@ -101,7 +101,7 @@ body {
   position: relative;
   width: min(100%, calc((100vh - 4vmin) * 16 / 9));
   aspect-ratio: 16 / 9;
-  font-size: min(1.235vw, calc((100vh - 4vmin) * 0.02196));
+  font-size: max(13px, min(1.235vw, calc((100vh - 4vmin) * 0.02196)));
   background: var(--cp-bg-elevated);
   border-radius: 1.1em;
   box-shadow: var(--lift);
@@ -250,16 +250,23 @@ h2 {
 html[data-ratio="4-3"] .slide {
   aspect-ratio: 4 / 3;
   width: min(100%, calc((100vh - 4vmin) * 4 / 3));
-  font-size: min(1.44vw, calc((100vh - 4vmin) * 0.0192));
+  font-size: max(13px, min(1.44vw, calc((100vh - 4vmin) * 0.0192)));
 }
 
 /* ---------- Schmale Bildschirme: aus der Folie wird ein Dokument ---------- */
-@media (max-width: 900px) {
+@media (max-width: 1099px) {
   body { display: block; padding: 0; min-height: 0; }
+  .mode { padding: 4px 0; }
+  .plist li { font-size: 0.72em; }
+  .note { font-size: 0.72em; }
+  .qitem span { font-size: 0.75em; }
+  .stat span { font-size: 0.7em; }
+  .steps li { font-size: 0.72em; padding: 0.35em 0; }
+  .access .off, .access .lead { font-size: 0.72em; }
   .slide,
   html[data-ratio="4-3"] .slide {
     width: 100%; max-width: 720px; margin: 0 auto;
-    aspect-ratio: auto; font-size: clamp(15px, 3.6vw, 19px);
+    aspect-ratio: auto; font-size: clamp(17px, 4.6vw, 19px);
     border-radius: 0; box-shadow: none; background: var(--cp-bg);
     padding: clamp(20px, 5vw, 32px) clamp(16px, 4.5vw, 26px) 40px;
   }
