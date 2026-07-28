@@ -1,8 +1,9 @@
-const CACHE = "ai-cert-trainer-1.4.0";
+const CACHE = "ai-cert-trainer-1.5.0";
 const ASSETS = [
   "./",
   "./index.html",
   "./version.js",
+  "./onepager.html",
   "./data-ab730.js",
   "./data-ab731.js",
   "./manifest.webmanifest",

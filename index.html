@@ -409,6 +409,32 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.92rem; }
 a { color: var(--cp-link); text-decoration: none; font-weight: 560; }
 a:hover { text-decoration: underline; }
 
+/* ---------- Datenschutz ---------- */
+.privacy-lead {
+  display: flex; align-items: flex-start; gap: 11px;
+  background: var(--fill-soft); border-radius: var(--r-md);
+  padding: 14px; margin-bottom: 14px; font-size: 0.88rem; line-height: 1.45;
+}
+.privacy-lead .dot {
+  flex: 0 0 auto; width: 9px; height: 9px; border-radius: var(--r-pill);
+  background: var(--cp-success); margin-top: 6px;
+}
+.privacy-lead b { font-weight: 660; letter-spacing: -0.014em; }
+.privacy-lead .muted { font-size: 0.83rem; }
+.plist { margin: 0; padding: 0; list-style: none; }
+.plist li {
+  position: relative; padding: 11px 0 11px 17px;
+  border-top: 0.5px solid var(--hairline);
+  font-size: 0.83rem; line-height: 1.5; color: var(--cp-text-muted);
+}
+.plist li:first-child { border-top: 0; }
+.plist li::before {
+  content: ""; position: absolute; left: 2px; top: 18px;
+  width: 5px; height: 5px; border-radius: var(--r-pill);
+  background: var(--cp-accent); opacity: .55;
+}
+.plist b { color: var(--cp-text); font-weight: 620; }
+
 details > summary { list-style: none; }
 details > summary::-webkit-details-marker { display: none; }
 
@@ -527,6 +553,28 @@ details > summary::-webkit-details-marker { display: none; }
         <button class="btn ghost small" id="btnExport">Exportieren</button>
         <button class="btn ghost small" id="btnImport">Importieren</button>
       </div>
+    </div>
+
+    <div class="card" id="privacyCard">
+      <h3>Datenschutz</h3>
+      <div class="privacy-lead">
+        <span class="dot"></span>
+        <div><b>Kein Server, kein Konto, kein Tracking.</b><br>
+        <span class="muted">Dein Fortschritt bleibt auf diesem Gerät und wird nirgendwo hin übertragen.</span></div>
+      </div>
+      <ul class="plist">
+        <li><b>Was gespeichert wird</b> — XP, Level, Abzeichen, Serie und die Statistik je Frage, ausschließlich im Speicher deines Browsers.</li>
+        <li><b>Was nicht passiert</b> — keine Übertragung an einen Server, keine Analyse- oder Werbedienste, keine Cookies, keine Registrierung, keine Aufrufe an fremde Adressen.</li>
+        <li><b>Mehrere Personen</b> — wer den Link öffnet, hat seinen eigenen getrennten Fortschritt. Niemand sieht die Ergebnisse der anderen.</li>
+        <li><b>Hosting</b> — die Seite liegt auf GitHub&nbsp;Pages. Beim Abruf verarbeitet GitHub technisch nötige Verbindungsdaten wie die IP-Adresse, wie bei jeder Website.</li>
+        <li><b>Deine Kontrolle</b> — „Fortschritt zurücksetzen“ löscht alle Daten sofort und vollständig. Das Löschen der Browserdaten für diese Seite wirkt genauso.</li>
+        <li><b>Keine internen Inhalte</b> — die App enthält nur selbst formulierte Lerninhalte zu öffentlich dokumentierten Prüfungszielen. Gib auch selbst keine vertraulichen Daten ein; die App fragt keine ab.</li>
+      </ul>
+      <p class="muted" style="margin:14px 0 0;font-size:0.78rem">
+        Inoffizielles Lernwerkzeug ohne Verbindung zu Microsoft. Es enthält keine echten Prüfungsfragen —
+        die Fragen sind anhand der öffentlich dokumentierten Prüfungsziele selbst formuliert.
+        Ein gutes Ergebnis hier ist keine Garantie für das Bestehen der Prüfung.
+      </p>
     </div>
 
     <p class="foot">
@@ -1359,7 +1407,7 @@ function showExport() {
   openSheet("Fortschritt exportieren",
     '<div class="sum"><b>Beantwortet</b>' + s.answered + " Fragen<br><b>XP</b>" + s.xp +
       " (Level " + s.lvl + ")<br><b>Abzeichen</b>" + s.badges + "<br><b>Serie</b>" + s.streak + " Tage</div>" +
-    '<p class="muted">Kopiere den Code und öffne ihn auf dem anderen Gerät unter „Importieren“.</p>' +
+    '<p class="muted">Kopiere den Code und öffne ihn auf dem anderen Gerät unter „Importieren“. Der Code enthält nur deinen Lernfortschritt — keine persönlichen Daten.</p>' +
     '<textarea class="code-box" id="expCode" readonly>' + esc(code) + "</textarea>",
     '<button class="btn ghost" id="shClose">Schließen</button>' +
     '<button class="btn ghost" id="shFile">Als Datei</button>' +

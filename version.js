@@ -2,11 +2,20 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.4.0",
+  version: "1.5.0",
   built: "2026-07-28",
   contentReviewed: "2026-07-28",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
+    {
+      v: "1.5.0", d: "2026-07-28",
+      t: "Datenschutzhinweis in der App",
+      items: [
+        "Eigener Abschnitt erklärt direkt in der App, welche Daten wo bleiben",
+        "Hinweis beim Export, dass der Code nur Lernfortschritt enthält",
+        "One-Pager zusätzlich als HTML-Seite zum Teilen"
+      ]
+    },
     {
       v: "1.4.0", d: "2026-07-28",
       t: "Neues Erscheinungsbild",
