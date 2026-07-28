@@ -2,11 +2,21 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.2.0",
+  version: "1.4.0",
   built: "2026-07-28",
   contentReviewed: "2026-07-28",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
+    {
+      v: "1.4.0", d: "2026-07-28",
+      t: "Neues Erscheinungsbild",
+      items: [
+        "Flaches, fluides Design mit weichen Formen, mehr Luft und ruhigeren Flächen",
+        "Typografie und Abstände skalieren stufenlos mit der Bildschirmbreite",
+        "Übersehene richtige Antworten werden jetzt eigens gekennzeichnet",
+        "Kurzbeschreibung der gewählten Zertifizierung auf der Startseite"
+      ]
+    },
     {
       v: "1.3.0", d: "2026-07-28",
       t: "Fortschritt exportieren und importieren",
