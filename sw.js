@@ -1,4 +1,4 @@
-const CACHE = "ai-cert-trainer-1.7.0";
+const CACHE = "ai-cert-trainer-1.8.0";
 const ASSETS = [
   "./",
   "./index.html",

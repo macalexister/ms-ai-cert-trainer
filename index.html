@@ -413,6 +413,39 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.92rem; }
 a { color: var(--cp-link); text-decoration: none; font-weight: 560; }
 a:hover { text-decoration: underline; }
 
+/* ---------- Rückmeldungen ---------- */
+.report {
+  display: block; margin: 12px 0 0; padding: 0;
+  background: none; border: 0; cursor: pointer;
+  font: inherit; font-size: 0.78rem; color: var(--muted);
+  text-decoration: underline; text-underline-offset: 3px;
+  text-decoration-color: color-mix(in srgb, var(--muted) 40%, transparent);
+  -webkit-tap-highlight-color: transparent;
+}
+.report:hover { color: var(--ink); }
+
+.fbcat { display: flex; flex-wrap: wrap; gap: 7px; margin: 0 0 14px; }
+.fbcat button {
+  padding: 7px 13px; border-radius: 999px; cursor: pointer;
+  border: 0.5px solid var(--hairline); background: var(--surface);
+  font: inherit; font-size: 0.8rem; color: var(--muted);
+  transition: background 0.14s, color 0.14s, border-color 0.14s;
+}
+.fbcat button.on { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+
+.fb-list { display: flex; flex-direction: column; gap: 8px; }
+.fb-item {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 9px 0; border-top: 0.5px solid var(--hairline);
+  font-size: 0.82rem; line-height: 1.45;
+}
+.fb-item:first-child { border-top: 0; }
+.fb-item .k {
+  flex: none; font-size: 0.68rem; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--muted); min-width: 74px;
+}
+.fb-item .t { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+
 /* ---------- Datenschutz ---------- */
 .privacy-lead {
   display: flex; align-items: flex-start; gap: 11px;
@@ -665,6 +698,21 @@ details > summary::-webkit-details-marker { display: none; }
         </div>
       </details>
 
+      <details id="feedbackCard">
+        <summary><span class="ac-t">Rückmeldung</span><span class="ac-s" id="fbSummary">Fehler melden oder Idee teilen</span><span class="ac-c">›</span></summary>
+        <div class="ac-body">
+          <p class="muted" style="margin:0 0 12px">
+            Stimmt eine Antwort nicht, ist etwas unklar oder fehlt dir etwas? Sammle es hier —
+            gesendet wird gebündelt über dein E-Mail-Programm, erst wenn du es auslöst.
+          </p>
+          <div id="fbBox"></div>
+          <div class="row" style="margin-top:12px">
+            <button class="btn ghost small" id="btnFbNew">Rückmeldung schreiben</button>
+            <button class="btn ghost small" id="btnFbSend">Senden</button>
+          </div>
+        </div>
+      </details>
+
       <details id="privacyCard">
         <summary><span class="ac-t">Datenschutz</span><span class="ac-s">Kein Server, kein Konto, kein Tracking</span><span class="ac-c">›</span></summary>
         <div class="ac-body">
@@ -674,6 +722,7 @@ details > summary::-webkit-details-marker { display: none; }
             <li><b>Mehrere Personen</b> — wer den Link öffnet, hat seinen eigenen getrennten Fortschritt. Niemand sieht die Ergebnisse der anderen.</li>
             <li><b>Hosting</b> — die Seite liegt auf GitHub&nbsp;Pages. Beim Abruf verarbeitet GitHub technisch nötige Verbindungsdaten wie die IP-Adresse, wie bei jeder Website.</li>
             <li><b>Deine Kontrolle</b> — „Fortschritt zurücksetzen“ löscht alle Daten sofort und vollständig. Das Löschen der Browserdaten für diese Seite wirkt genauso.</li>
+            <li><b>Rückmeldungen</b> — was du unter „Rückmeldung“ schreibst, bleibt zunächst ebenfalls nur lokal. Erst wenn du auf „Senden“ tippst, öffnet sich dein E-Mail-Programm mit einem fertigen Entwurf an Alex Singer. Du siehst den Text vorher und schickst ihn selbst ab.</li>
             <li><b>Keine internen Inhalte</b> — die App enthält nur selbst formulierte Lerninhalte zu öffentlich dokumentierten Prüfungszielen. Gib auch selbst keine vertraulichen Daten ein; die App fragt keine ab.</li>
           </ul>
           <p class="muted" style="margin:14px 0 0;font-size:0.78rem">
@@ -1065,6 +1114,8 @@ function renderHome() {
   $("#coverChip").textContent = seen + " / " + ex.questions.length + " Fragen gesehen";
   $("#examModeSub").textContent = ex.examQuestions + " Fragen · " + ex.examMinutes + " Min · Blueprint-gewichtet";
 
+  renderFeedbackBox();
+
   const due = dueQuestions(ex).length;
   $("#reviewSub").textContent = due ? (due + " Fragen fällig — Spaced Repetition") : "Keine Fragen fällig. Gut gemacht.";
   $('.mode[data-mode="review"]').disabled = due === 0;
@@ -1278,8 +1329,11 @@ function check() {
   const head = right ? "✓ Richtig"
     : partial ? "◐ Teilweise richtig — " + hits + " von " + maxPts + " Punkten"
     : "✕ Nicht ganz";
-  f.innerHTML = '<div class="fh ' + (right ? "ok" : partial ? "part" : "no") + '">' + head + "</div><p>" + esc(q.e) + "</p>";
+  f.innerHTML = '<div class="fh ' + (right ? "ok" : partial ? "part" : "no") + '">' + head + "</div><p>" + esc(q.e) + "</p>" +
+    '<button class="report" id="qReport" type="button">Problem mit dieser Frage melden</button>';
   f.classList.remove("hidden");
+  const rep = $("#qReport");
+  if (rep) rep.addEventListener("click", () => reportQuestion(q, ses.exam));
   updateActions();
 }
 
@@ -1393,11 +1447,14 @@ function renderCard() {
   $("#cBody").innerHTML = cards.open
     ? '<div class="opts">' + view.a.map((o, i) =>
         '<div class="opt' + (view.c.includes(i) ? " correct" : "") + '"><span class="mk">' + (view.c.includes(i) ? "✓" : String.fromCharCode(65 + i)) + "</span><span>" + esc(o) + "</span></div>").join("") +
-      '</div><div class="feedback" style="margin-top:14px"><div class="fh">💡 Erklärung</div><p>' + esc(q.e) + "</p></div>"
+      '</div><div class="feedback" style="margin-top:14px"><div class="fh">💡 Erklärung</div><p>' + esc(q.e) +
+      '</p><button class="report" id="cReport" type="button">Problem mit dieser Frage melden</button></div>'
     : '<p class="muted">Überlege dir die Antwort und tippe dann auf „Auflösen“.</p>';
   setActions('<button class="btn ghost" id="cHome">Zurück</button>' +
     (cards.open ? '<button class="btn" id="cNext">Nächste Karte</button>' : '<button class="btn" id="cShow">Auflösen</button>'));
   $("#cHome").addEventListener("click", () => { cards = null; show("home"); renderHome(); });
+  const crep = $("#cReport");
+  if (crep) crep.addEventListener("click", () => reportQuestion(q, examId));
   const sh = $("#cShow"), nx = $("#cNext");
   if (sh) sh.addEventListener("click", () => { cards.open = true; renderCard(); });
   if (nx) nx.addEventListener("click", () => {
@@ -1443,6 +1500,8 @@ $("#btnHardReload").addEventListener("click", () => {
 });
 $("#btnExport").addEventListener("click", showExport);
 $("#btnImport").addEventListener("click", showImport);
+$("#btnFbNew").addEventListener("click", reportGeneral);
+$("#btnFbSend").addEventListener("click", feedbackMail);
 $("#sheetBg").addEventListener("click", closeSheet);
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && !$("#sheet").classList.contains("hidden")) closeSheet();
@@ -1616,17 +1675,11 @@ function showExport() {
     '<button class="btn" id="shCopy">Kopieren</button>');
 
   $("#shClose").addEventListener("click", closeSheet);
-  $("#shCopy").addEventListener("click", () => {
+  $("#shCopy").addEventListener("click", async () => {
     const ta = $("#expCode");
     ta.select(); ta.setSelectionRange(0, 999999);
-    const done = () => { toast("✓  Code kopiert"); buzz(12); };
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(ta.value).then(done).catch(() => {
-        try { document.execCommand("copy"); done(); } catch (e) { toast("Bitte manuell kopieren"); }
-      });
-    } else {
-      try { document.execCommand("copy"); done(); } catch (e) { toast("Bitte manuell kopieren"); }
-    }
+    if (await copyText(ta.value)) { toast("✓  Code kopiert"); buzz(12); }
+    else toast("Bitte manuell kopieren");
   });
   $("#shFile").addEventListener("click", () => {
     const blob = new Blob([code], { type: "text/plain" });
@@ -1683,6 +1736,198 @@ function showImport() {
       applyProgress(d, "replace"); closeSheet(); renderTop(); renderHome();
       toast("✓  Fortschritt ersetzt");
     });
+  });
+}
+
+/* ================= Rückmeldungen ================= */
+
+/* Sammelstelle: Rückmeldungen liegen zunächst lokal, damit sie auch offline
+   erfasst werden können. Versendet wird gebündelt per E-Mail. */
+const FEEDBACK_TO = "alsinger@microsoft.com";
+
+function feedbackList() { return (S.fb = S.fb || []); }
+
+function refreshFeedbackUI() {
+  if (!$("#s-home").classList.contains("hidden")) renderHome();
+  else renderFeedbackBox();
+}
+
+/* Zwischenablage mit Rückfallebene für ältere und eingebettete Browser. */
+async function copyText(text) {
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (e) { /* fällt unten auf execCommand zurück */ }
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.cssText = "position:fixed;top:-9999px;opacity:0";
+    document.body.appendChild(ta);
+    ta.select(); ta.setSelectionRange(0, 999999);
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  } catch (e) { return false; }
+}
+
+function addFeedback(entry) {
+  const list = feedbackList();
+  list.push(Object.assign({ ts: new Date().toISOString().slice(0, 16) }, entry));
+  if (list.length > 60) S.fb = list.slice(-60);
+  store.save();
+  refreshFeedbackUI();
+}
+
+function renderFeedbackBox() {
+  const box = $("#fbBox");
+  const send = $("#btnFbSend");
+  if (!box) return;
+  const list = feedbackList();
+
+  $("#fbSummary").textContent = list.length
+    ? list.length + " gesammelt, noch nicht gesendet"
+    : "Fehler melden oder Idee teilen";
+  if (send) send.disabled = list.length === 0;
+
+  if (!list.length) {
+    box.innerHTML = '<p class="muted" style="margin:0;font-size:0.82rem">Nichts gesammelt.</p>';
+    return;
+  }
+
+  box.innerHTML = '<div class="fb-list">' +
+    list.slice().reverse().slice(0, 8).map(f =>
+      '<div class="fb-item"><span class="k">' +
+        esc(f.typ === "frage" ? f.id : "Allgemein") +
+      '</span><span class="t">' +
+        esc(f.kat) + (f.text ? " · " + esc(f.text.slice(0, 110)) + (f.text.length > 110 ? "…" : "") : "") +
+      "</span></div>").join("") +
+    "</div>" +
+    (list.length > 8 ? '<p class="muted" style="margin:8px 0 0;font-size:0.76rem">… und ' + (list.length - 8) + " weitere</p>" : "");
+}
+
+const FB_KATEGORIEN = [
+  ["antwort", "Antwort ist falsch"],
+  ["unklar", "Frage oder Antwort unklar"],
+  ["veraltet", "Inhalt ist veraltet"],
+  ["sprache", "Tippfehler oder Sprache"],
+  ["sonstiges", "Etwas anderes"]
+];
+
+function reportQuestion(q, examId) {
+  openSheet("Problem melden",
+    '<p class="muted">' + esc(q.id) + " · " + esc(examId) + "</p>" +
+    '<p style="font-size:0.86rem;margin:8px 0 14px">' + esc(q.q.slice(0, 130)) + (q.q.length > 130 ? "…" : "") + "</p>" +
+    '<div class="fbcat" id="fbCat">' +
+      FB_KATEGORIEN.map(([k, label], i) =>
+        '<button type="button" data-k="' + k + '"' + (i === 0 ? ' class="on"' : "") + ">" + esc(label) + "</button>").join("") +
+    "</div>" +
+    '<textarea class="code-box" id="fbText" style="min-height:88px;font-family:inherit;font-size:0.88rem" ' +
+      'placeholder="Was stimmt nicht? (optional)"></textarea>',
+    '<button class="btn ghost" id="fbCancel">Abbrechen</button>' +
+    '<button class="btn" id="fbSave">Melden</button>');
+
+  let kat = FB_KATEGORIEN[0][0];
+  $$("#fbCat button").forEach(b => b.addEventListener("click", () => {
+    kat = b.dataset.k;
+    $$("#fbCat button").forEach(x => x.classList.toggle("on", x === b));
+  }));
+  $("#fbCancel").addEventListener("click", closeSheet);
+  $("#fbSave").addEventListener("click", () => {
+    addFeedback({ typ: "frage", id: q.id, exam: examId, kat, text: $("#fbText").value.trim().slice(0, 500) });
+    closeSheet();
+    toast("✓  Danke — gesammelt zum Senden");
+  });
+}
+
+function reportGeneral() {
+  openSheet("Rückmeldung geben",
+    '<p class="muted" style="margin-bottom:14px">Was fehlt dir, was stört, was hilft?</p>' +
+    '<div class="fbcat" id="fbCat">' +
+      [["inhalt","Inhalte"],["bedienung","Bedienung"],["fehler","Etwas geht nicht"],["idee","Idee"]]
+        .map(([k, l], i) => '<button type="button" data-k="' + k + '"' + (i === 0 ? ' class="on"' : "") + ">" + l + "</button>").join("") +
+    "</div>" +
+    '<textarea class="code-box" id="fbText" style="min-height:110px;font-family:inherit;font-size:0.88rem" ' +
+      'placeholder="Deine Rückmeldung…"></textarea>',
+    '<button class="btn ghost" id="fbCancel">Abbrechen</button>' +
+    '<button class="btn" id="fbSave">Speichern</button>');
+
+  let kat = "inhalt";
+  $$("#fbCat button").forEach(b => b.addEventListener("click", () => {
+    kat = b.dataset.k;
+    $$("#fbCat button").forEach(x => x.classList.toggle("on", x === b));
+  }));
+  $("#fbCancel").addEventListener("click", closeSheet);
+  $("#fbSave").addEventListener("click", () => {
+    const txt = $("#fbText").value.trim();
+    if (!txt) { toast("Bitte etwas schreiben"); return; }
+    addFeedback({ typ: "allgemein", exam: S.exam || "-", kat, text: txt.slice(0, 800) });
+    closeSheet();
+    toast("✓  Danke — gesammelt zum Senden");
+  });
+}
+
+/* Maschinenlesbarer Block, damit die Rückmeldungen automatisch
+   ausgewertet werden können. */
+function feedbackMail() {
+  const list = feedbackList();
+  if (!list.length) { toast("Noch keine Rückmeldungen gesammelt"); return; }
+
+  const nutz = list.map(f => {
+    const kopf = f.typ === "frage" ? f.id + " (" + f.exam + ")" : "Allgemein (" + f.exam + ")";
+    return "- " + kopf + " · " + f.kat + (f.text ? ": " + f.text : "");
+  }).join("\n");
+
+  const block = JSON.stringify({ v: 1, app: META.version, items: list });
+
+  const betreff = "AI Cert Trainer — " + list.length + " Rückmeldung" + (list.length === 1 ? "" : "en");
+  const koerper =
+    "Rückmeldungen aus dem AI Cert Trainer (App-Version " + META.version + "):\n\n" +
+    nutz +
+    "\n\n-- maschinenlesbar, bitte nicht ändern --\n[AICERT-FEEDBACK]" + block + "[/AICERT-FEEDBACK]\n";
+
+  const url = "mailto:" + FEEDBACK_TO +
+    "?subject=" + encodeURIComponent(betreff) +
+    "&body=" + encodeURIComponent(koerper);
+
+  /* Viele E-Mail-Programme kappen mailto-Adressen. Ab dieser Länge ist der
+     Umweg über die Zwischenablage der verlässlichere Weg. */
+  const zuLang = url.length > 1800;
+
+  openSheet("Rückmeldungen senden",
+    '<div class="sum">' + list.length + " Rückmeldung" + (list.length === 1 ? "" : "en") + " gesammelt.<br>" +
+      '<span class="muted">' + (zuLang
+        ? "Das ist zu viel für den direkten Versand. Kopiere den Text und füge ihn in eine E-Mail an " + FEEDBACK_TO + " ein."
+        : "Der Versand öffnet dein E-Mail-Programm mit einem fertigen Entwurf. Abgeschickt wird erst, wenn du es tust.") +
+      "</span></div>" +
+    '<textarea class="code-box" id="fbAll" readonly style="min-height:120px;font-family:inherit;font-size:0.8rem">' +
+      esc(nutz) + "</textarea>",
+    '<button class="btn ghost" id="fbClear">Verwerfen</button>' +
+    '<button class="btn ghost" id="fbCopy">Kopieren</button>' +
+    '<button class="btn" id="fbSend"' + (zuLang ? " disabled" : "") + ">E-Mail öffnen</button>");
+
+  const geleert = () => {
+    if (!confirm("Rückmeldungen wurden übermittelt? Dann leere ich die Sammlung.")) return;
+    S.fb = []; store.save(); refreshFeedbackUI();
+  };
+
+  $("#fbClear").addEventListener("click", () => {
+    if (!confirm("Alle gesammelten Rückmeldungen verwerfen? Sie werden dann nicht gesendet.")) return;
+    S.fb = []; store.save(); closeSheet(); refreshFeedbackUI(); toast("Verworfen");
+  });
+
+  $("#fbCopy").addEventListener("click", async () => {
+    const ok = await copyText(koerper);
+    toast(ok ? "✓  Kopiert — jetzt in eine E-Mail einfügen" : "Kopieren nicht möglich — Text markieren");
+    if (!ok) { $("#fbAll").value = koerper; $("#fbAll").select(); }
+  });
+
+  const send = $("#fbSend");
+  if (send) send.addEventListener("click", () => {
+    location.href = url;
+    setTimeout(() => { closeSheet(); geleert(); }, 1400);
   });
 }
 
