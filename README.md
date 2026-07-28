@@ -112,8 +112,8 @@ Updates werden beim Öffnen automatisch erkannt; ein Hinweis „Neue Version ver
 ## Lokal starten
 
 ```bash
-python3 -m http.server 8765
-# http://127.0.0.1:8765/index.html
+python3 -m http.server 8791
+# http://127.0.0.1:8791/index.html
 ```
 
 ## Aufbau
@@ -121,7 +121,6 @@ python3 -m http.server 8765
 ```
 index.html              App-Shell, Styles, Logik
 erste-schritte.html     Anleitung für neue Nutzer
-onepager.html           Einseitige Übersicht zum Teilen
 version.js              Version, Prüfdatum, Changelog
 data-ab730.js           Fragenpool AB-730
 data-ab731.js           Fragenpool AB-731
