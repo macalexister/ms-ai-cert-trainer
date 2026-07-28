@@ -2,11 +2,22 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.8.1",
+  version: "1.9.0",
   built: "2026-07-28",
   contentReviewed: "2026-07-28",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
+    {
+      v: "1.9.0", d: "2026-07-28",
+      t: "Positions- und Längen-Bias erneut behoben, 320-px-Fix",
+      items: [
+        "Antwortreihenfolge in der Datenbasis neu gemischt: die richtige Antwort lag bei AB-731 bislang zu 97 % an erster Stelle, jetzt gleichmäßig verteilt (24–26 % je Position)",
+        "Mehrfachantworten-Fragen: die richtigen Optionen standen im Datensatz ausnahmslos an erster Stelle — jetzt zufällig gemischt",
+        "47 Fragen mit Längen-Bias entschärft — „längste Option ist richtig” lag bei 60–67 %, jetzt unter 35 %",
+        "Fehlerbehebung: Domain-/Themen-Badge lief bei 320 px Bildschirmbreite über den Rand hinaus",
+        "Fehlerbehebung: fehlendes Favicon auf „Erste Schritte”"
+      ]
+    },
     {
       v: "1.7.0", d: "2026-07-28",
       t: "Prüfung auf Fehler und Ratbarkeit",

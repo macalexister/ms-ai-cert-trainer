@@ -145,7 +145,10 @@ body { min-height: 100vh; min-height: 100dvh; }
   font-size: 0.76rem; font-weight: 590; letter-spacing: -0.005em;
   background: var(--fill);
   color: var(--cp-text-muted);
-  white-space: nowrap;
+  white-space: normal;
+  max-width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 .chip.accent { background: var(--cp-accent-soft); color: var(--cp-accent); }
 .chip.flame { color: var(--cp-warning); background: color-mix(in srgb, var(--cp-warning) 12%, transparent); }
