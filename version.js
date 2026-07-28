@@ -14,7 +14,8 @@ window.APP_META = {
         "Eigener Datenschutzabschnitt direkt in der App statt nur im Projekt-README",
         "Auf großen Bildschirmen zweispaltige Startseite, auf dem Handy unverändert einspaltig",
         "One-Pager als HTML-Seite: Folie im Querformat, auf dem Handy ein Dokument",
-        "Fehlerbehebung: der Update-Hinweis ließ sich nicht antippen"
+        "Fehlerbehebung: der Update-Hinweis ließ sich nicht antippen",
+        "Kürzerer Link: tinyurl.com/msaicert"
       ]
     },
     {

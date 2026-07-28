@@ -1,6 +1,6 @@
 # AI Cert Trainer — AB-730 & AB-731
 
-**➡️ App öffnen: [tinyurl.com/aicert730](https://tinyurl.com/aicert730)**
+**➡️ App öffnen: [tinyurl.com/msaicert](https://tinyurl.com/msaicert)**
 (direkt: https://macalexister.github.io/ms-ai-cert-trainer/)
 
 Gamifizierter Prüfungstrainer für zwei Microsoft-Zertifizierungen:
@@ -16,7 +16,7 @@ Beide Prüfungen dauern 45 Minuten, die Bestehensgrenze liegt bei 700 von 1000 P
 
 ## Auf dem iPhone installieren
 
-1. **https://tinyurl.com/aicert730** in **Safari** öffnen
+1. **https://tinyurl.com/msaicert** in **Safari** öffnen
 2. Teilen-Symbol → **Zum Home-Bildschirm**
 3. Die App startet im Vollbild und funktioniert danach auch **offline**
 

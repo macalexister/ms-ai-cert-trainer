@@ -156,7 +156,7 @@ s.addShape(pres.shapes.ROUNDED_RECTANGLE, {
   x: 7.18, y: 3.88, w: 2.11, h: 0.36,
   fill: { color: ACCENT_D }, line: { color: ACCENT_D }, rectRadius: 0.07
 });
-s.addText("tinyurl.com/aicert730", {
+s.addText("tinyurl.com/msaicert", {
   x: 7.18, y: 3.88, w: 2.11, h: 0.36,
   fontSize: 11, bold: true, color: TXT, fontFace: B_FONT,
   align: "center", valign: "middle", margin: 0
