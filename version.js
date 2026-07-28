@@ -2,11 +2,21 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.1.0",
+  version: "1.2.0",
   built: "2026-07-28",
   contentReviewed: "2026-07-28",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
+    {
+      v: "1.2.0", d: "2026-07-28",
+      t: "Anti-Bias-Überarbeitung und prüfungsgetreue Bewertung",
+      items: [
+        "Antwortoptionen werden pro Anzeige neu gemischt — die Position der richtigen Antwort ist nicht mehr lernbar",
+        "Rund 45 Fragen überarbeitet: Distraktoren sind jetzt plausible Denkfehler statt kurzer Abwehrsätze",
+        "Mehrfachantworten werden mit Teilpunkten bewertet, wie in der echten Prüfung",
+        "Hinweis „Jede korrekte Auswahl zählt einen Punkt“ und Punkteanzeige im Ergebnis"
+      ]
+    },
     {
       v: "1.1.0", d: "2026-07-28",
       t: "Fragen gegen die offiziellen Lernpfade geschärft",

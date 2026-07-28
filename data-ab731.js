@@ -24,7 +24,10 @@ window.EXAM_AB731 = {
     ["Microsoft Learn während der Prüfung", "nein (nur bei Associate/Expert)"],
     ["Zurückspringen", "ja — aber nach einer Pause sind frühere Fragen gesperrt"],
     ["Wiederholung", "24 Std. nach dem 1. Versuch, danach 14 Tage"],
-    ["Fragetypen", "Multiple Choice, Multiple Response, Drag & Drop, Hot Area, Build List"]
+    ["Fragetypen", "Multiple Choice, Multiple Response, Drag & Drop, Hot Area, Build List"],
+    ["Bewertung Mehrfachantworten", "Teilpunkte — jede korrekte Auswahl zählt einen Punkt"],
+    ["Punktabzug", "keiner für falsche Auswahl"],
+    ["Labs / Case Studies", "nicht in Beginner-Prüfungen"]
   ],
   learn: {
     title: "Offizieller Lernpfad",
@@ -69,9 +72,9 @@ window.EXAM_AB731 = {
     q: "What primarily distinguishes generative AI from traditional predictive machine learning?",
     a: [
       "Generative AI creates new content such as text, images or code, whereas predictive ML outputs a label, class or numeric value.",
-      "Generative AI runs on-premises while predictive ML runs only in the cloud.",
-      "Generative AI does not require any data.",
-      "Predictive ML always produces more accurate results than generative AI."
+      "Generative AI must run on-premises for data protection reasons, whereas predictive ML is a cloud-only capability.",
+      "Generative AI works without any training data, whereas predictive ML depends on large historical datasets.",
+      "Predictive ML consistently produces more accurate results than generative AI across all business scenarios."
     ],
     c: [0],
     e: "Kernunterschied: Generative AI erzeugt neue Inhalte, klassisches ML klassifiziert oder prognostiziert (Label, Kategorie, Zahl). Beide brauchen Daten, beide laufen in Cloud oder On-Prem."
@@ -93,12 +96,12 @@ window.EXAM_AB731 = {
     q: "A customer service team wants to draft personalized responses to open-ended customer emails at scale. Which AI approach fits best?",
     a: [
       "A generative AI solution grounded in the company's knowledge base",
-      "A clustering algorithm",
-      "A linear regression model",
-      "An anomaly detection model"
+      "A clustering algorithm that groups similar enquiries into topics",
+      "A linear regression model that predicts expected response time",
+      "An anomaly detection model that flags unusual customer requests"
     ],
     c: [0],
-    e: "Freitext erzeugen, individualisiert und in Skalierung — genau die Stärke generativer Modelle. Grounding auf die eigene Wissensbasis sorgt für faktische Korrektheit."
+    e: "Freitext individuell erzeugen ist Generative AI. Clustering, Regression und Anomalieerkennung analysieren oder prognostizieren zwar sinnvoll, schreiben aber keine Antworten."
   },
   {
     id: "731-1104", d: "d1", o: "1.1", t: "single",
@@ -142,9 +145,9 @@ window.EXAM_AB731 = {
     q: "What is a token in the context of generative AI cost?",
     a: [
       "A unit of text — roughly a word or part of a word — used to measure model input and output.",
-      "A security credential used to authenticate to the model.",
-      "A licence key issued per user each month.",
-      "A physical hardware dongle required for inference."
+      "A security credential that authenticates the application when it calls the model endpoint.",
+      "A licence key issued to each user every month that entitles them to a set number of requests.",
+      "A hardware component required in the data centre before inference workloads can be executed."
     ],
     c: [0],
     e: "Token = Texteinheit (grob ein Wort oder Wortteil). Abgerechnet werden in der Regel Input- und Output-Tokens. Nicht mit Security-Tokens verwechseln — beliebte Fallstrick-Frage."
@@ -153,13 +156,13 @@ window.EXAM_AB731 = {
     id: "731-1108", d: "d1", o: "1.1", t: "single",
     q: "A CFO asks how to express the ROI of a Copilot deployment. Which formulation is most defensible?",
     a: [
-      "Time saved per user per task, multiplied by fully loaded cost, minus licence and enablement cost, validated against a measured baseline.",
-      "The number of prompts submitted per day.",
-      "The number of licences purchased.",
-      "The size of the model in parameters."
+      "Time saved per user per task, valued at fully loaded cost, minus licence and enablement cost, validated against a measured baseline.",
+      "The total number of prompts submitted per day across the organization, tracked as a month-on-month growth percentage.",
+      "The proportion of purchased licences that have been assigned and activated by employees within the first quarter.",
+      "The parameter count and benchmark scores of the underlying model compared with competing foundation models."
     ],
     c: [0],
-    e: "ROI braucht einen gemessenen Baseline-Vergleich und harte Nutzengrößen (eingesparte Zeit, Qualität, Umsatzwirkung) abzüglich Lizenz- und Enablement-Kosten. Nutzungszahlen allein sind Adoptionsmetriken, kein ROI."
+    e: "ROI braucht eine gemessene Baseline und monetarisierten Nutzen abzüglich Kosten. Die anderen Größen sind Aktivitäts- oder Modellmetriken — sie zeigen Nutzung, aber keinen wirtschaftlichen Ertrag."
   },
   {
     id: "731-1109", d: "d1", o: "1.1", t: "multi",
@@ -179,9 +182,9 @@ window.EXAM_AB731 = {
     q: "In which scenario does generative AI provide the clearest business value through scalability?",
     a: [
       "Producing tailored first-draft responses for tens of thousands of inbound enquiries per month.",
-      "Signing a single annual contract with a supplier.",
-      "Approving one capital expenditure request per year.",
-      "Replacing the company's accounting ledger."
+      "Negotiating and signing a single high-value supplier contract once per financial year.",
+      "Approving an individual capital expenditure request that arises roughly once a year.",
+      "Replacing the accounting ledger that records all statutory financial transactions."
     ],
     c: [0],
     e: "Business Value entsteht dort, wo hohe Volumina auf repetitive, sprachlastige Arbeit treffen. Einzelne, seltene Entscheidungen bieten kaum Skalierungshebel."
@@ -190,10 +193,10 @@ window.EXAM_AB731 = {
     id: "731-1111", d: "d1", o: "1.1", t: "single",
     q: "Which characteristic makes a business process a GOOD candidate for generative AI automation?",
     a: [
-      "It is high volume, language-intensive and currently done manually with a consistent pattern.",
-      "It requires a legally binding signature by a named executive.",
-      "It occurs once every three years.",
-      "It depends entirely on physical inspection of goods."
+      "It is high volume, language-intensive and currently done manually following a consistent pattern.",
+      "It concludes with a legally binding signature that must be given personally by a named executive.",
+      "It occurs roughly once every three years as part of a long-cycle strategic review.",
+      "It depends entirely on the physical inspection of goods at the point of delivery."
     ],
     c: [0],
     e: "Gute Kandidaten: hohes Volumen, sprachlastig, wiederkehrendes Muster, Toleranz für einen Entwurf mit menschlicher Freigabe. Rechtsverbindliche Einzelakte und physische Prüfungen sind schlechte Kandidaten."
@@ -247,13 +250,13 @@ window.EXAM_AB731 = {
     id: "731-1201", d: "d1", o: "1.2", t: "single",
     q: "What is the primary impact of prompt engineering on a generative AI solution?",
     a: [
-      "It significantly improves the relevance, accuracy and usable format of the output without changing the model.",
-      "It permanently retrains the underlying model.",
-      "It reduces the number of users who need licences.",
-      "It encrypts the data sent to the model."
+      "It significantly improves the relevance, accuracy and usable format of the output without changing the model itself.",
+      "It permanently adapts the underlying model weights so that future users benefit from the improved instructions too.",
+      "It lowers the licence requirement because well-written prompts consume fewer seats across the organization.",
+      "It applies an additional encryption layer to the data that is transmitted to the model during inference."
     ],
     c: [0],
-    e: "Prompt Engineering verändert das Modell nicht — es steuert dessen Verhalten zur Laufzeit. Es ist der billigste und schnellste Qualitätshebel, noch vor RAG und lange vor Fine-Tuning."
+    e: "Prompt Engineering steuert das Modellverhalten zur Laufzeit, ohne die Gewichte zu verändern — es ist der schnellste und billigste Qualitätshebel. Mit Lizenzierung oder Verschlüsselung hat es nichts zu tun."
   },
   {
     id: "731-1202", d: "d1", o: "1.2", t: "multi",
@@ -273,12 +276,12 @@ window.EXAM_AB731 = {
     q: "What is retrieval-augmented generation (RAG)?",
     a: [
       "Retrieving relevant content from a knowledge source at query time and supplying it to the model as context.",
-      "Retraining the model nightly on all company documents.",
-      "Compressing the model so it runs on mobile devices.",
-      "Generating synthetic training data automatically."
+      "Retraining the model on all company documents on a nightly schedule so it learns the latest content.",
+      "Compressing a large model so that it can run locally on mobile devices without a network connection.",
+      "Generating synthetic training examples automatically to enlarge a dataset that is too small."
     ],
     c: [0],
-    e: "RAG holt zur Anfragezeit relevante Passagen aus einer Wissensquelle und gibt sie dem Modell als Kontext mit. Vorteile: aktuelle Fakten, Zitierbarkeit, Berechtigungsbezug — ohne Retraining."
+    e: "RAG holt zur Anfragezeit relevante Passagen und gibt sie dem Modell als Kontext mit — aktuelle Fakten, zitierbar, berechtigungsgerecht und ohne Retraining. Die anderen Optionen beschreiben Retraining, Quantisierung und Datenaugmentierung."
   },
   {
     id: "731-1204", d: "d1", o: "1.2", t: "multi",
@@ -323,12 +326,12 @@ window.EXAM_AB731 = {
     q: "Why is a representative dataset important?",
     a: [
       "An unrepresentative dataset causes the solution to perform poorly or unfairly for underrepresented groups.",
-      "It reduces the storage cost of the dataset.",
-      "It guarantees the model will never produce fabrications.",
-      "It removes the need for security controls."
+      "A representative dataset can be compressed more efficiently and therefore lowers storage and transfer costs.",
+      "Representative data guarantees that the model will no longer produce fabricated or invented content.",
+      "Once the dataset is representative, separate access controls and security reviews are no longer required."
     ],
     c: [0],
-    e: "Repräsentativität ist direkt mit dem RAI-Prinzip Fairness verknüpft: unterrepräsentierte Gruppen erhalten sonst systematisch schlechtere Ergebnisse."
+    e: "Repräsentativität hängt direkt am RAI-Prinzip Fairness. Sie verhindert weder Halluzinationen noch ersetzt sie Sicherheitskontrollen — beides bleibt unabhängig davon nötig."
   },
   {
     id: "731-1208", d: "d1", o: "1.2", t: "multi",
@@ -348,24 +351,24 @@ window.EXAM_AB731 = {
     q: "Why is secure AI a business priority rather than only a technical concern?",
     a: [
       "AI systems process sensitive corporate data, so a breach carries regulatory, financial and reputational consequences.",
-      "Secure AI reduces the token cost of every request.",
-      "Security settings improve the creativity of the model.",
-      "Regulators require all AI models to be open source."
+      "Stronger security configurations reduce the token consumption of each request and therefore lower running costs.",
+      "Tightening security settings measurably improves the creativity and variety of the model's responses.",
+      "Regulators now require that all AI models used commercially be published as open source software."
     ],
     c: [0],
-    e: "AI-Systeme verarbeiten sensible Unternehmensdaten und treffen geschäftsrelevante Vorentscheidungen. Sicherheitsvorfälle wirken sich regulatorisch, finanziell und reputationsseitig aus — daher Vorstandsthema."
+    e: "AI-Systeme verarbeiten sensible Unternehmensdaten und bereiten geschäftsrelevante Entscheidungen vor — Vorfälle wirken regulatorisch, finanziell und reputationsseitig. Mit Kosten oder Kreativität hat Sicherheit nichts zu tun."
   },
   {
     id: "731-1210", d: "d1", o: "1.2", t: "single",
     q: "In which scenario does traditional machine learning add more value than generative AI?",
     a: [
       "Detecting fraudulent transactions in real time from structured payment data",
-      "Drafting a marketing email",
-      "Summarizing a research paper",
-      "Generating product images for a catalogue"
+      "Drafting personalized marketing emails for different customer segments",
+      "Summarizing lengthy research papers into readable executive briefings",
+      "Generating original product images for an online catalogue"
     ],
     c: [0],
-    e: "Betrugserkennung auf strukturierten, hochvolumigen Transaktionsdaten ist ein klassisches ML-Klassifikationsproblem — schneller, günstiger und besser messbar als mit einem generativen Modell."
+    e: "Betrugserkennung auf strukturierten Transaktionsdaten ist ein klassisches ML-Klassifikationsproblem — schneller, günstiger und besser messbar. Die drei anderen Aufgaben erzeugen neue Inhalte und sind damit generativ."
   },
   {
     id: "731-1211", d: "d1", o: "1.2", t: "single",
@@ -384,12 +387,12 @@ window.EXAM_AB731 = {
     q: "Why is ongoing monitoring a required phase of the machine learning lifecycle?",
     a: [
       "Real-world data changes over time, so model performance degrades and must be detected and corrected.",
-      "Monitoring is only needed for regulatory audits.",
-      "Monitoring reduces the cost of storage.",
-      "Once deployed, models do not change behaviour."
+      "Monitoring is required only when an external regulator requests evidence during a formal audit.",
+      "Continuous monitoring compresses historical training data and thereby reduces long-term storage costs.",
+      "Deployed models occasionally restart, and monitoring ensures the service is brought back online quickly."
     ],
     c: [0],
-    e: "Data Drift und Concept Drift sind unvermeidlich. Ohne Monitoring bemerkt man den Qualitätsverfall erst, wenn Geschäftsentscheidungen bereits darauf beruhen."
+    e: "Data Drift und Concept Drift sind unvermeidlich — ohne Monitoring merkt man den Qualitätsverfall erst, wenn Entscheidungen bereits darauf beruhen. Es ist keine reine Audit- oder Verfügbarkeitsfrage."
   },
   {
     id: "731-1213", d: "d1", o: "1.2", t: "tf",
@@ -405,24 +408,24 @@ window.EXAM_AB731 = {
     q: "Which business process is the strongest first candidate for Microsoft 365 Copilot?",
     a: [
       "Meeting follow-up, status reporting and document drafting across a large knowledge-worker population",
-      "Real-time control of factory floor robotics",
-      "Payroll calculation and statutory tax filing",
-      "Physical warehouse stock counting"
+      "Real-time control of factory floor robotics where decisions must be made within milliseconds",
+      "Payroll calculation and statutory tax filing where every figure must be exact and auditable",
+      "Physical warehouse stock counting and reconciliation of goods against delivery paperwork"
     ],
     c: [0],
-    e: "M365 Copilot wirkt dort, wo viele Wissensarbeiter sprachlastige, wiederkehrende Aufgaben in Office-Apps erledigen. Echtzeitsteuerung und regulatorische Exaktrechnung sind keine Copilot-Domänen."
+    e: "M365 Copilot wirkt bei sprachlastiger, wiederkehrender Wissensarbeit in Office-Apps. Echtzeitsteuerung, exakte Regulatorik und physische Tätigkeiten sind keine Copilot-Domänen."
   },
   {
     id: "731-2102", d: "d2", o: "2.1", t: "single",
-    q: "What is the key capability difference between Microsoft 365 Copilot and Microsoft 365 Copilot Chat included with a Microsoft 365 subscription?",
+    q: "What is the key capability difference between Microsoft 365 Copilot and the Copilot Chat included with a Microsoft 365 subscription?",
     a: [
-      "Microsoft 365 Copilot is grounded in work data via Microsoft Graph and is embedded in the Office apps; Copilot Chat provides web-grounded chat with enterprise data protection.",
-      "Copilot Chat has more features than Microsoft 365 Copilot.",
-      "Only Copilot Chat can access SharePoint content.",
-      "There is no difference; the names are interchangeable."
+      "Microsoft 365 Copilot is grounded in work data through Microsoft Graph and embedded in the Office apps; Copilot Chat provides web-grounded chat with enterprise data protection.",
+      "Copilot Chat is grounded in organizational data through Microsoft Graph, while Microsoft 365 Copilot is limited to publicly available web content.",
+      "Both products access organizational data identically; only the number of daily requests and the response speed differ between them.",
+      "Copilot Chat provides the Office app integration, while Microsoft 365 Copilot is a separate standalone web application only."
     ],
     c: [0],
-    e: "Das ist die zentrale Portfolio-Unterscheidung: Work-Grounding über Graph plus In-App-Copilot gibt es nur mit der M365-Copilot-Lizenz. Copilot Chat liefert web-grounded Chat mit Enterprise Data Protection."
+    e: "Work-Grounding über Graph plus In-App-Copilot gibt es nur mit der M365-Copilot-Lizenz. Copilot Chat bietet web-grounded Chat mit Enterprise Data Protection — die Richtung ist genau umgekehrt zu Option 2."
   },
   {
     id: "731-2103", d: "d2", o: "2.1", t: "single",
@@ -448,12 +451,12 @@ window.EXAM_AB731 = {
     q: "What role does Microsoft Graph play in the Microsoft AI stack?",
     a: [
       "It provides permission-trimmed access to organizational content and signals that ground Copilot's responses.",
-      "It renders charts and diagrams in Excel.",
-      "It is the billing system for Copilot licences.",
-      "It is the model that generates the text responses."
+      "It renders the charts, tables and diagrams that Copilot produces inside Excel and PowerPoint.",
+      "It meters Copilot usage per user and forms the basis for licence billing and consumption reports.",
+      "It is the large language model that generates the text responses users see in Copilot."
     ],
     c: [0],
-    e: "Graph ist die Daten- und Signalschicht: Mails, Dateien, Chats, Meetings, Beziehungen — immer berechtigungsgefiltert. Es ist nicht das Modell und nicht die Abrechnung."
+    e: "Graph ist die Daten- und Signalschicht — Mails, Dateien, Chats, Meetings, Beziehungen, immer berechtigungsgefiltert. Es ist weder Rendering-Engine noch Abrechnungssystem noch das Sprachmodell selbst."
   },
   {
     id: "731-2106", d: "d2", o: "2.1", t: "multi",
@@ -472,13 +475,13 @@ window.EXAM_AB731 = {
     id: "731-2107", d: "d2", o: "2.1", t: "single",
     q: "Which risk does providing a sanctioned enterprise AI tool most directly mitigate?",
     a: [
-      "Employees pasting confidential data into unmanaged consumer AI tools",
-      "Employees taking too many holidays",
-      "Servers running out of disk space",
-      "Printers running out of toner"
+      "Employees pasting confidential data into unmanaged consumer AI tools outside the tenant",
+      "Employees spending excessive working time experimenting with new productivity features",
+      "Storage capacity being consumed faster than the infrastructure team can provision it",
+      "Duplicate documents accumulating across SharePoint sites and personal OneDrive folders"
     ],
     c: [0],
-    e: "Shadow AI ist das reale Risiko: Fehlt ein freigegebenes Werkzeug, nutzen Mitarbeitende private Tools ohne Datenschutzgarantien. Ein sanktioniertes Angebot kanalisiert dieses Verhalten."
+    e: "Shadow AI ist das eigentliche Risiko: Fehlt ein freigegebenes Werkzeug, weichen Mitarbeitende auf private Tools ohne Datenschutzgarantien aus. Ein sanktioniertes Angebot kanalisiert dieses Verhalten."
   },
   {
     id: "731-2108", d: "d2", o: "2.1", t: "single",
@@ -498,25 +501,25 @@ window.EXAM_AB731 = {
     id: "731-2110", d: "d2", o: "2.1", t: "single",
     q: "Following a build-buy-extend assessment, which situation most strongly favours 'extend'?",
     a: [
-      "Microsoft 365 Copilot covers 80 percent of the need, and the remaining 20 percent requires access to one internal line-of-business system.",
-      "No existing product addresses the scenario at all.",
-      "A commercial off-the-shelf product meets 100 percent of the requirement.",
-      "The scenario is a one-off task that will never be repeated."
+      "Microsoft 365 Copilot covers most of the need, but the remainder requires access to one internal line-of-business system.",
+      "No existing product addresses the scenario, so the capability has to be created from the ground up.",
+      "A commercial off-the-shelf product already meets the full requirement without any modification.",
+      "The scenario is a one-off analysis that will not be repeated once the current question is answered."
     ],
     c: [0],
-    e: "Extend heißt: vorhandene Plattform nutzen und gezielt über das Extensibility-Framework (Agents, Konnektoren, Plugins) ergänzen. Das ist günstiger und wartungsärmer als ein Eigenbau."
+    e: "Extend heißt: vorhandene Plattform nutzen und gezielt über das Extensibility-Framework ergänzen. Fehlt jede Lösung, ist es Build; deckt ein Produkt alles ab, ist es Buy; ein Einmalfall rechtfertigt gar keine Lösung."
   },
   {
     id: "731-2111", d: "d2", o: "2.1", t: "single",
     q: "Which option best describes the Microsoft 365 Copilot extensibility framework?",
     a: [
-      "A set of mechanisms — including agents, connectors and plugins — to bring your own data and actions into the Copilot experience.",
-      "A licensing programme for volume discounts.",
-      "A migration tool for moving mailboxes.",
-      "A hardware certification programme."
+      "A set of mechanisms — including agents, connectors and plugins — for bringing your own data and actions into the Copilot experience.",
+      "A volume licensing programme that provides tiered discounts based on the number of Copilot seats an organization purchases.",
+      "A migration toolkit for moving mailboxes and SharePoint content into a tenant that has Copilot enabled.",
+      "A certification programme for hardware vendors whose devices meet the performance requirements for running Copilot locally."
     ],
     c: [0],
-    e: "Das Extensibility-Framework ist der Weg, eigene Daten und Aktionen in Copilot zu bringen, statt eine parallele KI-Oberfläche zu bauen."
+    e: "Das Extensibility-Framework bringt eigene Daten und Aktionen in Copilot — über Agents, Konnektoren und Plugins. Es ist weder ein Lizenzmodell noch ein Migrations- oder Hardware-Programm."
   },
   {
     id: "731-2112", d: "d2", o: "2.1", t: "single",
@@ -548,9 +551,9 @@ window.EXAM_AB731 = {
     q: "A leadership team asks why Copilot answers differ between two employees given the same prompt. What is the correct explanation?",
     a: [
       "Each response is grounded in the content that the individual user is permitted to access.",
-      "Each user has a different model version assigned.",
-      "Copilot randomly assigns quality levels per user.",
-      "Only administrators receive complete answers."
+      "Each user is allocated a different model version depending on when their licence was assigned.",
+      "Copilot varies response quality between users to balance load across the service.",
+      "Users with an administrative role receive complete answers while others receive summaries."
     ],
     c: [0],
     e: "Permission-Trimming ist ein Feature, kein Fehler: Grounding erfolgt pro Nutzer über dessen tatsächliche Zugriffsrechte."
@@ -574,9 +577,9 @@ window.EXAM_AB731 = {
     q: "What is Microsoft Foundry in the Microsoft AI portfolio?",
     a: [
       "A platform for building, evaluating, deploying and governing custom AI applications and agents.",
-      "A productivity assistant embedded in Word and Excel.",
-      "A licensing portal for Microsoft 365 subscriptions.",
-      "A device management service for mobile phones."
+      "A productivity assistant embedded in Word and Excel that drafts and analyses content for employees.",
+      "A licensing portal where administrators assign and manage Microsoft 365 subscriptions.",
+      "A device management service that enforces security policies on mobile phones and laptops."
     ],
     c: [0],
     e: "Microsoft Foundry ist die Entwickler- und Plattformebene: Modellauswahl, Prompt-/Agent-Entwicklung, Evaluation, Deployment und Governance. M365 Copilot ist dagegen die fertige Endanwender-Ebene."
@@ -586,9 +589,9 @@ window.EXAM_AB731 = {
     q: "A retailer wants to automatically extract product attributes from millions of supplier photographs. Which capability is most appropriate?",
     a: [
       "Azure Vision in Foundry Tools",
-      "Copilot in Outlook",
-      "Microsoft Graph",
-      "Copilot Pages"
+      "Copilot in Outlook with its attachment handling",
+      "Microsoft Graph and its content indexing",
+      "Copilot Pages as a collaborative canvas"
     ],
     c: [0],
     e: "Bildanalyse in großem Volumen (Objekterkennung, OCR, Bildbeschreibung) ist der Einsatzbereich von Azure Vision in den Foundry Tools."
@@ -617,12 +620,12 @@ window.EXAM_AB731 = {
     q: "A business needs to transcribe and translate multilingual customer support calls at scale. Which capability area applies?",
     a: [
       "Speech and language capabilities in Foundry Tools",
-      "Copilot in Excel",
-      "Microsoft Loop",
-      "Microsoft Planner"
+      "The data analysis capabilities of Copilot in Excel",
+      "The collaborative workspace features of Microsoft Loop",
+      "The task and project tracking features of Microsoft Planner"
     ],
     c: [0],
-    e: "Speech-to-Text, Übersetzung und Sprachverstehen sind Foundry-Tools-Fähigkeiten und werden per API in eigene Prozesse eingebunden."
+    e: "Speech-to-Text, Übersetzung und Sprachverstehen sind Foundry-Tools-Fähigkeiten, die per API in eigene Prozesse eingebunden werden. Die übrigen Optionen sind Endanwender-Produktivitätswerkzeuge."
   },
   {
     id: "731-2206", d: "d2", o: "2.2", t: "multi",
@@ -642,9 +645,9 @@ window.EXAM_AB731 = {
     q: "Which criterion should primarily drive the choice of model for a business scenario?",
     a: [
       "The task requirements — modality, quality, latency and cost — matched against the model's capabilities.",
-      "Always selecting the model with the most parameters.",
-      "Always selecting the cheapest available model.",
-      "Selecting whichever model was released most recently."
+      "The parameter count, on the basis that the largest available model delivers the best outcome.",
+      "The price per token, on the basis that the cheapest model keeps operating costs lowest.",
+      "The release date, on the basis that the most recent model supersedes all earlier ones."
     ],
     c: [0],
     e: "Model Selection ist eine Abwägung aus Modalität, Qualitätsanspruch, Latenz und Kosten. Weder 'größtes' noch 'billigstes' noch 'neuestes' Modell ist per se die richtige Wahl."
@@ -653,25 +656,25 @@ window.EXAM_AB731 = {
     id: "731-2208", d: "d2", o: "2.2", t: "single",
     q: "An insurance company must process handwritten claim forms and route them automatically. Which combination is most appropriate?",
     a: [
-      "A vision/document capability in Foundry Tools to extract the data, plus a workflow to route it",
-      "Copilot in PowerPoint to generate slides from the forms",
-      "Microsoft Graph to scan the paper forms",
-      "Copilot Notebooks to store the forms"
+      "A vision or document capability in Foundry Tools to extract the data, plus a workflow to route it",
+      "Copilot in PowerPoint to convert each scanned claim form into a structured slide deck",
+      "Microsoft Graph to scan the paper forms and publish the extracted fields to the claims team",
+      "Copilot Notebooks to store the scanned forms so claims handlers can query them individually"
     ],
     c: [0],
-    e: "Erst Extraktion (Vision/Document Intelligence), dann Routing über einen Workflow. Copilot-Endanwenderwerkzeuge lösen dieses Backend-Szenario nicht."
+    e: "Erst Extraktion über Vision beziehungsweise Document Intelligence, dann Routing per Workflow. Graph liest vorhandene M365-Daten, scannt aber nichts; Copilot-Endanwenderwerkzeuge lösen kein Backend-Szenario."
   },
   {
     id: "731-2209", d: "d2", o: "2.2", t: "single",
     q: "Which statement correctly contrasts Microsoft 365 Copilot with Foundry Tools?",
     a: [
-      "Microsoft 365 Copilot is a ready-to-use application for employees; Foundry Tools are building blocks used to create custom AI solutions.",
-      "Foundry Tools are only available to consumers.",
-      "Microsoft 365 Copilot requires developers to write code before it can be used.",
-      "Foundry Tools replace Microsoft 365 Copilot for all knowledge workers."
+      "Microsoft 365 Copilot is a ready-to-use application for employees; Foundry Tools are building blocks for custom AI solutions.",
+      "Foundry Tools are aimed at consumer scenarios, while Microsoft 365 Copilot serves commercial organizations.",
+      "Microsoft 365 Copilot requires development work before employees can use it in their daily tasks.",
+      "Foundry Tools are intended to replace Microsoft 365 Copilot for knowledge workers over time."
     ],
     c: [0],
-    e: "Fertiges Produkt für Mitarbeitende versus Bausteine für eigene Lösungen — das ist die Portfolio-Trennlinie, die AB-731 immer wieder abfragt."
+    e: "Fertiges Produkt für Mitarbeitende versus Bausteine für eigene Lösungen — das ist die Portfolio-Trennlinie. Beide bestehen nebeneinander und adressieren unterschiedliche Bedarfe."
   },
   {
     id: "731-2210", d: "d2", o: "2.2", t: "tf",
@@ -684,10 +687,10 @@ window.EXAM_AB731 = {
     id: "731-2211", d: "d2", o: "2.2", t: "single",
     q: "A leader asks which Microsoft capability lets the organization evaluate and compare model outputs before going to production. Where does this belong?",
     a: [
-      "Evaluation tooling within Microsoft Foundry",
-      "The Microsoft 365 admin center",
-      "Copilot chat history",
-      "Microsoft Intune"
+      "The evaluation tooling within Microsoft Foundry",
+      "The reporting section of the Microsoft 365 admin center",
+      "The Copilot conversation history and prompt gallery",
+      "Microsoft Intune with its compliance reporting"
     ],
     c: [0],
     e: "Evaluation und Vergleich von Prompts und Modellen vor dem Go-Live sind Teil der Foundry-Plattform. Sie machen KI-Qualität messbar statt anekdotisch."
@@ -733,12 +736,12 @@ window.EXAM_AB731 = {
     q: "What is the primary purpose of establishing an AI council?",
     a: [
       "To provide cross-functional governance, oversight and strategic alignment for AI use across the organization.",
-      "To write the code for all AI applications.",
-      "To purchase hardware for the data centre.",
-      "To replace the executive board."
+      "To take ownership of building and maintaining the organization's AI applications and integrations.",
+      "To manage procurement of the compute infrastructure and licences required for AI workloads.",
+      "To assume the decision-making authority of the executive board for all technology investments."
     ],
     c: [0],
-    e: "Ein AI Council bündelt Business, IT, Security, Legal/Compliance, Datenschutz und HR. Er entscheidet über Leitplanken, Use-Case-Freigaben und Priorisierung — er implementiert nicht selbst."
+    e: "Der AI Council setzt Leitplanken, gibt Use Cases frei und priorisiert — er entwickelt nicht selbst, beschafft nicht und ersetzt keine bestehenden Führungsgremien."
   },
   {
     id: "731-3106", d: "d3", o: "3.1", t: "multi",
@@ -770,12 +773,12 @@ window.EXAM_AB731 = {
     q: "How should an organization ensure that an AI solution meets the reliability and safety principle?",
     a: [
       "Test the system against realistic scenarios, monitor it in production and define human escalation paths for failures.",
-      "Publish the model's source code publicly.",
-      "Increase the licence count.",
-      "Disable all logging to protect privacy."
+      "Publish the model architecture and source code publicly so that external researchers can audit the system for defects.",
+      "Increase the number of assigned licences so that more employees can review the output and report problems informally.",
+      "Reduce logging and telemetry to the minimum so that no sensitive information is retained anywhere in the system."
     ],
     c: [0],
-    e: "Reliability & Safety wird über Tests unter realistischen Bedingungen, laufendes Monitoring und definierte Eskalation an Menschen operationalisiert. Logging abzuschalten würde Monitoring unmöglich machen."
+    e: "Reliability & Safety wird über realistische Tests, laufendes Monitoring und definierte Eskalation an Menschen operationalisiert. Weniger Logging würde Monitoring gerade verhindern, und Offenlegung des Codes ersetzt keine Betriebsprozesse."
   },
   {
     id: "731-3109", d: "d3", o: "3.1", t: "single",
@@ -817,24 +820,24 @@ window.EXAM_AB731 = {
     q: "What is the primary purpose of an AI champions programme?",
     a: [
       "To use trusted peers in each business area to demonstrate practical use cases and support colleagues.",
-      "To centralize all AI usage in the IT department.",
-      "To restrict AI usage to senior management.",
-      "To replace formal training entirely."
+      "To centralize all AI usage within the IT department so that requests can be handled consistently.",
+      "To limit AI access to senior management until the technology has proven itself in the organization.",
+      "To replace formal training entirely by relying on informal knowledge sharing between colleagues."
     ],
     c: [0],
-    e: "Champions skalieren Adoption über Peer-Vertrauen: sie zeigen relevante Use Cases im eigenen Fachkontext, sammeln Feedback und senken die Hemmschwelle deutlich stärker als zentrale Schulungen allein."
+    e: "Champions skalieren Adoption über Peer-Vertrauen im eigenen Fachkontext. Sie ergänzen formales Training, statt es zu ersetzen — und sie zentralisieren gerade nicht."
   },
   {
     id: "731-3204", d: "d3", o: "3.2", t: "single",
     q: "Which preparation activity most directly reduces the risk of oversharing when Copilot is deployed?",
     a: [
       "Reviewing and remediating SharePoint and OneDrive permissions, and applying sensitivity labels.",
-      "Increasing the number of Copilot licences.",
-      "Shortening all document file names.",
-      "Turning off search indexing entirely."
+      "Increasing the number of Copilot licences so that access patterns are distributed more evenly.",
+      "Standardizing document file names so that sensitive material is easier to recognize in results.",
+      "Disabling search indexing across the tenant so that no content can be surfaced unintentionally."
     ],
     c: [0],
-    e: "Copilot legt bestehende Über-Berechtigungen offen. Permission-Hygiene und Sensitivity Labels sind daher Standard-Vorarbeiten vor jedem breiten Rollout."
+    e: "Copilot legt bestehende Über-Berechtigungen offen. Permission-Hygiene und Sensitivity Labels sind die Vorarbeit. Indexierung abzuschalten würde Copilot funktionsunfähig machen, statt das Problem zu lösen."
   },
   {
     id: "731-3205", d: "d3", o: "3.2", t: "multi",
@@ -884,25 +887,25 @@ window.EXAM_AB731 = {
     id: "731-3209", d: "d3", o: "3.2", t: "single",
     q: "An organization has high, stable and predictable AI workload volumes. Which commercial choice is likely most economical?",
     a: [
-      "A commitment tier that provides a lower unit price for a committed volume.",
-      "Pay-as-you-go for every request.",
-      "Buying additional Microsoft 365 mailboxes.",
-      "Purchasing more end-user devices."
+      "A commitment tier that provides a lower unit price in exchange for a committed usage volume.",
+      "Pay-as-you-go billing for every individual request, since it always follows actual consumption.",
+      "Additional Microsoft 365 mailboxes to spread the workload across more licensed identities.",
+      "More powerful end-user devices so that part of the processing can happen locally instead."
     ],
     c: [0],
-    e: "Bei stabilem, hohem Volumen senken Commitment Tiers die Stückkosten. Pay-as-you-go bleibt sinnvoll für schwankende oder unklare Bedarfe."
+    e: "Bei stabilem, hohem Volumen senken Commitment Tiers die Stückkosten. Pay-as-you-go bleibt sinnvoll bei schwankendem Bedarf; Postfächer und Endgeräte haben mit AI-Workload-Kosten nichts zu tun."
   },
   {
     id: "731-3210", d: "d3", o: "3.2", t: "single",
     q: "Six months after deployment, licence usage is high but measured productivity gains are unclear. What should the adoption team do first?",
     a: [
       "Identify high-value scenarios per role and run targeted enablement against measurable outcomes.",
-      "Immediately cancel all licences.",
-      "Purchase licences for the remaining employees.",
-      "Switch to a different cloud provider."
+      "Cancel the licences immediately, since sustained usage without proven benefit cannot be justified.",
+      "Extend licences to the remaining employees so that the sample size becomes large enough to measure.",
+      "Move the workload to a different cloud provider whose AI services may deliver better results."
     ],
     c: [0],
-    e: "Nutzung ist keine Wirkung. Der Hebel ist rollenspezifisches Scenario-Enablement mit definierten, messbaren Outcomes — nicht mehr Lizenzen und nicht Abbruch."
+    e: "Nutzung ist keine Wirkung. Der Hebel ist rollenspezifisches Scenario-Enablement mit messbaren Zielgrößen — weder Abbruch noch pauschale Ausweitung noch ein Anbieterwechsel adressiert die Ursache."
   },
   {
     id: "731-3211", d: "d3", o: "3.2", t: "tf",
@@ -915,10 +918,10 @@ window.EXAM_AB731 = {
     id: "731-3212", d: "d3", o: "3.2", t: "single",
     q: "Which metric best demonstrates business impact rather than mere activity?",
     a: [
-      "Reduction in average cycle time for a defined business process",
-      "Total number of prompts submitted",
-      "Number of licences assigned",
-      "Number of users who opened the app once"
+      "Reduction in the average cycle time of a defined business process",
+      "Total number of prompts submitted across the organization each month",
+      "Number of Copilot licences that have been assigned to employees",
+      "Number of users who have opened the application at least once"
     ],
     c: [0],
     e: "Prompts, Lizenzen und Erstöffnungen sind Aktivitätsmetriken. Business Impact zeigt sich in Prozesskennzahlen wie Durchlaufzeit, Qualität oder Kosten pro Vorgang."
@@ -932,12 +935,12 @@ window.EXAM_AB731 = {
     q: "How does Microsoft position grounding in relation to retrieval-augmented generation?",
     a: [
       "Grounding is the overall concept of providing trusted context at inference time; RAG is one method of achieving it.",
-      "RAG is the overall concept and grounding is one specific technique within it.",
-      "They are two unrelated approaches.",
-      "Grounding replaces the need for RAG entirely."
+      "RAG is the overall concept and grounding is one specific retrieval technique used within a RAG pipeline.",
+      "They are unrelated approaches that address different stages of the machine learning lifecycle.",
+      "Grounding has superseded RAG, which Microsoft no longer recommends for enterprise scenarios."
     ],
     c: [0],
-    e: "Grounding ist der Oberbegriff: dem Modell zur Laufzeit vertrauenswürdigen Kontext mitgeben. RAG ist eine Methode dafür — daneben gibt es Datei-Uploads und Websuche."
+    e: "Grounding ist der Oberbegriff — dem Modell zur Laufzeit vertrauenswürdigen Kontext mitgeben. RAG ist eine Methode dafür, neben Datei-Uploads und Websuche."
   },
   {
     id: "731-1215", d: "d1", o: "1.2", t: "single",
@@ -958,12 +961,12 @@ window.EXAM_AB731 = {
     q: "A business user with no technical background needs a simple agent grounded in a few SharePoint documents. Which tool is designed for them?",
     a: [
       "The agent builder inside Microsoft 365 Copilot",
-      "Microsoft Copilot Studio",
-      "Microsoft Foundry",
-      "The Azure portal"
+      "Microsoft Copilot Studio with its low-code designer",
+      "Microsoft Foundry with the agent development SDK",
+      "The Azure portal using a custom App Service deployment"
     ],
     c: [0],
-    e: "Der Agent Builder in M365 Copilot richtet sich an Fachanwender: declarative Agents per natürlicher Sprache, bis zu 20 Knowledge-Quellen. Copilot Studio ist die Low-Code-Stufe für komplexere Anforderungen."
+    e: "Der Agent Builder in M365 Copilot ist der No-Code-Einstieg für Fachanwender: Beschreibung in natürlicher Sprache, bis zu 20 Knowledge-Quellen. Copilot Studio und Foundry richten sich an Power-User beziehungsweise Entwickler."
   },
   {
     id: "731-2117", d: "d2", o: "2.1", t: "multi",
@@ -983,9 +986,9 @@ window.EXAM_AB731 = {
     q: "Which Microsoft tool reports Copilot usage alongside estimated financial savings, helping leaders quantify return on investment?",
     a: [
       "The Microsoft Copilot Dashboard in Viva Insights",
-      "The Azure Cost Management blade",
-      "The SharePoint admin center",
-      "Microsoft Intune"
+      "The Azure Cost Management and Billing experience",
+      "The usage reports in the SharePoint admin center",
+      "The device compliance reporting in Microsoft Intune"
     ],
     c: [0],
     e: "Das Copilot Dashboard in Viva Insights liefert Nutzungsmetriken und geschätzte finanzielle Einsparungen. Ergänzend gibt es das Consumption Dashboard für Copilot Credits und den Business Impact Report."
@@ -1018,13 +1021,13 @@ window.EXAM_AB731 = {
     id: "731-2121", d: "d2", o: "2.1", t: "single",
     q: "An organization on Microsoft 365 Business Standard wants to add full Copilot capability. Which licence applies?",
     a: [
-      "Microsoft 365 Copilot Business, the add-on for Business plans",
-      "Microsoft 365 E5 only",
-      "Copilot cannot be added to Business plans",
-      "Azure OpenAI Service"
+      "Microsoft 365 Copilot Business, the add-on designed for Microsoft 365 Business plans",
+      "An upgrade to Microsoft 365 E5 first, since Copilot requires an Enterprise base plan",
+      "No option exists, because Copilot add-ons are not offered for Business subscriptions",
+      "Azure OpenAI Service, licensed separately through an Azure consumption agreement"
     ],
     c: [0],
-    e: "Microsoft 365 Copilot Business ist das Add-on für Business Basic, Standard, Premium und Apps for Business. Das reguläre M365-Copilot-Add-on richtet sich an Enterprise-Pläne."
+    e: "Microsoft 365 Copilot Business ist das Add-on für Business Basic, Standard, Premium und Apps for Business. Ein Wechsel auf Enterprise-Pläne ist dafür nicht nötig."
   },
 
   /* ---- D2 / 2.2 ---- */
@@ -1111,12 +1114,12 @@ window.EXAM_AB731 = {
     q: "How should a leader describe the AI council when asked what it is?",
     a: [
       "An internal cross-functional governance body that guides AI strategy, oversight and alignment.",
-      "A Microsoft-run certification programme.",
-      "A paid Microsoft consulting service.",
-      "A technical component of Microsoft Foundry."
+      "A Microsoft-run certification programme that accredits organizations as responsible AI adopters.",
+      "A paid Microsoft consulting engagement that designs the organization's AI roadmap on request.",
+      "A technical governance component built into Microsoft Foundry for policy enforcement."
     ],
     c: [0],
-    e: "Der AI Council ist ein internes Governance-Gremium, kein Microsoft-Produkt oder -Programm. Er bündelt Business, IT, Security, Legal und Datenschutz für Strategie und Aufsicht."
+    e: "Der AI Council ist ein internes Gremium, kein Microsoft-Produkt, -Programm oder -Service. Er bündelt Business, IT, Security, Legal und Datenschutz."
   },
 
   /* ---- D3 / 3.2 ---- */
@@ -1137,9 +1140,9 @@ window.EXAM_AB731 = {
     q: "Which statement correctly describes AI champions in an adoption programme?",
     a: [
       "Internal ambassadors in each business area who demonstrate use cases and support colleagues.",
-      "Certified Microsoft employees assigned to the customer.",
-      "External consultants who run the deployment.",
-      "Members of the IT helpdesk exclusively."
+      "Certified Microsoft employees who are assigned to the customer for the duration of the rollout.",
+      "External consultants engaged to run the deployment and hand over once adoption is stable.",
+      "Members of the IT helpdesk who handle all AI-related support tickets centrally."
     ],
     c: [0],
     e: "Champions sind interne Botschafter aus den Fachbereichen. Ihr Hebel ist Peer-Vertrauen: sie zeigen Use Cases im eigenen Arbeitskontext und senken die Hemmschwelle wirksamer als zentrale Schulungen."

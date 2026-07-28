@@ -211,6 +211,7 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.9rem; }
 
 .qtags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; }
 .qtext { font-size: 1.03rem; font-weight: 600; line-height: 1.42; letter-spacing: -0.01em; margin-bottom: 14px; }
+.qtext .note { font-size: 0.74rem; font-weight: 400; color: var(--cp-text-soft); margin-top: 7px; font-style: italic; }
 
 .opts { display: flex; flex-direction: column; gap: 8px; }
 .opt {
@@ -238,6 +239,7 @@ p  { margin: 0 0 8px; color: var(--cp-text-muted); font-size: 0.9rem; }
 .feedback { margin-top: 14px; padding: 13px 14px; border-radius: 0.625rem; border: 1px solid var(--cp-border); background: var(--cp-surface-soft); }
 .feedback .fh { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 0.9rem; margin-bottom: 6px; }
 .feedback .fh.ok { color: var(--cp-success); }
+.feedback .fh.part { color: var(--cp-warning); }
 .feedback .fh.no { color: var(--cp-danger); }
 .feedback p { margin: 0; font-size: 0.85rem; color: var(--cp-text-muted); line-height: 1.5; }
 
@@ -460,10 +462,11 @@ a { color: var(--cp-link); }
       <div class="big" id="rScore">0</div>
       <div class="muted" id="rSub" style="margin-top:4px">Ergebnis</div>
       <div class="kpis">
-        <div class="kpi"><b id="rCorrect">0</b><span>Richtig</span></div>
+        <div class="kpi"><b id="rCorrect">0</b><span>Voll richtig</span></div>
         <div class="kpi"><b id="rAcc">0 %</b><span>Trefferquote</span></div>
         <div class="kpi"><b id="rXp">+0</b><span>XP</span></div>
       </div>
+      <div class="muted" id="rPtsRow" style="margin-top:10px;font-size:0.78rem"></div>
     </div>
     <div class="card" id="rDomainCard">
       <h3>Nach Wissensbereich</h3>
@@ -612,6 +615,18 @@ function blueprintSet(ex, n) {
   return shuffle(out).slice(0, n);
 }
 function shuffle(a) { const x = a.slice(); for (let i = x.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [x[i],x[j]] = [x[j],x[i]]; } return x; }
+
+/* Antwortoptionen pro Anzeige neu mischen, damit die Position der richtigen
+   Antwort nicht gelernt werden kann. True/False behält seine feste Reihenfolge. */
+function presentQuestion(q) {
+  if (q.t === "tf") return { q, a: q.a, c: q.c };
+  const idx = shuffle(q.a.map((_, i) => i));
+  return {
+    q,
+    a: idx.map(i => q.a[i]),
+    c: idx.map((orig, pos) => (q.c.includes(orig) ? pos : -1)).filter(p => p >= 0).sort((x, y) => x - y)
+  };
+}
 
 const BOX_DAYS = [0, 1, 3, 7, 16, 35];
 function dueDelay(box) { return BOX_DAYS[Math.max(0, Math.min(BOX_DAYS.length - 1, box - 1))] * 864e5; }
@@ -793,6 +808,7 @@ function startSession(mode, opts) {
   ses = {
     mode, exam: examId, qs, i: 0, sel: [], locked: false,
     correct: 0, combo: 0, bestCombo: 0, xp: 0, log: [],
+    pts: 0, maxPts: 0,
     endAt: mode === "exam" ? Date.now() + ex.examMinutes * 60000 : 0
   };
   touchStreak();
@@ -817,6 +833,8 @@ function tick() {
 
 function renderQuestion() {
   const ex = EXAMS[ses.exam], q = ses.qs[ses.i];
+  const view = presentQuestion(q);
+  ses.view = view;
   const dom = ex.domains.find(d => d.id === q.d);
   const obj = dom.objectives.find(o => o.id === q.o);
 
@@ -824,17 +842,18 @@ function renderQuestion() {
   $("#qProg").style.width = (ses.i / ses.qs.length * 100) + "%";
   $("#qTimer").classList.toggle("hidden", !ses.endAt);
 
-  const need = q.c.length;
+  const need = view.c.length;
   $("#qTags").innerHTML =
     '<span class="chip accent">' + esc(dom.name) + "</span>" +
     '<span class="chip">' + esc(q.o + " " + obj.name) + "</span>" +
     (q.t === "multi" ? '<span class="chip">' + need + " Antworten</span>" : "");
 
-  $("#qText").textContent = q.q;
+  $("#qText").innerHTML = esc(q.q) +
+    (q.t === "multi" ? '<div class="note">Jede korrekte Auswahl zählt einen Punkt.</div>' : "");
   ses.sel = []; ses.locked = false;
   $("#qFeed").classList.add("hidden");
 
-  $("#qOpts").innerHTML = q.a.map((opt, i) =>
+  $("#qOpts").innerHTML = view.a.map((opt, i) =>
     '<button class="opt' + (q.t === "multi" ? " multi" : "") + '" data-i="' + i + '">' +
     '<span class="mk">' + (q.t === "multi" ? "" : String.fromCharCode(65 + i)) + "</span>" +
     "<span>" + esc(opt) + "</span></button>").join("");
@@ -873,10 +892,19 @@ function updateActions() {
 function check() {
   if (ses.locked || !ses.sel.length) return;
   ses.locked = true;
-  const q = ses.qs[ses.i];
+  const q = ses.qs[ses.i], view = ses.view;
   const sel = ses.sel.slice().sort().join(",");
-  const cor = q.c.slice().sort().join(",");
+  const cor = view.c.slice().sort().join(",");
   const right = sel === cor;
+
+  /* Punktevergabe wie in der echten Prüfung: bei Mehrfachantworten zählt jede
+     korrekte Auswahl einzeln, für Falschauswahlen gibt es keinen Abzug. */
+  const maxPts = view.c.length;
+  const hits = ses.sel.filter(i => view.c.includes(i)).length;
+  const pts = q.t === "multi" ? hits : (right ? 1 : 0);
+  const partial = q.t === "multi" && !right && hits > 0;
+  ses.pts += pts;
+  ses.maxPts += maxPts;
 
   const r = rec(q.id);
   r.s++;
@@ -896,22 +924,27 @@ function check() {
     if (r.w > 0 && r.c === 1) award("comeback");
     buzz(14);
   } else {
-    ses.combo = 0; buzz([20, 50, 20]);
+    ses.combo = 0;
+    if (partial) { const gain = Math.round(10 * hits / maxPts); ses.xp += gain; addXp(gain); }
+    buzz([20, 50, 20]);
   }
 
-  ses.log.push({ q, right, sel: ses.sel.slice() });
+  ses.log.push({ q, right, sel: ses.sel.map(i => view.a[i]) });
   store.save();
 
   $$("#qOpts .opt").forEach(b => {
     const i = parseInt(b.dataset.i, 10);
     b.disabled = true;
     b.classList.remove("sel");
-    if (q.c.includes(i)) { b.classList.add("correct"); b.querySelector(".mk").textContent = "✓"; }
+    if (view.c.includes(i)) { b.classList.add("correct"); b.querySelector(".mk").textContent = "✓"; }
     else if (ses.sel.includes(i)) { b.classList.add("wrong"); b.querySelector(".mk").textContent = "✕"; }
   });
 
   const f = $("#qFeed");
-  f.innerHTML = '<div class="fh ' + (right ? "ok" : "no") + '">' + (right ? "✓ Richtig" : "✕ Nicht ganz") + "</div><p>" + esc(q.e) + "</p>";
+  const head = right ? "✓ Richtig"
+    : partial ? "◐ Teilweise richtig — " + hits + " von " + maxPts + " Punkten"
+    : "✕ Nicht ganz";
+  f.innerHTML = '<div class="fh ' + (right ? "ok" : partial ? "part" : "no") + '">' + head + "</div><p>" + esc(q.e) + "</p>";
   f.classList.remove("hidden");
   updateActions();
 }
@@ -933,7 +966,9 @@ function finish() {
   const ex = EXAMS[ses.exam];
   const n = ses.log.length || 1;
   const acc = ses.correct / n;
-  const scaled = Math.round(acc * 1000);
+  /* Skalierter Score nach Punkten, wie in der echten Prüfung */
+  const ptAcc = ses.maxPts ? ses.pts / ses.maxPts : 0;
+  const scaled = Math.round(ptAcc * 1000);
 
   S.hist.push({ date: today(), mode: ses.mode, exam: ses.exam, c: ses.correct, n: ses.log.length });
   if (S.hist.length > 60) S.hist = S.hist.slice(-60);
@@ -963,6 +998,7 @@ function finish() {
   $("#rCorrect").textContent = ses.correct;
   $("#rAcc").textContent = Math.round(acc * 100) + " %";
   $("#rXp").textContent = "+" + (ses.xp + bonus);
+  $("#rPtsRow").textContent = ses.pts + " von " + ses.maxPts + " Punkten (" + Math.round(ptAcc * 100) + " %)";
 
   const byD = {};
   ses.log.forEach(l => { const k = l.q.d; (byD[k] = byD[k] || { c:0, n:0 }); byD[k].n++; if (l.right) byD[k].c++; });
@@ -980,7 +1016,7 @@ function finish() {
   $("#rReview").innerHTML = wrong.map(l =>
     '<div class="rev"><div class="rev-q">' + esc(l.q.q) + "</div>" +
     '<div class="rev-a">Richtig: <b>' + esc(l.q.c.map(i => l.q.a[i]).join(" · ")) + "</b></div>" +
-    '<div class="rev-a x">Deine Antwort: <b>' + esc(l.sel.map(i => l.q.a[i]).join(" · ") || "—") + "</b></div>" +
+    '<div class="rev-a x">Deine Antwort: <b>' + esc((l.sel || []).join(" · ") || "—") + "</b></div>" +
     '<div class="rev-a" style="margin-top:6px">' + esc(l.q.e) + "</div></div>").join("");
 
   show("result");
@@ -1000,14 +1036,16 @@ function startCards() {
 }
 function renderCard() {
   const ex = EXAMS[examId], q = cards.qs[cards.i];
+  if (!cards.view || cards.viewFor !== q.id) { cards.view = presentQuestion(q); cards.viewFor = q.id; }
+  const view = cards.view;
   const dom = ex.domains.find(d => d.id === q.d);
   $("#cCounter").textContent = (cards.i + 1) + " / " + cards.qs.length;
   $("#cProg").style.width = ((cards.i + 1) / cards.qs.length * 100) + "%";
   $("#cTags").innerHTML = '<span class="chip accent">' + esc(dom.name) + "</span><span class='chip'>" + esc(q.o) + "</span>";
   $("#cText").textContent = q.q;
   $("#cBody").innerHTML = cards.open
-    ? '<div class="opts">' + q.a.map((o, i) =>
-        '<div class="opt' + (q.c.includes(i) ? " correct" : "") + '"><span class="mk">' + (q.c.includes(i) ? "✓" : String.fromCharCode(65 + i)) + "</span><span>" + esc(o) + "</span></div>").join("") +
+    ? '<div class="opts">' + view.a.map((o, i) =>
+        '<div class="opt' + (view.c.includes(i) ? " correct" : "") + '"><span class="mk">' + (view.c.includes(i) ? "✓" : String.fromCharCode(65 + i)) + "</span><span>" + esc(o) + "</span></div>").join("") +
       '</div><div class="feedback" style="margin-top:14px"><div class="fh">💡 Erklärung</div><p>' + esc(q.e) + "</p></div>"
     : '<p class="muted">Überlege dir die Antwort und tippe dann auf „Auflösen“.</p>';
   setActions('<button class="btn ghost" id="cHome">Zurück</button>' +
@@ -1017,7 +1055,7 @@ function renderCard() {
   if (sh) sh.addEventListener("click", () => { cards.open = true; renderCard(); });
   if (nx) nx.addEventListener("click", () => {
     if (cards.i >= cards.qs.length - 1) { toast("Alle Karten durch 🎓"); cards = null; show("home"); renderHome(); return; }
-    cards.i++; cards.open = false; renderCard();
+    cards.i++; cards.open = false; cards.view = null; renderCard();
   });
 }
 

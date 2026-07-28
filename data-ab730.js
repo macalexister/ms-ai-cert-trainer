@@ -24,7 +24,10 @@ window.EXAM_AB730 = {
     ["Microsoft Learn während der Prüfung", "nein (nur bei Associate/Expert)"],
     ["Zurückspringen", "ja — aber nach einer Pause sind frühere Fragen gesperrt"],
     ["Wiederholung", "24 Std. nach dem 1. Versuch, danach 14 Tage"],
-    ["Fragetypen", "Multiple Choice, Multiple Response, Drag & Drop, Hot Area, Build List"]
+    ["Fragetypen", "Multiple Choice, Multiple Response, Drag & Drop, Hot Area, Build List"],
+    ["Bewertung Mehrfachantworten", "Teilpunkte — jede korrekte Auswahl zählt einen Punkt"],
+    ["Punktabzug", "keiner für falsche Auswahl"],
+    ["Labs / Case Studies", "nicht in Beginner-Prüfungen"]
   ],
   learn: {
     title: "Offizieller Lernpfad",
@@ -99,13 +102,13 @@ window.EXAM_AB730 = {
     id: "730-1104", d: "d1", o: "1.1", t: "single",
     q: "What is the main difference between a chat experience and an agent experience in Microsoft 365 Copilot?",
     a: [
-      "A chat is free while an agent always requires a separate paid license.",
-      "A chat is a general-purpose, open-ended conversation, while an agent is scoped to a specific purpose with predefined instructions and knowledge.",
-      "A chat can access work data, while an agent can only access the public web.",
-      "A chat runs in Teams only, while an agent runs in Outlook only."
+      "A chat is included in every plan, whereas an agent always requires an additional paid licence per user.",
+      "A chat is a general-purpose, open-ended conversation; an agent is scoped to a purpose with predefined instructions and knowledge.",
+      "A chat can be grounded in work data, whereas an agent is restricted to publicly available web content.",
+      "A chat is available only inside Microsoft Teams, whereas an agent runs exclusively within Outlook."
     ],
     c: [1],
-    e: "Chat = offen und generalistisch. Agent = zweckgebunden: feste Instructions, definierte Knowledge-Quellen, ggf. Actions und Starter-Prompts. Der Agent liefert dadurch reproduzierbarere Ergebnisse für einen wiederkehrenden Task."
+    e: "Chat = offen und generalistisch. Agent = zweckgebunden mit festen Instructions, definierter Knowledge und ggf. Actions. Beide können Work-Grounding nutzen und sind nicht auf einzelne Apps beschränkt."
   },
   {
     id: "730-1105", d: "d1", o: "1.1", t: "single",
@@ -177,9 +180,9 @@ window.EXAM_AB730 = {
     q: "What is the key difference between Microsoft 365 Copilot (licensed) and Microsoft 365 Copilot Chat without the licence?",
     a: [
       "Only the licensed version is grounded in your work content through Microsoft Graph and embedded in the Office apps.",
-      "Only the unlicensed version can access the web.",
-      "There is no functional difference, only a price difference.",
-      "The unlicensed version can create agents but the licensed one cannot."
+      "Only the unlicensed version can reach public web content, since licensed grounding is restricted to internal data.",
+      "The two versions are functionally identical and differ only in the price charged per user each month.",
+      "Only the unlicensed version can create agents, because agent building is excluded from the paid add-on."
     ],
     c: [0],
     e: "Copilot Chat (ohne Lizenz) bietet web-grounded Chat mit Enterprise Data Protection. Erst die M365-Copilot-Lizenz bringt Work-Grounding über Graph plus Copilot direkt in Word, Excel, PowerPoint, Outlook und Teams."
@@ -230,10 +233,10 @@ window.EXAM_AB730 = {
     id: "730-1204", d: "d1", o: "1.2", t: "single",
     q: "Which verification step is MOST appropriate before sending a Copilot-generated competitive analysis to a customer?",
     a: [
-      "Re-run the same prompt a second time and compare the two answers.",
-      "Open each cited source and confirm the claims, then have a subject matter expert review it.",
-      "Ask Copilot whether its own answer is correct.",
-      "Increase the length of the prompt."
+      "Re-run the same prompt a second time and compare whether the two answers agree with each other.",
+      "Open each cited source and confirm the claims, then have a subject matter expert review the analysis.",
+      "Ask Copilot to assess its own answer and state how confident it is in the conclusions.",
+      "Expand the prompt with more detail and regenerate the analysis to improve its accuracy."
     ],
     c: [1],
     e: "Citation Check + Human Review sind die belastbaren Verifikationsschritte. Das Modell nach seiner eigenen Korrektheit zu fragen ist keine unabhängige Prüfung — es kann den Fehler selbstbewusst wiederholen."
@@ -350,13 +353,13 @@ window.EXAM_AB730 = {
     id: "730-2102", d: "d2", o: "2.1", t: "single",
     q: "Which prompt is the most effective rewrite of 'Write something about our quarterly results'?",
     a: [
-      "Write a good summary about the quarter.",
-      "Using Q3-Results.xlsx, write a 200-word summary of revenue and margin performance for the regional sales leads, in a confident and factual tone, with three bullet-point takeaways.",
-      "Quarterly results, please.",
-      "Explain quarterly results in general business terms."
+      "Summarize our quarterly results in a professional tone suitable for a business audience, covering the main financial highlights.",
+      "Using Q3-Results.xlsx, write a 200-word summary of revenue and margin performance for the regional sales leads, in a confident factual tone, with three bullet-point takeaways.",
+      "Analyse everything you can find about our quarterly performance and produce a detailed report covering all relevant business dimensions.",
+      "Explain our quarterly results clearly and accurately, making sure the summary is well structured and easy for colleagues to follow."
     ],
     c: [1],
-    e: "Die zweite Option enthält alle vier Elemente: Quelle (Q3-Results.xlsx), Ziel (Zusammenfassung Umsatz/Marge), Kontext (Zielgruppe Regional Sales Leads) und Erwartung (200 Wörter, Ton, drei Bullets)."
+    e: "Nur diese Option enthält alle vier Elemente: Quelle (Q3-Results.xlsx), Ziel (Umsatz und Marge), Kontext (Regional Sales Leads) und Erwartung (200 Wörter, Ton, drei Bullets). Die anderen klingen ausführlich, benennen aber weder Datenquelle noch Zielgruppe noch Format — Copilot müsste raten."
   },
   {
     id: "730-2103", d: "d2", o: "2.1", t: "single",
@@ -388,13 +391,13 @@ window.EXAM_AB730 = {
     id: "730-2106", d: "d2", o: "2.1", t: "single",
     q: "Copilot returns a draft that is far too formal for an internal audience. What is the most efficient next step?",
     a: [
-      "Start a brand-new chat and rewrite the entire prompt from scratch.",
+      "Start a new chat and rewrite the prompt from scratch with clearer tone instructions this time.",
       "Send a follow-up prompt in the same conversation, such as 'Make it more conversational and shorten it to 120 words'.",
-      "Delete the chat and try again tomorrow.",
-      "Copy the text into Word and rewrite it manually."
+      "Delete the conversation and try again later, since the tone of a draft cannot be adjusted after generation.",
+      "Copy the text into Word and rewrite the formal passages manually to match the internal house style."
     ],
     c: [1],
-    e: "Iteratives Verfeinern im selben Chat nutzt den bestehenden Kontext. Ein neuer Chat verwirft ihn und du musst alles erneut aufbauen."
+    e: "Iteratives Verfeinern im selben Chat nutzt den bestehenden Kontext und ist am schnellsten. Ein neuer Chat verwirft ihn, manuelles Umschreiben verschenkt den Zeitgewinn."
   },
   {
     id: "730-2107", d: "d2", o: "2.1", t: "single",
@@ -435,15 +438,15 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2110", d: "d2", o: "2.1", t: "single",
-    q: "Which prompt best demonstrates the 'Context' element?",
+    q: "Which prompt best demonstrates the 'Context' element of the prompt framework?",
     a: [
-      "'Summarize this document.'",
+      "'Summarize this document and highlight the points that matter most for the reader.'",
       "'Summarize this document for our new field engineers, who have no prior knowledge of the product.'",
-      "'Summarize this document in 100 words.'",
-      "'Summarize Q3-Report.docx.'"
+      "'Summarize this document in 100 words using a bulleted list and a professional tone.'",
+      "'Summarize Q3-Report.docx together with the related notes stored in the project folder.'"
     ],
     c: [1],
-    e: "Context erklärt Zweck und Zielgruppe. Das verändert Tiefe, Fachsprache und Beispiele der Antwort deutlich — mehr als jede Formatvorgabe."
+    e: "Context erklärt Zweck und Zielgruppe — hier 'neue Field Engineers ohne Vorwissen'. Option 3 ist Expectations (Format, Länge, Ton), Option 4 ist Source (welche Dateien), Option 1 bleibt trotz Länge unspezifisch."
   },
 
   /* ============ D2 / 2.2 — Manage conversations ============ */
@@ -471,12 +474,12 @@ window.EXAM_AB730 = {
     q: "What is the primary purpose of a Copilot Notebook?",
     a: [
       "To group a defined set of sources so Copilot stays grounded on them across multiple questions.",
-      "To store your Microsoft 365 password securely.",
-      "To replace OneNote for personal handwriting.",
-      "To schedule Teams meetings automatically."
+      "To store credentials and connection details for the data sources a team works with regularly.",
+      "To provide a handwriting and inking surface that replaces OneNote for personal note-taking.",
+      "To schedule recurring Teams meetings and distribute the agenda to all participants automatically."
     ],
     c: [0],
-    e: "Ein Notebook bündelt Dateien, Links und Chats zu einem persistenten Arbeitskontext. Copilot antwortet dann konsistent auf Basis genau dieser Quellen statt breit im Graph zu suchen."
+    e: "Ein Notebook bündelt Dateien, Links und Chats zu einem persistenten Arbeitskontext. Es speichert keine Zugangsdaten und ersetzt weder OneNote noch die Terminplanung."
   },
   {
     id: "730-2204", d: "d2", o: "2.2", t: "single",
@@ -494,10 +497,10 @@ window.EXAM_AB730 = {
     id: "730-2205", d: "d2", o: "2.2", t: "single",
     q: "You have been discussing a marketing campaign in a Copilot chat and now want to ask an unrelated HR question. What is the recommended practice?",
     a: [
-      "Ask it in the same chat so Copilot has more context.",
+      "Ask it in the same chat, since the accumulated context helps Copilot answer more precisely.",
       "Start a new chat, so the previous campaign context does not influence the answer.",
-      "Delete the chat first, then ask.",
-      "Rename the chat to 'HR' and continue."
+      "Delete the existing conversation first, because a chat can only cover one topic at a time.",
+      "Rename the chat to reflect the new topic and then continue in the same conversation."
     ],
     c: [1],
     e: "Kontext innerhalb eines Chats wirkt fort und kann themenfremde Antworten verfälschen. Für ein neues Thema startet man einen neuen Chat."
@@ -512,9 +515,14 @@ window.EXAM_AB730 = {
   {
     id: "730-2207", d: "d2", o: "2.2", t: "single",
     q: "A project team repeatedly asks Copilot questions about the same five specification documents. Which feature reduces the effort of re-attaching those files each time?",
-    a: ["Adding the documents and the conversation to a notebook", "Renaming each chat", "Deleting old chats weekly", "Turning off web grounding"],
+    a: [
+      "Adding the documents and the conversation to a Copilot Notebook",
+      "Renaming each chat after the specification it refers to",
+      "Deleting older chats weekly so the relevant one stays on top",
+      "Turning off web grounding so only internal files are searched"
+    ],
     c: [0],
-    e: "Genau der Notebook-Use-Case: Quellen einmal definieren, dann wiederholt darauf arbeiten — ohne bei jeder Frage erneut zu referenzieren."
+    e: "Ein Notebook bündelt die Quellen dauerhaft — einmal definieren, wiederholt darauf arbeiten. Umbenennen hilft nur beim Wiederfinden, und Web-Grounding abzuschalten ändert nichts daran, dass die Dateien erneut referenziert werden müssen."
   },
 
   /* ============ D2 / 2.3 — Agents ============ */
@@ -559,10 +567,10 @@ window.EXAM_AB730 = {
     id: "730-2304", d: "d2", o: "2.3", t: "single",
     q: "What is the fastest way for a non-developer to build a first agent for a common scenario such as a writing assistant?",
     a: [
-      "Start from an agent template and adjust the instructions and knowledge.",
-      "Write custom code against the Microsoft Graph API.",
-      "Deploy a virtual machine in Azure.",
-      "Fine-tune a foundation model."
+      "Start from an agent template and adjust the instructions and knowledge sources.",
+      "Write custom code against the Microsoft Graph API to retrieve the required content.",
+      "Deploy a virtual machine in Azure and host the assistant logic on it.",
+      "Fine-tune a foundation model on examples of the desired writing style."
     ],
     c: [0],
     e: "Templates sind der No-Code-Einstieg: vorkonfigurierte Instructions und Struktur, die man nur noch an den eigenen Kontext anpasst."
@@ -630,25 +638,25 @@ window.EXAM_AB730 = {
     id: "730-3101", d: "d3", o: "3.1", t: "single",
     q: "In Word, what is the fastest way to produce a first draft of a project proposal that reuses the structure of last year's approved proposal?",
     a: [
-      "Use Copilot's 'Draft with Copilot' and reference last year's proposal file in the prompt.",
-      "Copy and paste the whole old document into the prompt box.",
-      "Retype the old proposal manually.",
-      "Convert the old proposal to PDF first."
+      "Use 'Draft with Copilot' and reference last year's approved proposal file directly in the prompt.",
+      "Paste the full text of the old document into the prompt box so Copilot has the complete wording.",
+      "Retype the structure of the old proposal manually and then ask Copilot to expand each section.",
+      "Convert the old proposal to PDF first, because Copilot reads PDF sources more reliably than Word files."
     ],
     c: [0],
-    e: "Dateireferenz statt Copy-Paste: Copilot liest das Referenzdokument direkt, behält Struktur und Tonalität bei und du vermeidest Längenlimits und Formatierungsverlust."
+    e: "Dateireferenz statt Copy-Paste: Copilot liest das Referenzdokument direkt, behält Struktur und Tonalität und du vermeidest Längenlimits sowie Formatierungsverlust. Eine PDF-Konvertierung bringt keinen Vorteil."
   },
   {
     id: "730-3102", d: "d3", o: "3.1", t: "single",
     q: "An executive needs a one-page management summary of a 60-page technical report. Which approach is correct?",
     a: [
-      "Ask Copilot to summarize the document for an executive audience, specifying length and focus on decisions and risks.",
-      "Ask Copilot to translate the report.",
-      "Send the executive the full report and let them summarize it.",
-      "Ask Copilot to increase the font size."
+      "Ask Copilot to summarize the document for an executive audience, specifying the length and a focus on decisions and risks.",
+      "Ask Copilot to extract every section heading so the executive can decide which chapters are worth reading in full.",
+      "Ask Copilot to shorten each individual paragraph so the whole report becomes proportionally shorter overall.",
+      "Ask Copilot to rewrite the report in simpler language while keeping all sixty pages of technical detail intact."
     ],
     c: [0],
-    e: "Management Summary = Zielgruppe (Executive) + Länge (eine Seite) + Fokus (Entscheidungen, Risiken, Empfehlungen) explizit im Prompt vorgeben."
+    e: "Ein Management Summary braucht Zielgruppe, Länge und inhaltlichen Fokus (Entscheidungen, Risiken, Empfehlungen). Die übrigen Ansätze kürzen oder vereinfachen mechanisch, ohne auf die Entscheidungsrelevanz zu verdichten."
   },
   {
     id: "730-3103", d: "d3", o: "3.1", t: "single",
@@ -703,25 +711,25 @@ window.EXAM_AB730 = {
     id: "730-3107", d: "d3", o: "3.1", t: "single",
     q: "A marketing manager wants an original illustration for an internal campaign deck. Which capability is intended for this?",
     a: [
-      "Image generation via Microsoft Designer in the Copilot experience",
-      "Copilot in Excel",
-      "Copilot chat history",
-      "Copilot Notebooks"
+      "Image generation through the Microsoft Designer integration in Copilot",
+      "The chart and visualization features of Copilot in Excel",
+      "The Copilot conversation history and saved prompt gallery",
+      "The reference management features of Copilot Notebooks"
     ],
     c: [0],
-    e: "Bildgenerierung läuft über die Designer-Integration im Copilot-Erlebnis. Ergebnisse sollten dennoch auf Marken- und Nutzungsrichtlinien geprüft werden."
+    e: "Bildgenerierung läuft über die Designer-Integration im Copilot-Erlebnis. Excel erzeugt Diagramme aus Daten, nicht freie Illustrationen — Ergebnisse sollten stets gegen Marken- und Nutzungsrichtlinien geprüft werden."
   },
   {
     id: "730-3108", d: "d3", o: "3.1", t: "single",
     q: "Which prompt will most reliably produce a usable first draft of a customer follow-up email?",
     a: [
-      "'Write an email.'",
-      "'Draft a follow-up email to the customer based on the meeting notes in Kickoff-Notes.docx, confirming the three agreed actions, in a concise and professional tone, under 150 words.'",
-      "'Email please, thanks.'",
-      "'Make an email that is nice.'"
+      "'Write a follow-up email to the customer that is polite, professional and covers everything we discussed in the meeting yesterday.'",
+      "'Draft a follow-up email to the customer based on Kickoff-Notes.docx, confirming the three agreed actions, in a concise professional tone, under 150 words.'",
+      "'Write a customer email summarizing our discussion, making sure nothing important is left out and the tone matches our brand.'",
+      "'Prepare a thorough follow-up message for the client covering the meeting outcomes, next steps and any open questions we still have.'"
     ],
     c: [1],
-    e: "Wieder Goal + Context + Expectations + Source. Die Quelle (Kickoff-Notes.docx) sorgt dafür, dass die drei Aktionen faktisch korrekt übernommen werden."
+    e: "Nur hier ist die Quelle benannt (Kickoff-Notes.docx) — dadurch werden die drei Aktionen faktisch korrekt übernommen statt erfunden. Die übrigen Prompts klingen ausführlich, lassen Copilot aber ohne Datengrundlage arbeiten."
   },
   {
     id: "730-3109", d: "d3", o: "3.1", t: "tf",
@@ -930,13 +938,13 @@ window.EXAM_AB730 = {
     id: "730-2112", d: "d2", o: "2.1", t: "single",
     q: "A user wants to change the wording of a prompt they previously saved. What is the correct procedure?",
     a: [
-      "Open the saved prompt and edit the text in place.",
+      "Open the saved prompt from the gallery and edit the instruction text directly in place.",
       "Copy it, save the modified version as a new prompt and delete the original — saved prompts cannot be edited directly.",
-      "Ask an administrator to unlock the prompt for editing.",
-      "Saved prompts are permanent and can never be removed."
+      "Ask an administrator to unlock the prompt, since saved prompts are write-protected after the first use.",
+      "Create a scheduled version of the prompt, because only scheduled prompts support later modification."
     ],
     c: [1],
-    e: "Gespeicherte Prompts sind nicht direkt bearbeitbar. Der dokumentierte Weg ist: kopieren, angepasst neu speichern und das Original löschen."
+    e: "Gespeicherte Prompts sind nicht direkt bearbeitbar. Der dokumentierte Weg ist kopieren, angepasst neu speichern und das Original löschen — eine Admin-Freigabe braucht es dafür nicht."
   },
   {
     id: "730-2113", d: "d2", o: "2.1", t: "single",
@@ -987,13 +995,13 @@ window.EXAM_AB730 = {
     id: "730-2208", d: "d2", o: "2.2", t: "single",
     q: "A Copilot Notebook references files stored in SharePoint and a file saved on the local desktop. Both files are edited. What happens?",
     a: [
-      "Both updates are picked up automatically.",
+      "Both updates are picked up automatically because the notebook re-reads every source on each query.",
       "The SharePoint change is detected; the locally stored file is only used in its original uploaded version.",
-      "Neither change is detected.",
-      "Only the local change is detected."
+      "Neither change is detected, because notebook references are frozen at the moment the notebook is created.",
+      "Only the local change is detected, because uploaded copies take priority over cloud-hosted sources."
     ],
     c: [1],
-    e: "Bei SharePoint-Quellen arbeitet das Notebook mit der aktuellen Version. Lokal hochgeladene Dateien bleiben auf dem Stand des Uploads — ein häufiger Stolperstein in der Praxis."
+    e: "Bei SharePoint-Quellen arbeitet das Notebook mit der aktuellen Version. Lokal hochgeladene Dateien bleiben auf dem Stand des Uploads — ein häufiger Stolperstein, wenn Teams denken, alles sei automatisch synchron."
   },
   {
     id: "730-2209", d: "d2", o: "2.2", t: "single",
@@ -1118,12 +1126,12 @@ window.EXAM_AB730 = {
     q: "You share a Copilot Page using 'Copy component' instead of 'Page link'. What is the difference?",
     a: [
       "The component stays synchronized in real time inside the Microsoft 365 app where it is pasted.",
-      "The component is a static screenshot of the page.",
-      "The component can only be opened by administrators.",
-      "There is no functional difference."
+      "The component is a static snapshot of the page as it looked at the moment it was copied.",
+      "The component can be opened only by users who hold an administrative role in the tenant.",
+      "There is no functional difference; both options produce the same result for the recipient."
     ],
     c: [0],
-    e: "'Copy component' fügt die Seite als Loop-Komponente ein, die sich in Echtzeit mitaktualisiert. 'Page link' verweist auf die Seite, die dann in Loop geöffnet wird."
+    e: "'Copy component' fügt die Seite als Loop-Komponente ein, die sich live mitaktualisiert. 'Page link' verweist auf die Seite, die dann in Loop geöffnet wird — statisch ist keine der beiden Varianten."
   },
   {
     id: "730-3211", d: "d3", o: "3.2", t: "single",
