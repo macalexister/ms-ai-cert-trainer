@@ -74,7 +74,7 @@ window.EXAM_AB730 = {
       "Yes, prompts are used for training unless the tenant admin opts out.",
       "Yes, but only after the data has been anonymized by Microsoft.",
       "Only prompts that reference public web content are used for training.",
-      "No. Prompts, responses and data accessed through Microsoft Graph are not used to train the foundation models."
+      "No. Copilot prompts, responses, and Graph data are not used to train foundation models."
     ],
     c: [3],
     e: "Kernaussage der Copilot-Datenschutzzusage: Mandantendaten bleiben im Tenant und werden NICHT zum Training der Foundation Models verwendet. Es gibt dafür auch keinen Opt-out-Schalter, weil es schlicht nicht passiert."
@@ -104,7 +104,7 @@ window.EXAM_AB730 = {
     a: [
       "A chat is included in every plan, whereas an agent always requires an additional paid licence per user.",
       "A chat is available only inside Microsoft Teams, whereas an agent runs exclusively within Outlook.",
-      "A chat is a general-purpose, open-ended conversation; an agent is scoped to a purpose with predefined instructions and knowledge.",
+      "A chat is open-ended; an agent has a defined purpose, instructions, and knowledge.",
       "A chat can be grounded in work data, whereas an agent is restricted to publicly available web content."
     ],
     c: [2],
@@ -115,7 +115,7 @@ window.EXAM_AB730 = {
     q: "Your onboarding team answers the same 30 policy questions from new hires every week, always using the same four SharePoint sites. Which approach is the best use case for creating your own agent?",
     a: [
       "Schedule a recurring Teams meeting to answer the questions live.",
-      "Create an agent grounded on those four SharePoint sites with onboarding-specific instructions and starter prompts.",
+      "Create an agent grounded in the four SharePoint sites with onboarding instructions and prompts.",
       "Export the SharePoint content to a PDF and email it to new hires.",
       "Tell each new hire to use Copilot Chat and paste the SharePoint links themselves."
     ],
@@ -149,7 +149,7 @@ window.EXAM_AB730 = {
       "It can only check spelling and grammar in emails.",
       "It automatically sends replies on your behalf without review.",
       "It converts emails into Excel workbooks only.",
-      "It can summarize a long email thread and draft replies with adjustable tone and length."
+      "It summarizes long threads and drafts replies with adjustable tone and length."
     ],
     c: [3],
     e: "Copilot in Outlook: Thread zusammenfassen, Antworten entwerfen, Coaching by Copilot (Ton, Klarheit, Sentiment), Länge und Tonfall anpassen. Gesendet wird nie automatisch — der Mensch bleibt im Loop."
@@ -259,7 +259,7 @@ window.EXAM_AB730 = {
     q: "A document is labelled 'Highly Confidential' with encryption, and a user does not have usage rights to it. What does Copilot do when the user asks for a summary?",
     a: [
       "It summarizes the document and applies a lower label to the output.",
-      "It does not use the document, because sensitivity label protection restricts what can be returned.",
+      "It does not return the document because its sensitivity label restricts access.",
       "It sends an access request to the document owner automatically.",
       "It summarizes the document but hides the label."
     ],
@@ -284,7 +284,7 @@ window.EXAM_AB730 = {
     a: [
       "Meetings being too short to summarize.",
       "Users having too few files in OneDrive.",
-      "Oversharing — over-permissioned SharePoint sites make content easy to surface.",
+      "Oversharing from over-permissioned SharePoint sites makes content easy to surface.",
       "Insufficient monitor resolution for the Copilot pane."
     ],
     c: [2],
@@ -355,7 +355,7 @@ window.EXAM_AB730 = {
     a: [
       "Summarize our quarterly results in a professional tone suitable for a business audience, covering the main financial highlights.",
       "Analyse everything you can find about our quarterly performance and produce a detailed report covering all relevant business dimensions.",
-      "Using Q3-Results.xlsx, write a 200-word summary of revenue and margin performance for the regional sales leads, in a confident factual tone, with three bullet-point takeaways.",
+      "Using Q3-Results.xlsx, write a 200-word revenue and margin summary for regional sales leads, with three factual takeaways.",
       "Explain our quarterly results clearly and accurately, making sure the summary is well structured and easy for colleagues to follow."
     ],
     c: [2],
@@ -485,7 +485,7 @@ window.EXAM_AB730 = {
     id: "730-2204", d: "d2", o: "2.2", t: "single",
     q: "Why would you rename a Copilot chat rather than leaving the auto-generated title?",
     a: [
-      "A meaningful title makes the conversation easier to find later in chat history.",
+      "A meaningful title makes the chat easier to find later.",
       "Renaming increases the accuracy of the model.",
       "Renaming resets the conversation context.",
       "Renaming is required before you can share the chat."
@@ -557,7 +557,7 @@ window.EXAM_AB730 = {
     a: [
       "The agent needs to be renamed before it works.",
       "Shared agents always take 30 days to activate.",
-      "The colleague does not have permission to the SharePoint site used as knowledge.",
+      "The colleague lacks access to the SharePoint site used as knowledge.",
       "Agents cannot use SharePoint as a knowledge source."
     ],
     c: [2],
@@ -579,7 +579,7 @@ window.EXAM_AB730 = {
     id: "730-2305", d: "d2", o: "2.3", t: "single",
     q: "You are configuring an agent and wonder whether to bother with suggested prompts. What do they achieve?",
     a: [
-      "They show users what the agent is good at and lower the barrier to first use.",
+      "They show what the agent does and help users get started.",
       "They are required for the agent to be published.",
       "They train the model on your organization's data.",
       "They restrict users to only those questions."
@@ -726,7 +726,7 @@ window.EXAM_AB730 = {
       "'Prepare a thorough follow-up message for the client covering the meeting outcomes, next steps and any open questions we still have.'",
       "'Write a follow-up email to the customer that is polite, professional and covers everything we discussed in the meeting yesterday.'",
       "'Write a customer email summarizing our discussion, making sure nothing important is left out and the tone matches our brand.'",
-      "'Draft a follow-up email to the customer based on Kickoff-Notes.docx, confirming the three agreed actions, in a concise professional tone, under 150 words.'"
+      "'Draft a follow-up email from Kickoff-Notes.docx confirming the three actions, in a concise professional tone, under 150 words.'"
     ],
     c: [3],
     e: "Nur hier ist die Quelle benannt (Kickoff-Notes.docx) — dadurch werden die drei Aktionen faktisch korrekt übernommen statt erfunden. Die übrigen Prompts klingen ausführlich, lassen Copilot aber ohne Datengrundlage arbeiten."
@@ -782,7 +782,7 @@ window.EXAM_AB730 = {
     q: "How does Copilot memory improve the experience over time?",
     a: [
       "It stores your password so you do not need to sign in.",
-      "It remembers your stated preferences and context so future responses are more personalized.",
+      "It remembers preferences and context for more personalized replies.",
       "It retrains the foundation model on your data every night.",
       "It caches all your files locally on the device."
     ],
@@ -929,7 +929,7 @@ window.EXAM_AB730 = {
       "Copy the prompt into a Word document stored in OneDrive.",
       "Send the prompt to yourself by email.",
       "Right-click the prompt and choose 'Export'.",
-      "Hover over the response and select the bookmark icon, then give the prompt a name."
+      "Hover over the response, choose the bookmark icon, and name the prompt."
     ],
     c: [3],
     e: "Über das Lesezeichen-Symbol beim Hovern wird der Prompt benannt und in der Prompt Gallery unter 'Your prompts' abgelegt."
@@ -971,7 +971,7 @@ window.EXAM_AB730 = {
     a: [
       "The users are working outside business hours.",
       "The tenant has more than 1,000 users.",
-      "Optional Connected Experiences has been disabled by the administrator.",
+      "Optional Connected Experiences are disabled by the administrator.",
       "The users have not renamed their chats."
     ],
     c: [2],
@@ -1057,7 +1057,7 @@ window.EXAM_AB730 = {
       "Every user must individually request access.",
       "Nothing — published agents appear immediately.",
       "The agent must first be rebuilt in Microsoft Foundry.",
-      "An administrator must approve the organization agent before users can access it."
+      "An administrator must approve the organization agent before access."
     ],
     c: [3],
     e: "Organisationsweit veröffentlichte Agents durchlaufen eine Admin-Genehmigung. Das direkte Teilen mit einzelnen Personen oder Gruppen benötigt dagegen keine Freigabe."

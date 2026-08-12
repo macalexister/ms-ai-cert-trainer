@@ -110,7 +110,7 @@ window.EXAM_AB731 = {
       "A model that only works after you provide labelled examples.",
       "A model that runs only on local hardware.",
       "A model that has been trained exclusively on your company's data.",
-      "A model already trained on a large general dataset that can be used as-is for many tasks."
+      "A model trained on broad data and reusable for many tasks."
     ],
     c: [3],
     e: "Pretrained = auf großen, allgemeinen Datenmengen vortrainiert und sofort einsetzbar. Es ist der Standardausgangspunkt, bevor man über Grounding oder Fine-Tuning nachdenkt."
@@ -121,7 +121,7 @@ window.EXAM_AB731 = {
     a: [
       "The answers must always reflect documents that change daily.",
       "You need the model to cite its sources.",
-      "The model must consistently produce output in a highly specific internal style, tone and structure.",
+      "The model must follow a specific internal style, tone, and structure.",
       "You want to reduce the number of tokens consumed at retrieval time only."
     ],
     c: [2],
@@ -206,7 +206,7 @@ window.EXAM_AB731 = {
     q: "Which statement about generative AI reliability is correct for a leader planning adoption?",
     a: [
       "Output never needs review once the model has been grounded.",
-      "Output should be treated as a draft that requires human verification proportional to the risk of the task.",
+      "Treat output as a draft requiring risk-appropriate human verification.",
       "Reliability issues can be fully eliminated by increasing the temperature setting.",
       "Output is deterministic and can be treated as a system of record."
     ],
@@ -237,7 +237,7 @@ window.EXAM_AB731 = {
     q: "Which business need is BEST met by a generative AI solution rather than a rules-based automation?",
     a: [
       "Calculating VAT at a fixed statutory rate",
-      "Summarizing unstructured meeting notes into decisions and risks",
+      "Summarizing meeting notes into decisions and risks",
       "Blocking a login after three failed attempts",
       "Sorting a list of numbers"
     ],
@@ -300,7 +300,7 @@ window.EXAM_AB731 = {
     id: "731-1205", d: "d1", o: "1.2", t: "single",
     q: "An organization's product documentation changes weekly and answers must cite the exact source page. Which approach is most appropriate?",
     a: [
-      "Retrieval-augmented generation over the documentation repository",
+      "Retrieval-augmented generation over the documentation",
       "Training a model from scratch",
       "Relying on the model's pretrained knowledge",
       "Fine-tuning a model once per year"
@@ -376,7 +376,7 @@ window.EXAM_AB731 = {
     a: [
       "Train, deploy, delete the data, define the problem",
       "Deploy, train, define the business problem, prepare data",
-      "Define the business problem, prepare data, train, evaluate, deploy, monitor and retrain",
+      "Define the business problem, prepare data, train, evaluate, deploy, monitor, and retrain",
       "Prepare data, deploy, define the business problem, monitor"
     ],
     c: [2],
@@ -420,7 +420,7 @@ window.EXAM_AB731 = {
     q: "What is the key capability difference between Microsoft 365 Copilot and the Copilot Chat included with a Microsoft 365 subscription?",
     a: [
       "Copilot Chat provides the Office app integration, while Microsoft 365 Copilot is a separate standalone web application only.",
-      "Microsoft 365 Copilot is grounded in work data through Microsoft Graph and embedded in the Office apps; Copilot Chat provides web-grounded chat with enterprise data protection.",
+      "Microsoft 365 Copilot is Graph-grounded and embedded in Office; Copilot Chat is web-grounded with enterprise data protection.",
       "Both products access organizational data identically; only the number of daily requests and the response speed differ between them.",
       "Copilot Chat is grounded in organizational data through Microsoft Graph, while Microsoft 365 Copilot is limited to publicly available web content."
     ],
@@ -525,7 +525,7 @@ window.EXAM_AB731 = {
     id: "731-2112", d: "d2", o: "2.1", t: "single",
     q: "Which pairing of a business process with the right Microsoft AI capability holds up?",
     a: [
-      "Extracting structured fields from scanned invoices → a document/vision capability in Foundry Tools",
+      "Extract structured invoice fields with a Foundry document/vision capability.",
       "Drafting an email in Outlook → Microsoft Copilot Studio",
       "Extracting structured fields from scanned invoices → Copilot in PowerPoint",
       "Summarizing a Teams meeting → Azure AI Search"
@@ -565,7 +565,7 @@ window.EXAM_AB731 = {
       "Adding a custom agent with Copilot Studio.",
       "Fine-tuning your own foundation model.",
       "Developing a bespoke AI application on Microsoft Foundry.",
-      "Using preconfigured Microsoft 365 Copilot capabilities as they ship."
+      "Use preconfigured Microsoft 365 Copilot capabilities."
     ],
     c: [3],
     e: "Microsofts Einteilung: Buy = vorkonfigurierte M365-Copilot-Funktionen nutzen. Extend = mit Agent Builder oder Copilot Studio erweitern. Build = eigene Lösung auf Microsoft Foundry bzw. per SDK entwickeln."
@@ -609,7 +609,7 @@ window.EXAM_AB731 = {
     a: [
       "When they want to summarize Teams meetings for employees.",
       "When they need to draft emails faster in Outlook.",
-      "When they need a custom AI application embedded in their own product or a line-of-business system.",
+      "For a custom AI application embedded in a product or line-of-business system.",
       "When they want Copilot in Word for the finance department."
     ],
     c: [2],
@@ -671,7 +671,7 @@ window.EXAM_AB731 = {
       "Microsoft 365 Copilot requires development work before employees can use it in their daily tasks.",
       "Foundry Tools are intended to replace Microsoft 365 Copilot for knowledge workers over time.",
       "Foundry Tools are aimed at consumer scenarios, while Microsoft 365 Copilot serves commercial organizations.",
-      "Microsoft 365 Copilot is a ready-to-use application for employees; Foundry Tools are building blocks for custom AI solutions."
+      "Microsoft 365 Copilot is ready for employees; Foundry Tools build custom AI solutions."
     ],
     c: [3],
     e: "Fertiges Produkt für Mitarbeitende versus Bausteine für eigene Lösungen — das ist die Portfolio-Trennlinie. Beide bestehen nebeneinander und adressieren unterschiedliche Bedarfe."
@@ -949,7 +949,7 @@ window.EXAM_AB731 = {
       "Train a model from scratch, then apply RAG",
       "Fine-tuning first, then prompt engineering, then grounding",
       "Increase model size first, then adjust prompts",
-      "Prompt engineering first, then grounding or RAG, and fine-tuning only if still required"
+      "Prompt engineering first, then grounding/RAG; fine-tune only if needed."
     ],
     c: [3],
     e: "Microsoft empfiehlt ausdrücklich, erst Grounding und RAG auszuschöpfen und Fine-Tuning nur einzusetzen, wenn Prompting und Grounding nicht ausreichen — es ist der teuerste und trägste Hebel."
@@ -1036,7 +1036,7 @@ window.EXAM_AB731 = {
     q: "Which name change is reflected in the current Microsoft documentation and exam terminology?",
     a: [
       "Microsoft Foundry is now Azure AI Studio.",
-      "Azure AI Foundry is now Microsoft Foundry, and Azure AI Services are now Foundry Tools.",
+      "Azure AI Foundry is now Microsoft Foundry; Azure AI Services are Foundry Tools.",
       "Microsoft 365 Copilot is now called Microsoft Foundry.",
       "Foundry Tools are now called Azure Cognitive Services."
     ],
@@ -1077,7 +1077,7 @@ window.EXAM_AB731 = {
       "Free unlimited production usage",
       "A 30-day money-back guarantee only",
       "There is no free option",
-      "A free tier (F0) intended for testing and evaluation"
+      "A free F0 tier for testing and evaluation"
     ],
     c: [3],
     e: "Die meisten Foundry Tools bieten einen kostenlosen F0-Tier zum Testen. Für den Produktivbetrieb folgen pay-as-you-go oder Commitment Tiers."
