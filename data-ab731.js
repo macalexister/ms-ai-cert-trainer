@@ -119,10 +119,10 @@ window.EXAM_AB731 = {
     id: "731-1105", d: "d1", o: "1.1", t: "single",
     q: "Which scenario is the strongest justification for fine-tuning a model instead of using retrieval-augmented generation?",
     a: [
-      "The answers must always reflect documents that change daily.",
+      "Answers must reflect documents that change frequently.",
       "You need the model to cite its sources.",
-      "The model must follow a specific internal style, tone, and structure.",
-      "You want to reduce the number of tokens consumed at retrieval time only."
+      "The model must follow a specific internal style and tone.",
+      "You want to reduce tokens used during retrieval."
     ],
     c: [2],
     e: "Faustregel: RAG für aktuelles Faktenwissen mit Quellenangabe, Fine-Tuning für Verhalten, Stil, Format und Domänensprache. Täglich wechselnde Inhalte über Fine-Tuning abzubilden wäre teuer und langsam."
@@ -205,10 +205,10 @@ window.EXAM_AB731 = {
     id: "731-1112", d: "d1", o: "1.1", t: "single",
     q: "Which statement about generative AI reliability is correct for a leader planning adoption?",
     a: [
-      "Output never needs review once the model has been grounded.",
+      "Output needs no review once the model has been grounded.",
       "Treat output as a draft requiring risk-appropriate human verification.",
-      "Reliability issues can be fully eliminated by increasing the temperature setting.",
-      "Output is deterministic and can be treated as a system of record."
+      "Reliability issues can be eliminated by raising the temperature.",
+      "Output is deterministic and can serve as the system of record."
     ],
     c: [1],
     e: "Risikoproportionale Verifikation ist das Leitprinzip: niedriges Risiko = leichte Prüfung, hohes Risiko = vollständige menschliche Freigabe. Generative Modelle sind nicht deterministisch."
@@ -275,10 +275,10 @@ window.EXAM_AB731 = {
     id: "731-1203", d: "d1", o: "1.2", t: "single",
     q: "An architect proposes a RAG approach for your knowledge base. What does that mean in practice?",
     a: [
-      "Generating synthetic training examples automatically to enlarge a dataset that is too small.",
-      "Retrieving relevant content from a knowledge source at query time and supplying it to the model as context.",
-      "Compressing a large model so that it can run locally on mobile devices without a network connection.",
-      "Retraining the model on all company documents every night on a nightly schedule so it always learns the latest content."
+      "Generating synthetic examples to enlarge a small dataset.",
+      "Retrieving relevant content at query time and supplying it as model context.",
+      "Compressing a model so it runs locally on a mobile device.",
+      "Retraining on company documents nightly to capture changes."
     ],
     c: [1],
     e: "RAG holt zur Anfragezeit relevante Passagen und gibt sie dem Modell als Kontext mit — aktuelle Fakten, zitierbar, berechtigungsgerecht und ohne Retraining. Die anderen Optionen beschreiben Retraining, Quantisierung und Datenaugmentierung."
@@ -338,9 +338,9 @@ window.EXAM_AB731 = {
     q: "Which are security considerations for an enterprise AI system? (Choose three.)",
     a: [
       "Application security, including protection against prompt injection",
-      "Ensuring the model has the largest possible context window",
+      "Ensuring the model has a suitably sized context window",
       "Data security, including encryption and classification of grounding data",
-      "Guaranteeing that the model never uses more than 100 tokens",
+      "Guaranteeing the model stays under a fixed token budget",
       "Authentication and authorization so responses respect user identity"
     ],
     c: [0, 2, 4],
@@ -374,10 +374,10 @@ window.EXAM_AB731 = {
     id: "731-1211", d: "d1", o: "1.2", t: "single",
     q: "Which sequence correctly describes the machine learning solution lifecycle?",
     a: [
-      "Train, deploy, delete the data, define the problem",
-      "Deploy, train, define the business problem, prepare data",
-      "Define the business problem, prepare data, train, evaluate, deploy, monitor, and retrain",
-      "Prepare data, deploy, define the business problem, monitor"
+      "Train and deploy, then delete data and define the problem.",
+      "Deploy, train, define the problem, then prepare data.",
+      "Define the problem, prepare data, train, evaluate, deploy, monitor, and retrain.",
+      "Prepare data, deploy, define the problem, then monitor."
     ],
     c: [2],
     e: "Der Lifecycle startet immer bei der Geschäftsfrage und endet nicht beim Deployment: Monitoring und Retraining sind Pflichtphasen, weil Modelle über die Zeit abdriften."
@@ -462,8 +462,8 @@ window.EXAM_AB731 = {
     id: "731-2106", d: "d2", o: "2.1", t: "multi",
     q: "Which benefits arise from an integrated Microsoft AI solution rather than a patchwork of separate tools? (Choose three.)",
     a: [
-      "Complete elimination of the need for user training",
-      "A guarantee that outputs will never contain errors",
+      "Replacing role-based training with one generic tutorial",
+      "Removing the need for human review of AI outputs",
       "Centralized compliance, auditing and data protection controls",
       "Consistent identity and permission enforcement across the estate",
       "Reduced risk of sensitive data being sent to unmanaged third-party services"
@@ -525,7 +525,7 @@ window.EXAM_AB731 = {
     id: "731-2112", d: "d2", o: "2.1", t: "single",
     q: "Which pairing of a business process with the right Microsoft AI capability holds up?",
     a: [
-      "Extract structured invoice fields with a Foundry document/vision capability.",
+      "Extract invoice fields with a Foundry document capability.",
       "Drafting an email in Outlook → Microsoft Copilot Studio",
       "Extracting structured fields from scanned invoices → Copilot in PowerPoint",
       "Summarizing a Teams meeting → Azure AI Search"
@@ -609,7 +609,7 @@ window.EXAM_AB731 = {
     a: [
       "When they want to summarize Teams meetings for employees.",
       "When they need to draft emails faster in Outlook.",
-      "For a custom AI application embedded in a product or line-of-business system.",
+      "For a custom AI app embedded in a product or line-of-business system.",
       "When they want Copilot in Word for the finance department."
     ],
     c: [2],
@@ -644,10 +644,10 @@ window.EXAM_AB731 = {
     id: "731-2207", d: "d2", o: "2.2", t: "single",
     q: "Which criterion should primarily drive the choice of model for a business scenario?",
     a: [
-      "The release date, on the basis that the most recent model supersedes all earlier ones.",
-      "The task requirements — modality, quality, latency and cost — matched against the model's capabilities.",
-      "The parameter count, on the basis that the single largest available model always delivers the best outcome.",
-      "The price per token, on the basis that the cheapest model keeps operating costs lowest."
+      "The release date, because newer models replace older ones.",
+      "Task requirements—modality, quality, latency, and cost—matched to capabilities.",
+      "The parameter count, because larger models perform better.",
+      "The price per token, because lower prices reduce operating costs."
     ],
     c: [1],
     e: "Model Selection ist eine Abwägung aus Modalität, Qualitätsanspruch, Latenz und Kosten. Weder 'größtes' noch 'billigstes' noch 'neuestes' Modell ist per se die richtige Wahl."
@@ -887,10 +887,10 @@ window.EXAM_AB731 = {
     id: "731-3209", d: "d3", o: "3.2", t: "single",
     q: "An organization has high, stable and predictable AI workload volumes. Which commercial choice is likely most economical?",
     a: [
-      "Additional Microsoft 365 mailboxes to spread the workload across more licensed identities.",
-      "A commitment tier that provides a lower unit price in exchange for a committed usage volume.",
-      "Pay-as-you-go billing for every individual request, since it always follows actual consumption.",
-      "More powerful end-user devices so that part of the processing can happen locally instead."
+      "More Microsoft 365 mailboxes to spread workload across licensed identities.",
+      "A commitment tier with a lower unit price for committed usage volume.",
+      "Pay-as-you-go billing for each request based on actual consumption.",
+      "More powerful end-user devices for some local processing."
     ],
     c: [1],
     e: "Bei stabilem, hohem Volumen senken Commitment Tiers die Stückkosten. Pay-as-you-go bleibt sinnvoll bei schwankendem Bedarf; Postfächer und Endgeräte haben mit AI-Workload-Kosten nichts zu tun."
@@ -949,7 +949,7 @@ window.EXAM_AB731 = {
       "Train a model from scratch, then apply RAG",
       "Fine-tuning first, then prompt engineering, then grounding",
       "Increase model size first, then adjust prompts",
-      "Prompt engineering first, then grounding/RAG; fine-tune only if needed."
+      "Prompt engineering, then grounding/RAG; fine-tune if needed."
     ],
     c: [3],
     e: "Microsoft empfiehlt ausdrücklich, erst Grounding und RAG auszuschöpfen und Fine-Tuning nur einzusetzen, wenn Prompting und Grounding nicht ausreichen — es ist der teuerste und trägste Hebel."
@@ -1021,10 +1021,10 @@ window.EXAM_AB731 = {
     id: "731-2121", d: "d2", o: "2.1", t: "single",
     q: "An organization on Microsoft 365 Business Standard wants to add full Copilot capability. Which licence applies?",
     a: [
-      "No option exists, because Copilot add-ons are not offered for Business subscriptions",
-      "An upgrade to Microsoft 365 E5 first, since Copilot always requires an Enterprise base plan",
-      "Azure OpenAI Service, licensed separately through an Azure consumption agreement",
-      "Microsoft 365 Copilot Business, the add-on designed for Microsoft 365 Business plans"
+      "No Copilot add-on is offered for Business subscriptions.",
+      "Upgrade to Microsoft 365 E5 before adding Copilot.",
+      "Azure OpenAI Service under a separate Azure consumption agreement.",
+      "Microsoft 365 Copilot Business for Microsoft 365 Business plans."
     ],
     c: [3],
     e: "Microsoft 365 Copilot Business ist das Add-on für Business Basic, Standard, Premium und Apps for Business. Ein Wechsel auf Enterprise-Pläne ist dafür nicht nötig."
@@ -1036,7 +1036,7 @@ window.EXAM_AB731 = {
     q: "Which name change is reflected in the current Microsoft documentation and exam terminology?",
     a: [
       "Microsoft Foundry is now Azure AI Studio.",
-      "Azure AI Foundry is now Microsoft Foundry; Azure AI Services are Foundry Tools.",
+      "Azure AI Foundry became Microsoft Foundry; Azure AI Services became Foundry Tools.",
       "Microsoft 365 Copilot is now called Microsoft Foundry.",
       "Foundry Tools are now called Azure Cognitive Services."
     ],

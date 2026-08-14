@@ -102,20 +102,20 @@ window.EXAM_AB730 = {
     id: "730-1104", d: "d1", o: "1.1", t: "single",
     q: "What is the main difference between a chat experience and an agent experience in Microsoft 365 Copilot?",
     a: [
-      "A chat is included in every plan, whereas an agent always requires an additional paid licence per user.",
-      "A chat is available only inside Microsoft Teams, whereas an agent runs exclusively within Outlook.",
+      "A chat is included in every plan, while an agent requires a separate user licence.",
+      "A chat is a Teams experience, while an agent is an Outlook experience.",
       "A chat is open-ended; an agent has a defined purpose, instructions, and knowledge.",
-      "A chat can be grounded in work data, whereas an agent is restricted to publicly available web content."
+      "A chat uses work data, while an agent is limited to a public web index."
     ],
     c: [2],
     e: "Chat = offen und generalistisch. Agent = zweckgebunden mit festen Instructions, definierter Knowledge und ggf. Actions. Beide können Work-Grounding nutzen und sind nicht auf einzelne Apps beschränkt."
   },
   {
     id: "730-1105", d: "d1", o: "1.1", t: "single",
-    q: "Your onboarding team answers the same 30 policy questions from new hires every week, always using the same four SharePoint sites. Which approach is the best use case for creating your own agent?",
+    q: "Your onboarding team answers 30 recurring policy questions using four SharePoint sites. Which scenario best fits a custom agent?",
     a: [
       "Schedule a recurring Teams meeting to answer the questions live.",
-      "Create an agent grounded in the four SharePoint sites with onboarding instructions and prompts.",
+      "Create an agent grounded in the four SharePoint sites with onboarding instructions.",
       "Export the SharePoint content to a PDF and email it to new hires.",
       "Tell each new hire to use Copilot Chat and paste the SharePoint links themselves."
     ],
@@ -146,10 +146,10 @@ window.EXAM_AB730 = {
     id: "730-1108", d: "d1", o: "1.1", t: "single",
     q: "Which statement best describes Copilot in Outlook?",
     a: [
-      "It can only check spelling and grammar in emails.",
-      "It automatically sends replies on your behalf without review.",
-      "It converts emails into Excel workbooks only.",
-      "It summarizes long threads and drafts replies with adjustable tone and length."
+      "It checks spelling and grammar in email drafts, but does not draft content.",
+      "It sends replies automatically after a brief quality check.",
+      "It converts selected email content into an Excel workbook.",
+      "It summarizes threads and drafts replies in a chosen tone and length."
     ],
     c: [3],
     e: "Copilot in Outlook: Thread zusammenfassen, Antworten entwerfen, Coaching by Copilot (Ton, Klarheit, Sentiment), Länge und Tonfall anpassen. Gesendet wird nie automatisch — der Mensch bleibt im Loop."
@@ -170,7 +170,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-1111", d: "d1", o: "1.1", t: "single",
-    q: "A finance lead uploads three raw CSV exports and asks for a cohort analysis with charts, including the reasoning behind each calculation step. Which Copilot agent is designed for this?",
+    q: "A finance lead uploads three CSV exports and requests cohort analysis with charts and calculation reasoning. Which agent is designed for this?",
     a: ["Facilitator", "Sales Agent", "Researcher", "Analyst"],
     c: [3],
     e: "Analyst arbeitet wie ein erfahrener Data Analyst: iterative Analyse mehrerer Datenquellen, Ausführung von Python-Code und Offenlegung des Rechenwegs."
@@ -198,10 +198,10 @@ window.EXAM_AB730 = {
     id: "730-1114", d: "d1", o: "1.1", t: "single",
     q: "You are drafting a project charter in Word and ask Copilot to 'summarize the key risks'. Copilot summarizes the open document rather than searching your whole mailbox. Why?",
     a: [
-      "Summarization is disabled in Copilot Chat.",
-      "The app you are working in provides the primary context for the request.",
-      "Copilot in Word cannot access any other content, even when it is directly referenced in the prompt.",
-      "Word documents always take priority over emails in Microsoft Graph."
+      "Copilot Chat does not provide the summarization action here.",
+      "The active app supplies the request's primary context.",
+      "Copilot in Word cannot access referenced content outside the open document.",
+      "Word documents take priority over email content from Microsoft Graph."
     ],
     c: [1],
     e: "Die App liefert den primären Kontext. In Word ist das offene Dokument der Standardbezug; weitere Quellen musst du bewusst referenzieren (z. B. über / und die Dateiauswahl)."
@@ -258,10 +258,10 @@ window.EXAM_AB730 = {
     id: "730-1206", d: "d1", o: "1.2", t: "single",
     q: "A document is labelled 'Highly Confidential' with encryption, and a user does not have usage rights to it. What does Copilot do when the user asks for a summary?",
     a: [
-      "It summarizes the document and applies a lower label to the output.",
-      "It does not return the document because its sensitivity label restricts access.",
-      "It sends an access request to the document owner automatically.",
-      "It summarizes the document but hides the label."
+      "It summarizes the document and applies a lower label to the result.",
+      "It cannot return the document because its label denies access.",
+      "It sends the owner an access request before returning a summary.",
+      "It summarizes the document while hiding the sensitivity label."
     ],
     c: [1],
     e: "Verschlüsselung über Sensitivity Labels wird durchgesetzt: fehlen dem Nutzer die Usage Rights, kann Copilot den Inhalt nicht verwenden. Datenschutz-Kontrollen greifen vor dem Prompt-Ergebnis."
@@ -270,10 +270,10 @@ window.EXAM_AB730 = {
     id: "730-1207", d: "d1", o: "1.2", t: "single",
     q: "A user asks Copilot to create a summary that draws on a file labelled 'Confidential'. What happens to the label of the newly created content?",
     a: [
-      "The new content is always labelled 'Public'.",
-      "The label is removed automatically because AI-generated content cannot carry a sensitivity label at all.",
-      "The new content is unlabelled and must be labelled manually.",
-      "The new content inherits the sensitivity label of the referenced content."
+      "The new content receives a 'Public' label.",
+      "The label is removed because generated content cannot retain it.",
+      "The new content has no label and requires manual labelling.",
+      "The new content inherits the sensitivity label of the source."
     ],
     c: [3],
     e: "Copilot-Output erbt das (höchste) Sensitivity Label der referenzierten Inhalte. So bleibt Klassifizierung entlang der Verarbeitungskette erhalten."
@@ -282,10 +282,10 @@ window.EXAM_AB730 = {
     id: "730-1208", d: "d1", o: "1.2", t: "single",
     q: "Before rolling out Microsoft 365 Copilot broadly, which pre-existing problem is MOST likely to be amplified?",
     a: [
-      "Meetings being too short to summarize.",
-      "Users having too few files in OneDrive.",
-      "Oversharing from over-permissioned SharePoint sites makes content easy to surface.",
-      "Insufficient monitor resolution for the Copilot pane."
+      "Short meetings give Copilot too little content to summarize.",
+      "A small OneDrive footprint limits the user's available context.",
+      "Over-permissioned SharePoint sites make content easy to surface.",
+      "A low-resolution display makes the Copilot pane harder to use."
     ],
     c: [2],
     e: "Copilot erzeugt keine neuen Rechte, macht aber falsch gesetzte Rechte sichtbar. Deshalb sind Permissions-Hygiene, Sensitivity Labels und ggf. Restricted SharePoint Search typische Vorarbeiten."
@@ -555,10 +555,10 @@ window.EXAM_AB730 = {
     id: "730-2303", d: "d2", o: "2.3", t: "single",
     q: "A colleague receives an agent you shared, but gets no results from its SharePoint knowledge source. What is the most likely cause?",
     a: [
-      "The agent needs to be renamed before it works.",
-      "Shared agents always take 30 days to activate.",
-      "The colleague lacks access to the SharePoint site used as knowledge.",
-      "Agents cannot use SharePoint as a knowledge source."
+      "The agent needs a different display name before it works.",
+      "Shared agents may take several weeks to activate.",
+      "The colleague lacks access to the SharePoint knowledge site.",
+      "Agents do not support SharePoint as a knowledge source."
     ],
     c: [2],
     e: "Agents umgehen keine Berechtigungen. Wer keinen Zugriff auf die Knowledge-Quelle hat, bekommt daraus auch keine Antworten — häufigster Support-Fall beim Agent-Sharing."
@@ -601,7 +601,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-2307", d: "d2", o: "2.3", t: "single",
-    q: "Your agent should answer only from three approved policy documents and explicitly say so when a question is out of scope. Where do you configure the 'say so when out of scope' behaviour?",
+    q: "Your agent should answer only from three approved policy documents and state when a question is out of scope. Where do you configure this?",
     a: ["In the Microsoft 365 admin center", "In the agent icon settings", "In the knowledge sources", "In the instructions"],
     c: [3],
     e: "Verhaltensregeln — inklusive Umgang mit Out-of-Scope-Fragen — gehören in die Instructions. Knowledge definiert nur, WORAUF geantwortet wird."
@@ -890,7 +890,7 @@ window.EXAM_AB730 = {
   },
   {
     id: "730-1215", d: "d1", o: "1.2", t: "single",
-    q: "An administrator uses Restricted SharePoint Search to limit Copilot's search scope during a permissions clean-up. What is the maximum number of SharePoint sites that can be placed on the allow list?",
+    q: "During a permissions cleanup, an administrator uses Restricted SharePoint Search. What is the maximum number of SharePoint sites on the allow list?",
     a: ["100 sites", "500 sites", "50 sites", "There is no limit"],
     c: [0],
     e: "Restricted SharePoint Search erlaubt maximal 100 Sites auf der Allow-List (Hub-Sites zählen als eine). Es war als Übergangslösung gedacht, um Zeit für die Berechtigungsbereinigung zu gewinnen — der Nachfolger heißt Restricted Content Discovery."
@@ -912,10 +912,10 @@ window.EXAM_AB730 = {
     id: "730-1217", d: "d1", o: "1.2", t: "single",
     q: "A user is worried that Copilot will expose a password-protected document. Under which circumstance could Copilot use it?",
     a: [
-      "Only after an administrator removes the password.",
-      "Copilot can always open any password-protected document without restriction.",
-      "Only if the user shares the password in the prompt.",
-      "Only if the document is already open in the same app (data in use)."
+      "After an administrator removes the password from the file.",
+      "Copilot opens password-protected documents when the user has access.",
+      "When the user supplies the password in the prompt.",
+      "When the document is already open in the same app."
     ],
     c: [3],
     e: "Passwortgeschützte Dokumente sind für Copilot nur zugänglich, wenn sie bereits in derselben App geöffnet sind ('data in use'). Passwörter gehören niemals in einen Prompt."
@@ -926,10 +926,10 @@ window.EXAM_AB730 = {
     id: "730-2111", d: "d2", o: "2.1", t: "single",
     q: "How does a user save a prompt for reuse in Microsoft 365 Copilot Chat?",
     a: [
-      "Copy the prompt into a Word document stored in OneDrive.",
-      "Send the prompt to yourself by email.",
-      "Right-click the prompt and choose 'Export'.",
-      "Hover over the response, choose the bookmark icon, and name the prompt."
+      "Save the prompt in a Word file in OneDrive for later use.",
+      "Email the prompt to yourself and retrieve it when needed.",
+      "Use the prompt's context menu and select an export command.",
+      "Hover over the response, select the bookmark icon, and name the prompt."
     ],
     c: [3],
     e: "Über das Lesezeichen-Symbol beim Hovern wird der Prompt benannt und in der Prompt Gallery unter 'Your prompts' abgelegt."
@@ -969,10 +969,10 @@ window.EXAM_AB730 = {
     id: "730-2115", d: "d2", o: "2.1", t: "single",
     q: "Scheduled prompts are unavailable for all users in an organization. Which setting is the most likely cause?",
     a: [
-      "The users are working outside business hours.",
-      "The tenant has more than 1,000 users.",
-      "Optional Connected Experiences are disabled by the administrator.",
-      "The users have not renamed their chats."
+      "The users are working outside the tenant's configured business hours.",
+      "The tenant has more than 1,000 active users.",
+      "The administrator disabled Optional Connected Experiences.",
+      "The users have not renamed their Copilot conversations."
     ],
     c: [2],
     e: "Geplante Prompts setzen eine Microsoft-365-Copilot-Lizenz UND aktivierte Optional Connected Experiences voraus. Deaktiviert die Organisation OCE, steht die Funktion nicht zur Verfügung."
@@ -1113,10 +1113,10 @@ window.EXAM_AB730 = {
     id: "730-3209", d: "d3", o: "3.2", t: "single",
     q: "In Teams meeting options, which 'Allow Copilot' setting requires transcription to be enabled?",
     a: [
-      "Both settings work without transcription",
-      "During and after the meeting",
-      "Only during the meeting",
-      "Never"
+      "Allow Copilot during or after a meeting without transcription",
+      "Allow Copilot during and after the meeting",
+      "Allow Copilot during the meeting only",
+      "Do not allow Copilot in the meeting"
     ],
     c: [1],
     e: "'During and after the meeting' setzt Transkription voraus, damit nach dem Meeting auf den Verlauf zugegriffen werden kann. 'Only during the meeting' nutzt Speech-to-Text ohne gespeichertes Transkript."

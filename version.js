@@ -2,9 +2,9 @@
    Wird von stamp-version.sh vor jedem Commit automatisch aktualisiert. */
 
 window.APP_META = {
-  version: "1.9.1",
-  built: "2026-08-12",
-  contentReviewed: "2026-08-12",
+  version: "1.9.2",
+  built: "2026-08-14",
+  contentReviewed: "2026-08-14",
   sources: "Offizielle Microsoft Study Guides (22. Juli 2026) + Lernpfade auf Microsoft Learn",
   changelog: [
     {
