@@ -1035,10 +1035,10 @@ window.EXAM_AB731 = {
     id: "731-2212", d: "d2", o: "2.2", t: "single",
     q: "Which name change is reflected in the current Microsoft documentation and exam terminology?",
     a: [
-      "Microsoft Foundry is now Azure AI Studio.",
+      "Microsoft Foundry replaced Azure AI Studio, while Azure AI Services kept their name.",
       "Azure AI Foundry became Microsoft Foundry; Azure AI Services became Foundry Tools.",
-      "Microsoft 365 Copilot is now called Microsoft Foundry.",
-      "Foundry Tools are now called Azure Cognitive Services."
+      "Microsoft 365 Copilot was renamed Microsoft Foundry for business users.",
+      "Foundry Tools were renamed Azure Cognitive Services for cloud services."
     ],
     c: [1],
     e: "Die Umbenennung ist offiziell dokumentiert: Microsoft Foundry als Plattform, Foundry Tools als Dienste-Familie. Der Study Guide vom 22.07.2026 verwendet durchgängig die neuen Bezeichnungen."
